@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import {
   SafeAreaView,
   StatusBar,
@@ -25,6 +26,8 @@ class RegisterScreen extends Component {
     );
   }
 
+
+
   componentWillUnmount() {
     BackHandler.removeEventListener(
       "hardwareBackPress",
@@ -41,9 +44,8 @@ class RegisterScreen extends Component {
     fullName: "",
     password: "",
     emailAddress: "",
-    PhoneNumber:"",
-    username:"",
-    address:""
+    PhoneNumber:'',
+
   };
 
   render() {
@@ -89,7 +91,7 @@ class RegisterScreen extends Component {
         placeholder="Phone Number "
         placeholderTextColor={Colors.primaryColor}
         value={this.state.PhoneNumber}
-        onChangeText={(text) => this.setState({ PhoneNumber: text })}
+        onChangeText={(Number) => this.setState({ PhoneNumber: Number })}
         selectionColor={Colors.primaryColor}
         style={styles.textFieldStyle}
       />
@@ -173,26 +175,22 @@ class RegisterScreen extends Component {
       </Text>
     );
   }
-  // signup() {
-  //   var data = {
-  //     name : this.fullName,
-  //     email:this.emailAddress,
-  //     username: this.username,
-  //     password : this.password,
-  //     phoneNumber:this.PhoneNumber,
-  //     address:this.adress
-  //     } 
-  //   axios.post("/register" , data )
-  //   .then(() => {
-  //     console.log(data);
-  //     this.props.navigation.push("login")
-  //   })
-  //   .catch( (error)=> console.log(error.message))
-  // }
+  register(){
+   console.log(this.state)
+   this.props.navigation.push("login")
+    // var url =' http://localhost:5000/user/register';
+    // axios.post(url,).then( () =>{
+    //   console.log(('hiiiiiiii'));
+      
+    // })
+  }
+
   continueButton() {
     return (
       <TouchableOpacity
-        onPress={() =>{ this.props.navigation.push("login")}}
+        onPress={() =>( 
+          this.register()
+          )}
         activeOpacity={0.9}
         style={styles.continueButtonStyle}
       >
