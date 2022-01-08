@@ -83,14 +83,13 @@ export default function Footer() {
 
           <Pressable
             onPress={() => {
-              navigation.navigate("About");
+              navigation.navigate("Profile");
             }}
             style={styles.IconBehave}
             android_ripple={{ borderless: true, radius: 50 }}
           >
             <Icon
-              name="round-eyeglasses"
-              group="stylish"
+              name="profile" group="basic"
               height="40"
               width="30"
               color="#10857F"
@@ -101,7 +100,7 @@ export default function Footer() {
                 right: 12,
               }}
             >
-              About-Us
+              Profile
             </Text>
           </Pressable>
         </View>
