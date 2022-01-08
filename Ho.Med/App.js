@@ -13,6 +13,7 @@ import ProfileScreen from "./screens/Profile"
 
 import AboutScreen from "./screens/About";
 
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {

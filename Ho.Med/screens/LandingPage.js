@@ -1,116 +1,72 @@
 import React, { Component } from "react";
-import {
-  SafeAreaView,
-  StatusBar,
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-} from "react-native";
-import { withNavigation } from "react-navigation";
-import { Colors, Fonts, Sizes } from "../constant/styles";
-import { TransitionPresets } from "react-navigation-stack";
+ import { ImageBackground, StyleSheet, Text, View ,TouchableOpacity ,Button } from "react-native";
+ import { Sizes } from "../constant/styles";
+
+ import { withNavigation } from "react-navigation";
 
 class LandingPage extends Component {
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
-        <StatusBar backgroundColor={Colors.primaryColor} />
-        <View style={{ flex: 1 }}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            {this.appLogo()}
-            {this.registerText()}
-            {this.SignupButton()}
-            {this.SigninButton()}
-          </ScrollView>
-        </View>
-      </SafeAreaView>
-    );
+      <View style={styles.container}>
+          <ImageBackground source={require('../assets/images/LAND.png')} resizeMode="cover" style={styles.backgroundImage}>
+            <Text style={styles.text}> Pharmacy at your finger tips </Text>
+            </ImageBackground>
+            {this.exploreButton()}
+         </View>
+    )
   }
-
-  registerText() {
-    return (
-      <Text
-        style={{
-          marginBottom: Sizes.fixPadding + 10.0,
-          ...Fonts.primaryColor18Medium,
-          textAlign: "center",
-        }}
-      >
-        HoMed welcomes you
-      </Text>
-    );
-  }
-
-  SignupButton() {
-    return (
-      <TouchableOpacity
-        onPress={() => this.props.navigation.push("registerScreen")}
-        activeOpacity={0.9}
-        style={styles.SignupButtonStyle}
-      >
-        <Text style={{ ...Fonts.whiteColor19Medium }}>Sign up</Text>
-      </TouchableOpacity>
-    );
-  }
-  SigninButton() {
-    return (
-      <TouchableOpacity
-        onPress={() => this.props.navigation.push("login")}
-        activeOpacity={0.9}
-        style={styles.SigninButtonStyle}
-      >
-        <Text style={{ ...Fonts.whiteColor19Medium }}>Sign In</Text>
-      </TouchableOpacity>
-    );
-  }
-
-  appLogo() {
-    return (
-      <Image
-        source={require("../assets/images/transparent-icon.png")}
-        style={styles.appLogoStyle}
-        resizeMode="contain"
-      />
-    );
-  }
+  exploreButton(){
+    return(
+    <TouchableOpacity
+            onPress={() =>{ this.props.navigation.push("registerScreen")}}
+             activeOpacity={0.9}
+              style={styles.exploreButton}
+            >
+            <Text style={styles.text2}> Explore</Text>      
+            </TouchableOpacity>
+  )
+}
 }
 
 const styles = StyleSheet.create({
-  SignupButtonStyle: {
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.primaryColor,
-    paddingVertical: Sizes.fixPadding,
-    marginHorizontal: Sizes.fixPadding * 10,
-    borderRadius: Sizes.fixPadding - 5.0,
-    marginTop: Sizes.fixPadding * 4.0,
-  },
-  SigninButtonStyle: {
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.primaryColor,
-    paddingVertical: Sizes.fixPadding,
-    marginHorizontal: Sizes.fixPadding * 10,
-    borderRadius: Sizes.fixPadding - 5.0,
-    marginTop: Sizes.fixPadding * 4.0,
-  },
-  appLogoStyle: {
-    width: 200.0,
-    height: 200.0,
-    alignSelf: "center",
-    marginBottom: Sizes.fixPadding,
-    marginTop: Sizes.fixPadding * 3.0,
-  },
-});
+  container: {
+    flex: 1,
+    backgroundColor:'#c6dee4',
+    
+},
+    backgroundImage:{
+    width:600,
+    height:500,
+    marginTop: 200,
+    marginLeft:40,
+    
 
-LandingPage.navigationOptions = () => {
+  },
+ text:{
+  //  fontFamily:"Helvetica Neue",
+    fontSize:20,
+   lineHeight:28,
+   color:'#29aba7',
+   marginTop: 90,
+   
+   marginLeft:20,
+ },
+ text2:{
+   color:"#c7e2eb"
+ },
+ exploreButton:{
+  alignItems: "center",
+  justifyContent: "center",
+  backgroundColor: "#2aada7",
+  paddingVertical: 10,
+   marginHorizontal: 155,
+   borderRadius: 20,
+    
+ }});
+ LandingPage.navigationOptions = () => {
   return {
     header: () => null,
     ...TransitionPresets.SlideFromRightIOS,
   };
-};
-
-export default withNavigation(LandingPage);
+}
+  export default withNavigation(LandingPage)
