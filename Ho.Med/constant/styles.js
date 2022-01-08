@@ -1,3 +1,4 @@
+
 export const Fonts = {
 
     blackColor14Medium: {
@@ -199,6 +200,9 @@ export const Fonts = {
     }
 
 }
+
+ 
+
 
 export const Colors = {
   whiteColor: "#FFFFFF",

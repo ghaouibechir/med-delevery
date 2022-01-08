@@ -54,7 +54,7 @@ export default function NotificationScreen({ navigation }) {
           </View>
         </View>
       </View>
-      <View style={{ marginTop: 480 }}>
+      <View style={{ marginTop: 710 }}>
         <Footer />
       </View>
     </SafeAreaView>

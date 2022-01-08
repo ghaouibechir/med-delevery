@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     width:600,
     height:500,
     marginTop: 200,
-    marginLeft:40,
+    marginLeft:-50,
     
 
   },
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
    color:'#29aba7',
    marginTop: 90,
    
-   marginLeft:20,
+   marginLeft:70,
  },
  text2:{
    color:"#c7e2eb"

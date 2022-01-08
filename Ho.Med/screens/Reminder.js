@@ -57,7 +57,7 @@ export default function ReminderScreen({ navigation }) {
         </View>
       </View>
       <Text>ReminderScreen</Text>
-      <View style={{ marginTop: 460 }}>
+      <View style={{ marginTop: 690 }}>
         <Footer />
       </View>
     </SafeAreaView>
