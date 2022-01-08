@@ -15,6 +15,7 @@ import { withNavigation } from "react-navigation";
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TransitionPresets } from "react-navigation-stack";
+import axios from "axios"
 
 class RegisterScreen extends Component {
   componentDidMount() {
@@ -40,6 +41,9 @@ class RegisterScreen extends Component {
     fullName: "",
     password: "",
     emailAddress: "",
+    PhoneNumber:"",
+    username:"",
+    address:""
   };
 
   render() {
@@ -52,10 +56,11 @@ class RegisterScreen extends Component {
             {this.appLogo()}
             {this.registerText()}
             {this.fullNameTextField()}
-            {this.passwordTextField()}
+            {this.userNameTextField()}
             {this.emailAddressTextField()}
             {this.phoneNumberTextField()}
-            {this.identityCard()}
+            {this.passwordTextField()}
+            {this.addressTextField()}
             {this.continueButton()}
           </ScrollView>
         </View>
@@ -77,18 +82,7 @@ class RegisterScreen extends Component {
       />
     );
   }
-  identityCard() {
-    return (
-      <TextInput
-        placeholder="Identity Card "
-        placeholderTextColor={Colors.primaryColor}
-        value={this.state.identityCard}
-        onChangeText={(text) => this.setState({ identityCard: text })}
-        selectionColor={Colors.primaryColor}
-        style={styles.textFieldStyle}
-      />
-    );
-  }
+
   phoneNumberTextField() {
     return (
       <TextInput
@@ -141,6 +135,30 @@ class RegisterScreen extends Component {
       />
     );
   }
+  userNameTextField() {
+    return (
+      <TextInput
+        placeholder="username"
+        placeholderTextColor={Colors.primaryColor}
+        value={this.state.username}
+        onChangeText={(text) => this.setState({ username: text })}
+        selectionColor={Colors.primaryColor}
+        style={styles.textFieldStyle}
+      />
+    );
+  }
+  addressTextField() {
+    return (
+      <TextInput
+        placeholder="address"
+        placeholderTextColor={Colors.primaryColor}
+        value={this.state.address}
+        onChangeText={(text) => this.setState({ address: text })}
+        selectionColor={Colors.primaryColor}
+        style={styles.textFieldStyle}
+      />
+    );
+  }
 
   registerText() {
     return (
@@ -151,19 +169,34 @@ class RegisterScreen extends Component {
           textAlign: "center",
         }}
       >
-        Register your account
+        join our family
       </Text>
     );
   }
-
+  // signup() {
+  //   var data = {
+  //     name : this.fullName,
+  //     email:this.emailAddress,
+  //     username: this.username,
+  //     password : this.password,
+  //     phoneNumber:this.PhoneNumber,
+  //     address:this.adress
+  //     } 
+  //   axios.post("/register" , data )
+  //   .then(() => {
+  //     console.log(data);
+  //     this.props.navigation.push("login")
+  //   })
+  //   .catch( (error)=> console.log(error.message))
+  // }
   continueButton() {
     return (
       <TouchableOpacity
-        onPress={() => this.props.navigation.push("login")}
+        onPress={() =>{ this.props.navigation.push("login")}}
         activeOpacity={0.9}
         style={styles.continueButtonStyle}
       >
-        <Text style={{ ...Fonts.whiteColor19Medium }}>Continue</Text>
+        <Text style={{ ...Fonts.whiteColor19Medium }}>Sign Up</Text>
       </TouchableOpacity>
     );
   }
@@ -186,7 +219,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primaryColor,
     paddingVertical: Sizes.fixPadding,
     marginHorizontal: Sizes.fixPadding,
-    borderRadius: Sizes.fixPadding - 5.0,
+    borderRadius:20,
     marginTop: Sizes.fixPadding * 4.0,
   },
   appLogoStyle: {
@@ -199,7 +232,7 @@ const styles = StyleSheet.create({
   textFieldStyle: {
     borderColor: "rgba(0, 150, 136, 0.3)",
     borderWidth: 1.0,
-    borderRadius: Sizes.fixPadding - 5.0,
+    borderRadius: 20,
     paddingHorizontal: Sizes.fixPadding * 2.0,
     height: 55.0,
     ...Fonts.primaryColor18Medium,
