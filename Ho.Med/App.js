@@ -7,6 +7,7 @@ import RegisterScreen from "./screens/RegisterScreen";
 import Login from "./screens/SigninScreen";
 import LandingPage from "./screens/LandingPage";
 
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
