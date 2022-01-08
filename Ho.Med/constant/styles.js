@@ -201,18 +201,18 @@ export const Fonts = {
 }
 
 export const Colors = {
-    whiteColor: '#FFFFFF',
-    blackColor: '#000000',
-    primaryColor: '#10857F',
-    bodyBackColor: '#F2F2F2',
-    grayColor: '#9E9E9E',
-    redColor: '#F5554A',
-    orangeColor: '#FF9800',
-}
+  whiteColor: "#FFFFFF",
+  blackColor: "#000000",
+  primaryColor: "#10857F",
+  bodyBackColor: "#F2F2F2",
+  grayColor: "#9E9E9E",
+  redColor: "#F5554A",
+  orangeColor: "#FF9800",
+};
 
 export const Sizes = {
-    fixPadding: 10.0,
-}
+  fixPadding: 10.0,
+};
 
 export const appStyle = { Fonts, Colors, Sizes };
 
