@@ -27,6 +27,7 @@
     "react-native-dialog": "^9.2.0",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-ico": "^28.7.4",
     "react-native-image-crop-picker": "^0.37.2",
     "react-native-intl-phone-input": "^1.2.27",
     "react-native-paper": "^4.11.1",
