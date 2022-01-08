@@ -12,6 +12,7 @@ import ReminderScreen from "./screens/Reminder"
 
 import AboutScreen from "./screens/About";
 
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
