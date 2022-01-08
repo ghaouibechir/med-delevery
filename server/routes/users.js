@@ -12,7 +12,7 @@ router.post("/register", (req, res, next) => {
         username: req.body.username,
         password: req.body.password,
         phoneNumber: req.body.phoneNumber,
-        adress: req.body.adress,
+        address: req.body.adress,
     });
 
     User.addUser(newUser, (err, data)=> {
