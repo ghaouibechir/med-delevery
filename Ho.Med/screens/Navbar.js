@@ -19,18 +19,33 @@ import { withNavigation } from "react-navigation";
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import samplePosts from "../seed";
 import Footer from "./Footer";
 import axios from "axios";
+import data from "react-native-ico/src/data";
+
 
 class Navbar extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      medecine: [],
+    };
   }
-
-  addProductToCart = () => {
+  componentDidMount() {
+    this.fetchdata();
+  }
+  fetchdata = async () => {
+    try {
+      let response = await axios.get("http://192.168.11.12:5000/medecine");
+      this.setState({medecine:response.data});
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  addProductToCart = (e) => {
     Alert.alert("Success", "The product has been added to your cart");
+    console.log(e);
   };
 
   render() {
@@ -91,7 +106,7 @@ class Navbar extends Component {
         <FlatList
           style={styles.list}
           contentContainerStyle={styles.listContainer}
-          data={samplePosts}
+          data={this.state.medecine}
           horizontal={false}
           numColumns={2}
           keyExtractor={(item) => {
@@ -118,7 +133,7 @@ class Navbar extends Component {
                     <View style={styles.socialBarSection}>
                       <TouchableOpacity
                         style={styles.socialBarButton}
-                        onPress={() => this.addProductToCart()}
+                        onPress={() => this.addProductToCart(item._id)}
                       >
                         <Image
                           style={styles.icon}
