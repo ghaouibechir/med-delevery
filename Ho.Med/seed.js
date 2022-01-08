@@ -1,6 +1,3 @@
-const db = require("./index.js");
-const { medecine } = require("./schemas.js");
-
 const samplePosts = [
   {
     name: "COVIFIND Covid-19 Antigen Self Test Kit, 1 kit",
@@ -996,18 +993,4 @@ const samplePosts = [
   // },
 ];
 
-const insertMedecines = function () {
-  medecine
-    .create(samplePosts)
-    .then(() => {
-      console.log("Database seeded successfully");
-    })
-    .catch((error) => {
-      console.log("error seeding the database: ", error);
-    })
-    .finally(() => {
-      db.close();
-    });
-};
-
-insertMedecines();
+export default samplePosts;
