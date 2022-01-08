@@ -3,6 +3,7 @@ import { SafeAreaView, StatusBar, View, Animated, Text, BackHandler, StyleSheet,
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import * as Font from 'expo-font';
 
 const Navbar = ({navigation}) => {
     return (
@@ -15,25 +16,13 @@ const Navbar = ({navigation}) => {
                 <View style={styles.headerInfoWrapStyle}>
                     <View>
                         <Text style={{ ...Fonts.whiteColor20Medium }}>
-                            HealthMeds
+                            HO MED
                         </Text>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={{ ...Fonts.whiteColor15Light }}>
-                                Deliver To
-                            </Text>
-                            <TouchableOpacity
-                                style={{ flexDirection: 'row', alignItems: 'center', marginLeft: Sizes.fixPadding - 3.0 }}>
-                                <Text style={{ ...Fonts.whiteColor16Medium }}>
-                                    99501  Anchorage
-                                </Text>
-                                <MaterialIcons name="keyboard-arrow-down" size={24} color={Colors.whiteColor} />
-                            </TouchableOpacity>
-                        </View>
                         
                     </View>
                     <View style={{ flexDirection: 'row' }}>
                     <MaterialCommunityIcons name="map-marker-outline" size={27} color={Colors.whiteColor} 
-                    onPress={() => navigation.navigate('localisation')}/>
+                    onPress={() => navigation.navigate('myLocation')}/>
                         <TouchableOpacity>
                             <MaterialIcons
                                 name="shopping-cart"
