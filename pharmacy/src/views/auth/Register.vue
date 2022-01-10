@@ -36,7 +36,7 @@
                   type="email"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Email"
-                   v-model="email"
+                  v-model="email"
                 />
               </div>
               <div class="relative w-full mb-3">
@@ -50,7 +50,7 @@
                   type="text"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Address"
-                  v-model="adress"
+                  v-model="address"
                 />
               </div>
               <div class="relative w-full mb-3">
@@ -102,7 +102,7 @@
                   class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                   htmlFor="grid-password"
                 >
-                   confirm Password
+                  confirm Password
                 </label>
                 <input
                   type="password"
@@ -156,50 +156,44 @@
 <script>
 import axios from "axios";
 export default {
-  data : function () {
+  data: function () {
     return {
-      username:"",
-      email:"",
-      address:"",
-      location:"",
-      phoneNumber:"",
-      password:"",
-      confirmedpassword:""
-    }
+      username: "",
+      email: "",
+      address: "",
+      location: "",
+      phoneNumber: "",
+      password: "",
+      confirmedpassword: "",
+    };
   },
-  methods :{
-    match:function () {
-      return this.password===this.confirmedpassword
+  methods: {
+    match: function () {
+      return this.password === this.confirmedpassword;
     },
-    signup: function() {
-      this.username="",
-      this.email="",
-      this.address="",
-      this.location="",
-      this.phoneNumber="",
-      this.password="",
-      this.confirmedpassword=""
-
-      var userdata={
-        username:this.username,
-        email:this.email,
-        address:this.address,
-        location:this.location,
-        phoneNumber:this.phoneNumber,
-        password:this.password,
-      }
-      if(this.match()){
+    signup: function () {
+      var userdata = {
+        username: this.username,
+        email: this.email,
+        address: this.address,
+        location: this.location,
+        phoneNumber: this.phoneNumber,
+        password: this.password,
+      };
+      if (this.match()) {
         console.log(userdata);
-         axios.post("http://localhost:5000/pharmacies/register", userdata)
-          .then(({data})=>{
-            console.log("response from server :" , data) ;
+        axios
+          .post("http://localhost:5000/pharmacies/register", userdata)
+          .then(({ data }) => {
+            console.log("response from server :", data);
             this.$router.push("/login");
           })
-          .catch( (error)=>{ console.error(error)
-                            alert("request failed")
-          })
+          .catch((error) => {
+            console.error(error);
+            alert("request failed");
+          });
       }
     },
-  }
+  },
 };
 </script>

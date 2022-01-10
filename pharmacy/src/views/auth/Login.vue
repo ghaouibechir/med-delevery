@@ -18,7 +18,7 @@
                   Username
                 </label>
                 <input
-                  type="email"
+                  type="text"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Email"
                   v-model="username"
@@ -84,30 +84,32 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 export default {
-  data: function() {
+  data: function () {
     return {
-      username:"",
-      password: ""
+      username: "",
+      password: "",
     };
   },
-  methods:{
-    signin: function(){
-      this.username=""
-      this.password="";
-      var identity={
+  methods: {
+    signin: function () {
+      var identity = {
         username: this.username,
-        password: this.password
-      }
-      axios.post("http://localhost:5000/pharmacies/authenticate",identity)
-      .then(({data})=>{ console.log("success : " ,data)
-                        this.$router.push("/Index");
-      })
-      .catch((err)=>{ console.error(err)
-        alert("request failed")
-      })
-    }
-  }
+        password: this.password,
+      };
+      console.log(identity);
+      axios
+        .post("http://localhost:5000/pharmacies/authenticate", identity)
+        .then(({ data }) => {
+          console.log("success : ", data);
+          this.$router.push("/Index");
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("request failed");
+        });
+    },
+  },
 };
 </script>
