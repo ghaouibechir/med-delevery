@@ -4,9 +4,9 @@ import { View, Text, Pressable, StyleSheet } from "react-native";
 import Icon from "react-native-ico";
 import { useNavigation } from "@react-navigation/native";
 export default function Footer() {
-    const navigation=useNavigation()
-    return (
-        <View style={styles.container}>
+  const navigation = useNavigation();
+  return (
+    <View style={styles.container}>
       <View>
         <StatusBar style="auto" />
       </View>
@@ -21,18 +21,19 @@ export default function Footer() {
               name="home"
               group="universalicons"
               height="40"
-              width="40"
+              width="30"
               color="#10857F"
             />
             <Text
               style={{
                 alignItems: "center",
+                right: 3,
               }}
             >
               Home
             </Text>
           </Pressable>
-        
+
           <Pressable
             style={styles.IconBehave}
             // onPress={() => console.log("Reminder")}
@@ -45,12 +46,13 @@ export default function Footer() {
               name="calendar-with-spring-binder-and-date-blocks"
               group="font-awesome"
               height="40"
-              width="40"
+              width="30"
               color="#10857F"
             />
             <Text
               style={{
                 alignItems: "center",
+                right: 12,
               }}
             >
               Reminder
@@ -66,12 +68,13 @@ export default function Footer() {
               name="notification"
               group="miscellaneous"
               height="40"
-              width="40"
+              width="30"
               color="#10857F"
             />
             <Text
               style={{
                 alignItems: "center",
+                right: 15,
               }}
             >
               Notification
@@ -80,48 +83,45 @@ export default function Footer() {
 
           <Pressable
             onPress={() => {
-              navigation.navigate("About");
+              navigation.navigate("Profile");
             }}
             style={styles.IconBehave}
             android_ripple={{ borderless: true, radius: 50 }}
           >
             <Icon
-              name="round-eyeglasses"
-              group="stylish"
+              name="profile" group="basic"
               height="40"
-              width="40"
+              width="30"
               color="#10857F"
             />
             <Text
               style={{
                 alignItems: "center",
+                right: 12,
               }}
             >
-              About-Us
+              Profile
             </Text>
           </Pressable>
         </View>
       </View>
     </View>
-    )
+  );
 }
 const styles = StyleSheet.create({
- 
-    NavContainer: {
-      position: "absolute",
-      alignItems: "center",
-      bottom: 20,
-    },
-    NavBar: {
-      flexDirection: "row",
-      backgroundColor: "#eee",
-  
-      width: "90%",
-      justifyContent: "space-evenly",
-      borderRadius: 40,
-    },
-    IconBehave: {
-      padding: 14,
-    },
-  });
-  
+  NavContainer: {
+    width: 410,
+    height: 60,
+
+  },
+  NavBar: {
+    flexDirection: "row",
+    backgroundColor: "#eee",
+
+    justifyContent: "space-evenly",
+  },
+  IconBehave: {
+    padding: 20,
+    bottom: 20,
+  },
+});
