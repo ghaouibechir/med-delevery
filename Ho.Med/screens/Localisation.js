@@ -63,7 +63,8 @@ const MyLocation = ({ navigation }) => {
             }}
           >
             <Text>USER</Text>
-            <Ionicons name="person-circle" size={30} color="bleu" />
+            <Ionicons name="person-circle" size={30} color="green
+            " />
           </Marker>
           <Circle
             center={{

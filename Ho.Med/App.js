@@ -8,9 +8,9 @@ import Login from "./screens/SigninScreen";
 import LandingPage from "./screens/LandingPage";
 // import Footer from "./screens/Footer";
 import NotificationScreen from "./screens/Notification";
-import ReminderScreen from "./screens/Reminder";
-import ProfileScreen from "./screens/Profile";
-
+import ReminderScreen from "./screens/Reminder"
+import ProfileScreen from "./screens/Profile"
+import VerificationScreen from "./screens/Verification";
 import AboutScreen from "./screens/About";
 
 const Stack = createNativeStackNavigator();
@@ -27,6 +27,11 @@ export default function App() {
         <Stack.Screen
           name="registerScreen"
           component={RegisterScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="verification"
+          component={VerificationScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen

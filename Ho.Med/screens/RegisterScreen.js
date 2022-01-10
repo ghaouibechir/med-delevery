@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import {
   SafeAreaView,
   StatusBar,
@@ -15,6 +16,7 @@ import { withNavigation } from "react-navigation";
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TransitionPresets } from "react-navigation-stack";
+import IntlPhoneInput from 'react-native-intl-phone-input';
 import axios from "axios"
 
 class RegisterScreen extends Component {
@@ -24,6 +26,8 @@ class RegisterScreen extends Component {
       this.handleBackButton.bind(this)
     );
   }
+
+
 
   componentWillUnmount() {
     BackHandler.removeEventListener(
@@ -41,9 +45,8 @@ class RegisterScreen extends Component {
     fullName: "",
     password: "",
     emailAddress: "",
-    PhoneNumber:"",
-    username:"",
-    address:""
+    PhoneNumber:'',
+
   };
 
   render() {
@@ -85,13 +88,17 @@ class RegisterScreen extends Component {
 
   phoneNumberTextField() {
     return (
-      <TextInput
-        placeholder="Phone Number "
-        placeholderTextColor={Colors.primaryColor}
-        value={this.state.PhoneNumber}
-        onChangeText={(text) => this.setState({ PhoneNumber: text })}
-        selectionColor={Colors.primaryColor}
-        style={styles.textFieldStyle}
+      <IntlPhoneInput
+        onChangeText={({ phoneNumber }) => { this.setState({ phoneNumber: phoneNumber }) }}
+        defaultCountry="TN"
+        containerStyle={styles.textFieldStyle}
+        dialCodeTextStyle={{ ...Fonts.blackColor17Medium, marginLeft: Sizes.fixPadding - 5.0, }}
+        phoneInputStyle={{
+          flex: 1,
+          marginLeft: Sizes.fixPadding,
+          ...Fonts.blackColor17Medium,
+                }}
+        placeholder="PhoneNumber"
       />
     );
   }
@@ -173,26 +180,22 @@ class RegisterScreen extends Component {
       </Text>
     );
   }
-  // signup() {
-  //   var data = {
-  //     name : this.fullName,
-  //     email:this.emailAddress,
-  //     username: this.username,
-  //     password : this.password,
-  //     phoneNumber:this.PhoneNumber,
-  //     address:this.adress
-  //     } 
-  //   axios.post("/register" , data )
-  //   .then(() => {
-  //     console.log(data);
-  //     this.props.navigation.push("login")
-  //   })
-  //   .catch( (error)=> console.log(error.message))
-  // }
+  register(){
+   console.log(this.state)
+   this.props.navigation.push("verification")
+    // var url =' http://localhost:5000/user/register';
+    // axios.post(url,).then( () =>{
+    //   console.log(('hiiiiiiii'));
+      
+    // })
+  }
+
   continueButton() {
     return (
       <TouchableOpacity
-        onPress={() =>{ this.props.navigation.push("login")}}
+        onPress={() =>( 
+          this.register()
+          )}
         activeOpacity={0.9}
         style={styles.continueButtonStyle}
       >
