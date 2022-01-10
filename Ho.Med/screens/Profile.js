@@ -69,10 +69,10 @@ export default function ProfileScreen({ navigation }) {
             </View>
 
             <TouchableOpacity style={styles.buttonContainer}>
-              <Text style={{ fontSize: 26 }}> Flen Ben Foulen</Text>
+              <Text style={{ fontSize: 26 }}>User name</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer}>
-              <Text style={{ fontSize: 15 }}> Flen.BenFOulen@gmail.com</Text>
+              <Text style={{ fontSize: 15 }}> Email</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonContainer}
