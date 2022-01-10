@@ -67,7 +67,7 @@ class Navbar extends Component {
                 name="map-marker-outline"
                 size={27}
                 color={Colors.whiteColor}
-                onPress={() => this.props.navigation.push("localisation")}
+                onPress={() => this.props.navigation.push("MyLocation")}
               />
               <TouchableOpacity>
                 <MaterialIcons

@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primaryColor,
     paddingVertical: Sizes.fixPadding,
     marginHorizontal: Sizes.fixPadding,
-    borderRadius: Sizes.fixPadding - 5.0,
+    borderRadius: 20,
     marginTop: Sizes.fixPadding * 4.0,
   },
   appLogoStyle: {
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   textFieldStyle: {
     borderColor: "rgba(0, 150, 136, 0.3)",
     borderWidth: 1.0,
-    borderRadius: Sizes.fixPadding - 5.0,
+    borderRadius: 20,
     paddingHorizontal: Sizes.fixPadding * 2.0,
     height: 55.0,
     ...Fonts.primaryColor18Medium,
