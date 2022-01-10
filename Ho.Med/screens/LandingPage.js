@@ -1,31 +1,44 @@
 import React, { Component } from "react";
- import { ImageBackground, StyleSheet, Text, View ,TouchableOpacity ,Button } from "react-native";
- import { Sizes } from "../constant/styles";
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Button,
+} from "react-native";
+import { Sizes } from "../constant/styles";
 
- import { withNavigation } from "react-navigation";
+import { withNavigation } from "react-navigation";
 
 class LandingPage extends Component {
   render() {
     return (
       <View style={styles.container}>
-          <ImageBackground source={require('../assets/images/LAND.png')} resizeMode="cover" style={styles.backgroundImage}>
-            <Text style={styles.text}> Pharmacy at your finger tips </Text>
-            </ImageBackground>
-            {this.exploreButton()}
-         </View>
-    )
+        <ImageBackground
+          source={require("../assets/images/LAND.png")}
+          resizeMode="cover"
+          style={styles.backgroundImage}
+        >
+          <Text style={styles.text}> Pharmacy at your finger tips </Text>
+        </ImageBackground>
+        {this.exploreButton()}
+      </View>
+    );
   }
-  exploreButton(){
-    return(
-    <TouchableOpacity
-            onPress={() =>{ this.props.navigation.push("registerScreen")}}
-             activeOpacity={0.9}
-              style={styles.exploreButton}
-            >
-            <Text style={styles.text2}> Explore</Text>      
-            </TouchableOpacity>
-  )
-}
+  exploreButton() {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          this.props.navigation.push("registerScreen");
+        }}
+        activeOpacity={0.9}
+        style={styles.exploreButton}
+      >
+        <Text style={styles.text2}> Explore</Text>
+      </TouchableOpacity>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -38,7 +51,7 @@ const styles = StyleSheet.create({
     width:600,
     height:500,
     marginTop: 200,
-    marginLeft:40,
+    marginLeft:-50,
     
 
   },
@@ -49,7 +62,7 @@ const styles = StyleSheet.create({
    color:'#29aba7',
    marginTop: 90,
    
-   marginLeft:20,
+   marginLeft:70,
  },
  text2:{
    color:"#c7e2eb"
@@ -68,5 +81,5 @@ const styles = StyleSheet.create({
     header: () => null,
     ...TransitionPresets.SlideFromRightIOS,
   };
-}
-  export default withNavigation(LandingPage)
+};
+export default withNavigation(LandingPage);

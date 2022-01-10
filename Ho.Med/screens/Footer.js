@@ -83,14 +83,14 @@ export default function Footer() {
 
           <Pressable
             onPress={() => {
-              navigation.navigate("About");
+              navigation.navigate("Profile");
             }}
             style={styles.IconBehave}
             android_ripple={{ borderless: true, radius: 50 }}
           >
             <Icon
-              name="round-eyeglasses"
-              group="stylish"
+              name="profile"
+              group="basic"
               height="40"
               width="30"
               color="#10857F"
@@ -98,10 +98,10 @@ export default function Footer() {
             <Text
               style={{
                 alignItems: "center",
-                right: 12,
+                right: 5,
               }}
             >
-              About-Us
+              Profile
             </Text>
           </Pressable>
         </View>
@@ -111,8 +111,9 @@ export default function Footer() {
 }
 const styles = StyleSheet.create({
   NavContainer: {
-    width: 370,
+    width: 410,
     height: 60,
+
   },
   NavBar: {
     flexDirection: "row",
