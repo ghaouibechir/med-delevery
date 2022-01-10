@@ -144,6 +144,7 @@ class RegisterScreen extends Component {
   }
   userNameTextField() {
     return (
+      
       <TextInput
         placeholder="username"
         placeholderTextColor={Colors.primaryColor}
@@ -152,6 +153,7 @@ class RegisterScreen extends Component {
         selectionColor={Colors.primaryColor}
         style={styles.textFieldStyle}
       />
+      
     );
   }
   addressTextField() {

@@ -5,33 +5,9 @@
         <div
           class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0"
         >
-          <div class="rounded-t mb-0 px-6 py-6">
-            <div class="text-center mb-3">
-              <h6 class="text-blueGray-500 text-sm font-bold">
-                Sign up with
-              </h6>
-            </div>
-            <div class="btn-wrapper text-center">
-              <button
-                class="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                type="button"
-              >
-                <img alt="..." class="w-5 mr-1" :src="github" />
-                Github
-              </button>
-              <button
-                class="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                type="button"
-              >
-                <img alt="..." class="w-5 mr-1" :src="google" />
-                Google
-              </button>
-            </div>
-            <hr class="mt-6 border-b-1 border-blueGray-300" />
-          </div>
           <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
             <div class="text-blueGray-400 text-center mb-3 font-bold">
-              <small>Or sign up with credentials</small>
+              <small>sign up</small>
             </div>
             <form>
               <div class="relative w-full mb-3">
@@ -39,12 +15,13 @@
                   class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                   htmlFor="grid-password"
                 >
-                  Name
+                  UserName
                 </label>
                 <input
-                  type="email"
+                  type="text"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Name"
+                  v-model="username"
                 />
               </div>
 
@@ -59,6 +36,49 @@
                   type="email"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Email"
+                   v-model="email"
+                />
+              </div>
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlFor="grid-password"
+                >
+                  Address
+                </label>
+                <input
+                  type="text"
+                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  placeholder="Address"
+                  v-model="adress"
+                />
+              </div>
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlFor="grid-password"
+                >
+                  Location
+                </label>
+                <input
+                  type="text"
+                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  placeholder="Location"
+                  v-model="location"
+                />
+              </div>
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlFor="grid-password"
+                >
+                  Phone Numbr
+                </label>
+                <input
+                  type="text"
+                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  placeholder="Phone Number"
+                  v-model="phoneNumber"
                 />
               </div>
 
@@ -73,6 +93,22 @@
                   type="password"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="Password"
+                  v-model="password"
+                />
+              </div>
+
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlFor="grid-password"
+                >
+                   confirm Password
+                </label>
+                <input
+                  type="password"
+                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  placeholder="Password"
+                  v-model="confirmedpassword"
                 />
               </div>
 
@@ -96,6 +132,7 @@
                 <button
                   class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                   type="button"
+                  v-on:click="signup()"
                 >
                   Create Account
                 </button>
@@ -103,20 +140,66 @@
             </form>
           </div>
         </div>
+        <div class="flex flex-wrap mt-6 relative">
+          <div class="w-1/2"></div>
+          <div class="w-1/2 text-right text-white">
+            <small>Already Have an account ? </small>
+            <router-link to="/Login" class="text-blueGray-200">
+              <small>Log In</small>
+            </router-link>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import github from "@/assets/img/github.svg";
-import google from "@/assets/img/google.svg";
-
+import axios from "axios";
 export default {
-  data() {
+  data : function () {
     return {
-      github,
-      google,
-    };
+      username:"",
+      email:"",
+      address:"",
+      location:"",
+      phoneNumber:"",
+      password:"",
+      confirmedpassword:""
+    }
   },
+  methods :{
+    match:function () {
+      return this.password===this.confirmedpassword
+    },
+    signup: function() {
+      this.username="",
+      this.email="",
+      this.address="",
+      this.location="",
+      this.phoneNumber="",
+      this.password="",
+      this.confirmedpassword=""
+
+      var userdata={
+        username:this.username,
+        email:this.email,
+        address:this.address,
+        location:this.location,
+        phoneNumber:this.phoneNumber,
+        password:this.password,
+      }
+      if(this.match()){
+        console.log(userdata);
+         axios.post("http://localhost:5000/pharmacies/register", userdata)
+          .then(({data})=>{
+            console.log("response from server :" , data) ;
+            this.$router.push("/login");
+          })
+          .catch( (error)=>{ console.error(error)
+                            alert("request failed")
+          })
+      }
+    },
+  }
 };
 </script>
