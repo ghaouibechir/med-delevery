@@ -10,7 +10,7 @@ import Footer from "./screens/Footer";
 import NotificationScreen from "./screens/Notification";
 import ReminderScreen from "./screens/Reminder"
 import ProfileScreen from "./screens/Profile"
-
+import CameraScreen from "./screens/Camera"
 import AboutScreen from "./screens/About";
 
 
@@ -53,7 +53,7 @@ export default function App() {
          <Stack.Screen
           name="Notification"
           component={NotificationScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: true }}
         />
           <Stack.Screen
           name="Reminder"
@@ -70,11 +70,16 @@ export default function App() {
           component={ProfileScreen}
           options={{ headerShown: false}}
         />
+         <Stack.Screen
+          name="Camera"
+          component={CameraScreen}
+          options={{ headerShown: true}}
+        />
         
         
         
       </Stack.Navigator>
-      {/* <Footer/> */}
+      {/* <Footer/> */} 
     </NavigationContainer>
   );
 }

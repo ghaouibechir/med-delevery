@@ -11,6 +11,7 @@ import {
   SafeAreaView,
   StatusBar,
   TextInput,
+  Button,
   Animated,
   BackHandler,
   Dimensions,
@@ -22,7 +23,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Footer from "./Footer";
 import axios from "axios";
 import data from "react-native-ico/src/data";
-
 
 class Navbar extends Component {
   constructor(props) {
@@ -36,8 +36,8 @@ class Navbar extends Component {
   }
   fetchdata = async () => {
     try {
-      let response = await axios.get("http://192.168.11.27:5000/medecine");
-      this.setState({medecine:response.data});
+      let response = await axios.get("http://192.168.43.216:5000/medecine");
+      this.setState({ medecine: response.data });
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -101,6 +101,13 @@ class Navbar extends Component {
               placeholder="Search Medicines"
             />
           </TouchableOpacity>
+        </View>
+        <View>
+        
+          <Button style={styles.bat} title="Prescription" 
+           onPress={() => this.props.navigation.push("Camera")}
+          
+          />
         </View>
 
         <FlatList
@@ -276,6 +283,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+  },
+  bat: {
+    color: "#10857F",
   },
 });
 Navbar.navigationOptions = () => {

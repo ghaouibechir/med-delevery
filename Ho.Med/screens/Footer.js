@@ -110,10 +110,9 @@ export default function Footer() {
 }
 const styles = StyleSheet.create({
   NavContainer: {
-    width: 599,
+    width: 410,
     height: 60,
-    borderRadius: 40,
-    
+
   },
   NavBar: {
     flexDirection: "row",

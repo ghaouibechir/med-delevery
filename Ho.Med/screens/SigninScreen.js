@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import styled from 'styled-components'
 import {
   SafeAreaView,
   StatusBar,
@@ -9,12 +10,15 @@ import {
   TextInput,
   ScrollView,
   Image,
+  Alert,
   TouchableOpacity,
+ 
 } from "react-native";
 import { withNavigation } from "react-navigation";
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TransitionPresets } from "react-navigation-stack";
+import axios from 'axios'
 
 class SigninScreen extends Component {
   componentDidMount() {
@@ -37,11 +41,15 @@ class SigninScreen extends Component {
   };
 
   state = {
-    fullName: "",
     password: "",
     emailAddress: "",
+    message:'',
+    typemsg:''
   };
-
+  msg() {
+      Alert.alert("Welcome", "connected successfully")
+      this.props.navigation.push("navbar")
+  }
   render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
@@ -52,11 +60,31 @@ class SigninScreen extends Component {
             {this.appLogo()}
             {this.emailAddressTextField()}
             {this.passwordTextField()}
+           
             {this.continueButton()}
           </ScrollView>
         </View>
       </SafeAreaView>
     );
+  }
+  handlemsg(message,type='failed'){
+    this.setState({message,type})
+
+  }
+  msg(){
+   
+      this.props.navigation.push("navbar")
+      Alert.alert('welcome','User connected')
+    
+  }
+  handleLogin(email=this.state.email,password=this.state.password){
+   const url='http://192.168.43.184:5000/users/authenticate'
+   axios.post(url,{email:email,password:password}).then((res)=>{
+     const result=res.data
+     const {message,status,data}=result
+   }).catch(err=>{
+     console.log(err.JSON());
+   })
   }
 
   backArrow() {
@@ -74,6 +102,7 @@ class SigninScreen extends Component {
       />
     );
   }
+
 
   emailAddressTextField() {
     return (
@@ -119,7 +148,8 @@ class SigninScreen extends Component {
   continueButton() {
     return (
       <TouchableOpacity
-        onPress={() => this.props.navigation.push("navbar")}
+        onPress={() => this.msg()
+      }
         activeOpacity={0.9}
         style={styles.continueButtonStyle}
       >
@@ -138,6 +168,11 @@ class SigninScreen extends Component {
     );
   }
 }
+ const MsgBox = styled.Text`
+color:red;
+font-size:16px;
+`
+ 
 
 const styles = StyleSheet.create({
   continueButtonStyle: {

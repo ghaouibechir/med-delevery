@@ -1,60 +1,17 @@
 import * as React from "react";
 
-import {
-  SafeAreaView,
-  StatusBar,
-  View,
-  Animated,
-  Text,
-  BackHandler,
-  StyleSheet,
-  TextInput,
-  Dimensions,
-  FlatList,
-  Image,
-  TouchableOpacity,
-} from "react-native";
-import { Colors, Fonts, Sizes } from "../constant/styles";
-import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { SafeAreaView, View, StyleSheet } from "react-native";
+import { Colors, Sizes } from "../constant/styles";
+
 import Footer from "./Footer";
+
+  
 export default function NotificationScreen({ navigation }) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
-      <View
-        style={{
-          backgroundColor: Colors.primaryColor,
-          padding: Sizes.fixPadding,
-          flexDirection: "column",
-        }}
-      >
-        <View style={styles.headerInfoWrapStyle}>
-          <View>
-            <Text style={{ ...Fonts.whiteColor20Medium }}>Ho-Med</Text>
-          </View>
-          <View style={{ flexDirection: "row" }}>
-            <MaterialCommunityIcons
-              name="map-marker-outline"
-              size={27}
-              color={Colors.whiteColor}
-              onPress={() => navigation.navigate("localisation")}
-            />
-            <TouchableOpacity>
-              <MaterialIcons
-                name="shopping-cart"
-                size={26}
-                color={Colors.whiteColor}
-                style={{ marginLeft: Sizes.fixPadding + 10.0 }}
-                onPress={() => navigation.navigate("cart")}
-              />
-              <View style={styles.cartItemCountWrapStyle}>
-                <Text style={{ ...Fonts.whiteColor15Regular }}></Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-      <View style={{ marginTop: 480 }}>
+     
+
+      <View style={{ marginTop: 420, width: 100 }}>
         <Footer />
       </View>
     </SafeAreaView>
