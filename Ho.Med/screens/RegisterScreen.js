@@ -16,6 +16,7 @@ import { withNavigation } from "react-navigation";
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TransitionPresets } from "react-navigation-stack";
+import IntlPhoneInput from 'react-native-intl-phone-input';
 import axios from "axios"
 
 class RegisterScreen extends Component {
@@ -87,13 +88,17 @@ class RegisterScreen extends Component {
 
   phoneNumberTextField() {
     return (
-      <TextInput
-        placeholder="Phone Number "
-        placeholderTextColor={Colors.primaryColor}
-        value={this.state.PhoneNumber}
-        onChangeText={(Number) => this.setState({ PhoneNumber: Number })}
-        selectionColor={Colors.primaryColor}
-        style={styles.textFieldStyle}
+      <IntlPhoneInput
+        onChangeText={({ phoneNumber }) => { this.setState({ phoneNumber: phoneNumber }) }}
+        defaultCountry="TN"
+        containerStyle={styles.textFieldStyle}
+        dialCodeTextStyle={{ ...Fonts.blackColor17Medium, marginLeft: Sizes.fixPadding - 5.0, }}
+        phoneInputStyle={{
+          flex: 1,
+          marginLeft: Sizes.fixPadding,
+          ...Fonts.blackColor17Medium,
+                }}
+        placeholder="PhoneNumber"
       />
     );
   }
@@ -177,7 +182,7 @@ class RegisterScreen extends Component {
   }
   register(){
    console.log(this.state)
-   this.props.navigation.push("login")
+   this.props.navigation.push("verification")
     // var url =' http://localhost:5000/user/register';
     // axios.post(url,).then( () =>{
     //   console.log(('hiiiiiiii'));
