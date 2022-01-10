@@ -89,7 +89,8 @@ export default function Footer() {
             android_ripple={{ borderless: true, radius: 50 }}
           >
             <Icon
-              name="profile" group="basic"
+              name="profile"
+              group="basic"
               height="40"
               width="30"
               color="#10857F"
@@ -97,7 +98,7 @@ export default function Footer() {
             <Text
               style={{
                 alignItems: "center",
-                right: 12,
+                right: 5,
               }}
             >
               Profile
