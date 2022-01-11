@@ -7,12 +7,12 @@ const config = require("../config/database");
 const {user}=require('../database-mongodb/schemas')
 router.post("/register", (req, res, next) => {
     let newUser = new user ({
-        name: req.body.name,
-        email: req.body.email,
+        name: req.body.username,
+        email: req.body.emailAddress,
         username: req.body.username,
         password: req.body.password,
-        phoneNumber: req.body.phoneNumber,
-        address: req.body.adress,
+        phoneNumber: req.body.PhoneNumber,
+        address: req.body.address,
     });
 
     User.addUser(newUser, (err, data)=> {

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import styled from 'styled-components'
 import {
   SafeAreaView,
   StatusBar,
@@ -44,8 +44,12 @@ class RegisterScreen extends Component {
   state = {
     fullName: "",
     password: "",
+    username:'',
     emailAddress: "",
     PhoneNumber:'',
+    typemsg:'',
+    address:'',
+    message:''
 
   };
 
@@ -166,7 +170,9 @@ class RegisterScreen extends Component {
       />
     );
   }
-
+  handlemsg(message,typemsg='FAILED'){
+    this.setState({message,typemsg})
+  }
   registerText() {
     return (
       <Text
@@ -181,18 +187,51 @@ class RegisterScreen extends Component {
     );
   }
   register(){
-   console.log(this.state)
-   this.props.navigation.push("login")
-    // var url =' http://localhost:5000/user/register';
-    // axios.post(url,).then( () =>{
-    //   console.log(('hiiiiiiii'));
+    
+
+      this.handlemsg(null);
+       if(this.state.username =='' || this.state.password=='' || this.state.fullName=='' || 
+       this.state.adress=='' || this.state.PhoneNumber=='' || this.state.emailAddress==''){
+        this.handlemsg("Please fill all the fields")
+       
+      }
+     const url='http://192.168.43.184:5000/users/register',
+     data={
+       username :this.state.username,
+       password:this.state.password,
+       fullName:this.state.fullName,
+       address:this.state.address,
+       PhoneNumber:this.state.PhoneNumber,
+       emailAddress:this.state.emailAddress
+      }
+     axios.post(url,data).then((res)=>{
+       
+       const result=res.data
+       const {success}=result
+      if(success !== true){
+        if(this.state.message !=='Please fill all the fields'){ 
+        this.handlemsg('Invalid credentials entred ')
+      }}else{
+        this.handlemsg(`Welcome To Our Family ✅`,"SUCCESS")
+        setTimeout(() => {
+          this.props.navigation.push("verification")
+        }, 3000);
+      }
+     
+      }).catch(err=>{
+       console.log(err);
+       if(this.state.message !=='Please fill all the fields'){ 
+         this.handlemsg('An error occured .Check your network and try again')
+        }
       
-    // })
+     })
+  
   }
 
   continueButton() {
     return (
       <View>
+         <MsgBox type={this.state.typemsg}>{this.state.message}</MsgBox>
       <TouchableOpacity
         onPress={() =>( 
           this.register()
@@ -218,6 +257,13 @@ class RegisterScreen extends Component {
   }
 }
 
+const MsgBox = styled.Text`
+text-align:center;
+font-size:13px;
+color:${(props)=>(props.type =='SUCCESS' ? 'green' :'red' )};
+margin-bottom:-15px
+margin-top:25px
+`
 const styles = StyleSheet.create({
   continueButtonStyle: {
     alignItems: "center",

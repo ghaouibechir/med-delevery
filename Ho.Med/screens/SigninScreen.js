@@ -70,14 +70,7 @@ class SigninScreen extends Component {
     this.setState({message,typemsg})
 
   }
-  // onSubmit=(username=this.state.username,password=this.state.password)=>{
-  //   if(username =='' || password==''){
-  //     this.handlemsg("Please fill all the fields")
-     
-  //   }else{
-  //     this.handleLogin(username,password)
-  //   }
-  // }
+  
   
   handleLogin(username=this.state.username,password=this.state.password){
 
@@ -90,15 +83,15 @@ class SigninScreen extends Component {
    axios.post(url,{username:username,password:password}).then((res)=>{
      
      const result=res.data
-     const {message,success,data}=result
-     console.log(result)
+     const {success}=result
     if(success !== true){
       if(this.state.message !=='Please fill all the fields'){ 
       this.handlemsg('Invalid credentials entred ')
     }}else{
       this.handlemsg(`Connected ✅`,"SUCCESS")
-      
-      this.props.navigation.push("navbar")
+      setTimeout(() => {
+        this.props.navigation.push("navbar")
+      }, 3000);
     }
    
     }).catch(err=>{

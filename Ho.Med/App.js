@@ -12,6 +12,7 @@ import ReminderScreen from "./screens/Reminder"
 import ProfileScreen from "./screens/Profile"
 import VerificationScreen from "./screens/Verification";
 import AboutScreen from "./screens/About";
+import CameraScreen from "./screens/camera";
 
 const Stack = createNativeStackNavigator();
 

@@ -322,7 +322,8 @@ class CameraScreen extends Component {
                     activeOpacity={0.9}
                     onPress={() => this.state.prescriptionsList.length !== 0
                         ?
-                        this.props.navigation.push('PreviouslyBoughtItems')
+                        // this.props.navigation.push('PreviouslyBoughtItems')
+                        console.log(this.state.prescriptionsList)
                         :
                         null
                     }
