@@ -23,7 +23,6 @@ import Footer from "./Footer";
 import axios from "axios";
 import data from "react-native-ico/src/data";
 
-
 class Navbar extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +35,8 @@ class Navbar extends Component {
   }
   fetchdata = async () => {
     try {
-      let response = await axios.get("http://192.168.43.184:5000/medecine");
+
+      let response = await axios.get("http://192.168.11.27:5000/medecine");
       this.setState({medecine:response.data});
      
     } catch (error) {
@@ -67,7 +67,7 @@ class Navbar extends Component {
                 name="map-marker-outline"
                 size={27}
                 color={Colors.whiteColor}
-                onPress={() => this.props.navigation.push("localisation")}
+                onPress={() => this.props.navigation.push("MyLocation")}
               />
               <TouchableOpacity>
                 <MaterialIcons
