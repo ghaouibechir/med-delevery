@@ -182,7 +182,7 @@ class RegisterScreen extends Component {
   }
   register(){
    console.log(this.state)
-   this.props.navigation.push("verification")
+   this.props.navigation.push("login")
     // var url =' http://localhost:5000/user/register';
     // axios.post(url,).then( () =>{
     //   console.log(('hiiiiiiii'));
@@ -192,6 +192,7 @@ class RegisterScreen extends Component {
 
   continueButton() {
     return (
+      <View>
       <TouchableOpacity
         onPress={() =>( 
           this.register()
@@ -201,6 +202,8 @@ class RegisterScreen extends Component {
       >
         <Text style={{ ...Fonts.whiteColor19Medium }}>Sign Up</Text>
       </TouchableOpacity>
+        <Text style={{marginLeft:80,marginTop:20,marginBottom:40}}> Already have an accout ?<Text style={{color:'blue',textDecorationLine:'underline'}} onPress={()=>this.props.navigation.push("login")} >Sign In</Text></Text>
+      </View>
     );
   }
 

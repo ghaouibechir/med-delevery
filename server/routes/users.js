@@ -41,7 +41,7 @@ router.post("/authenticate", (req, res, next)=>{
                     expiresIn: 604800,
                 });
                 res.json({
-                    succes: true,
+                    success: true,
                     token: token,
                     user: {
                         id: user._id,
