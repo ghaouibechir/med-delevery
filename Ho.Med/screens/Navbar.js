@@ -141,6 +141,7 @@ class Navbar extends Component {
                       <TouchableOpacity
                         style={styles.socialBarButton}
                         onPress={() => this.addProductToCart(item._id)}
+                        
                       >
                         <Image
                           style={styles.icon}
