@@ -1,18 +1,17 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Navbar from "./screens/Navbar";
-import Localisation from "./screens/Localisation";
+import MyLocation from "./screens/Localisation";
 import Cart from "./screens/Cart";
 import RegisterScreen from "./screens/RegisterScreen";
 import Login from "./screens/SigninScreen";
 import LandingPage from "./screens/LandingPage";
-import Footer from "./screens/Footer";
+// import Footer from "./screens/Footer";
 import NotificationScreen from "./screens/Notification";
 import ReminderScreen from "./screens/Reminder"
 import ProfileScreen from "./screens/Profile"
-
+import VerificationScreen from "./screens/Verification";
 import AboutScreen from "./screens/About";
-
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +30,11 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+          name="verification"
+          component={VerificationScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="login"
           component={Login}
           options={{ headerShown: false }}
@@ -41,8 +45,8 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="localisation"
-          component={Localisation}
+          name="MyLocation"
+          component={MyLocation}
           options={{ headerShown: true }}
         />
         <Stack.Screen
@@ -50,29 +54,26 @@ export default function App() {
           component={Cart}
           options={{ headerShown: true }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="Notification"
           component={NotificationScreen}
           options={{ headerShown: false }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="Reminder"
           component={ReminderScreen}
           options={{ headerShown: true }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="About"
           component={AboutScreen}
-          options={{ headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="Profile"
           component={ProfileScreen}
-          options={{ headerShown: false}}
+          options={{ headerShown: false }}
         />
-        
-        
-        
       </Stack.Navigator>
       {/* <Footer/> */}
     </NavigationContainer>

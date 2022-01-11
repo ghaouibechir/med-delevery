@@ -69,10 +69,10 @@ export default function ProfileScreen({ navigation }) {
             </View>
 
             <TouchableOpacity style={styles.buttonContainer}>
-              <Text style={{ fontSize: 26 }}> Flen Ben Foulen</Text>
+              <Text style={{ fontSize: 26 }}> User</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer}>
-              <Text style={{ fontSize: 15 }}> Flen.BenFOulen@gmail.com</Text>
+              <Text style={{ fontSize: 15 }}> user@gmail.com</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonContainer}
@@ -82,14 +82,18 @@ export default function ProfileScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonContainer}
-              onPress={() => navigation.navigate("landingPage")}
+              onPress={() => navigation.navigate("login")}
             >
               <Text style={{ fontSize: 15 }}>Logout</Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
+
       <View style={{ marginTop: 650 }}>
+
+
+
         <Footer />
       </View>
     </SafeAreaView>
