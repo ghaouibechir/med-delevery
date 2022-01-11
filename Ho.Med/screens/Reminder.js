@@ -81,12 +81,14 @@ export default class ReminderScreen extends Component {
               </View>
       
             </TouchableOpacity>
+
                    
             </View>
            
           
             
           )}}/>
+
       </View>
        
       
