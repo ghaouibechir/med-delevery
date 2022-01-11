@@ -35,8 +35,10 @@ class Navbar extends Component {
   }
   fetchdata = async () => {
     try {
-      let response = await axios.get("http://192.168.11.12:5000/medecine");
-      this.setState({ medecine: response.data });
+
+      let response = await axios.get("http://192.168.11.27:5000/medecine");
+      this.setState({medecine:response.data});
+
       console.log(response.data);
     } catch (error) {
       console.log(error);
