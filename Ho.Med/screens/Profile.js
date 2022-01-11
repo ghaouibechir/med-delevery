@@ -93,6 +93,8 @@ export default function ProfileScreen({ navigation }) {
       <View style={{ marginTop: 650 }}>
 
 
+     
+
 
         <Footer />
       </View>
