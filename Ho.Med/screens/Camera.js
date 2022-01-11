@@ -7,12 +7,10 @@ import { TransitionPresets } from "react-navigation-stack";
 import * as ImagePicker from 'expo-image-picker';
 import Dialog from "react-native-dialog";
 import { FlatList } from "react-native-gesture-handler";
-import Footer from "./Footer";
 import axios from "axios"
-
 const { width, height } = Dimensions.get('screen');
 
-class CamerScreen extends Component {
+class CameraScreen extends Component {
 
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButton.bind(this));
@@ -241,7 +239,7 @@ class CamerScreen extends Component {
     pickImageFromCamera = async () => {
         let result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: false
+            allowsEditing: false 
         })
 
         if (!result.cancelled) {
@@ -249,7 +247,9 @@ class CamerScreen extends Component {
             let item = {
                 id: Date.now(),
                 url: result.uri,
+                
             };
+            console.log('jjjjjjjjjjjjjj',result);
             newDataImg.push(item);
             this.setState({ prescriptionsList: newDataImg });
         }
@@ -324,11 +324,9 @@ class CamerScreen extends Component {
                     activeOpacity={0.9}
                     onPress={() => this.state.prescriptionsList.length != 0
                         ?
-                        // console.log("hhhh",this.state.prescriptionsList)
-                        // (console.log("hhhh",this.state.prescriptionsList),
-                        // axios.post(url,{Choufesmhafiscima :this.state.prescriptionsList}))
-                        
-                        this.props.navigation.push('PreviouslyBoughtItems')
+                        // this.props.navigation.push('PreviouslyBoughtItems')
+                        // axios.post(url,esmelpersprectionfischema:this.state.prescriptionsList)
+                        console.log('Prescriptions list:',this.state.prescriptionsList)
                         :
                         null
                     }
@@ -421,9 +419,6 @@ class CamerScreen extends Component {
                         </View>
                     </TouchableOpacity>
                 </View>
-                {/* <View style={{ marginTop: 420, width: 800 }}>
-        <Footer />
-      </View> */}
             </View>
         )
     }
@@ -569,11 +564,11 @@ const styles = StyleSheet.create({
     }
 });
 
-CamerScreen.navigationOptions = () => {
+CameraScreen.navigationOptions = () => {
     return {
         header: () => null,
         ...TransitionPresets.SlideFromRightIOS,
     }
 }
 
-export default withNavigation(CamerScreen);
+export default withNavigation(CameraScreen);
