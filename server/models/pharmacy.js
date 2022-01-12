@@ -11,10 +11,20 @@ module.exports.getPharmacyByEmail = function (email, callback) {
   pharmacy.findOne(query, callback);
 };
 
+//get pharmacy name
+
 module.exports.getPharmacyByUsername = function (username, callback) {
   const query = { username: username };
   pharmacy.findOne(query, callback);
 };
+
+//updatePharmacy Profile
+
+module.exports.getPharmacyByIdAndUpdate = function (id,userdata, callback) {
+  pharmacy.findByIdAndUpdate(id,userdata, callback);
+};
+
+//Add Pharmacy
 
 module.exports.addPharmacy = function (newPharmacy, callback) {
   pharmacy.findOne({ username: newPharmacy.username }, (err, pharmacyy) => {

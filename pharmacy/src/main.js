@@ -30,7 +30,6 @@ import ResetPassword from "@/views/auth/ResetPassword.vue";
 
 // views without layouts
 
-import Profile from "@/views/Profile.vue";
 import Index from "@/views/Index.vue";
 
 // routes
@@ -79,10 +78,6 @@ const routes = [
     ],
   },
 
-  {
-    path: "/profile",
-    component: Profile,
-  },
   {
     path: "/Index",
     component: Index,

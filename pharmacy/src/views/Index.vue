@@ -19,7 +19,7 @@
                     <img
                       alt="..."
                       class="align-middle border-none max-w-full h-auto rounded-lg"
-                      :src="login"
+                      :src="para1"
                     />
                   </div>
                 </router-link>
@@ -88,6 +88,8 @@ import documentation from "@/assets/img/documentation.png";
 import login from "@/assets/img/login.jpg";
 import profile from "@/assets/img/profile.jpg";
 import landing from "@/assets/img/landing.jpg";
+import parapharamcy from "@/assets/img/PARAPHARMACY.jpg";
+import para1 from "@/assets/img/para2.jpg";
 
 export default {
   data() {
@@ -103,6 +105,8 @@ export default {
       login,
       profile,
       landing,
+      parapharamcy,
+      para1,
     };
   },
   components: {

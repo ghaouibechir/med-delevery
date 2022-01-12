@@ -112,5 +112,32 @@ router.post("/resetpassword",(req,res)=>{
 
   })
 
+// router.get(
+//   "/profile",
+//   passport.authenticate("jwt", { session: false }),
+//   (req, res, next) => {
+//     res.json({ pharmacy: req.pharmacy });
+//   }
+// );
+
+router.get("/profile/:id", (req, res) => {
+  Pharmacy.getPharmacyById(req.params.id, (err, data) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(data);
+    }
+  });
+});
+
+router.put("/update/:id", (req, res) => {
+  Pharmacy.getPharmacyByIdAndUpdate(req.params.id, req.body, (err, data) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(data);
+    }
+  });
+});
 
 module.exports = router;
