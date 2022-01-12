@@ -36,13 +36,8 @@ class Navbar extends Component {
   }
   fetchdata = async () => {
     try {
-
       let response = await axios.get("http://192.168.43.216:5000/medecine");
       this.setState({ medecine: response.data });
-
-
-
-
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -146,6 +141,7 @@ class Navbar extends Component {
                       <TouchableOpacity
                         style={styles.socialBarButton}
                         onPress={() => this.addProductToCart(item._id)}
+                        
                       >
                         <Image
                           style={styles.icon}
