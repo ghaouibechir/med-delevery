@@ -53,15 +53,13 @@
               </div>
 
               <div class="text-center mt-6">
-                <router-link to="/Index">
-                  <button
-                    class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                    type="button"
-                    v-on:click="signin()"
-                  >
-                    Sign In
-                  </button>
-                </router-link>
+                <button
+                  class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                  type="button"
+                  v-on:click="signin()"
+                >
+                  Sign In
+                </button>
               </div>
             </form>
           </div>
@@ -98,12 +96,13 @@ export default {
         username: this.username,
         password: this.password,
       };
-      console.log(identity);
+
       axios
         .post("http://localhost:5000/pharmacies/authenticate", identity)
         .then(({ data }) => {
-          console.log("success : ", data);
+          localStorage.setItem("id", data.pharmacy.id);
           this.$router.push("/Index");
+          console.log(localStorage.getItem("id"));
         })
         .catch((err) => {
           console.error(err);
