@@ -25,6 +25,8 @@ import Tables from "@/views/admin/Tables.vue";
 
 import Login from "@/views/auth/Login.vue";
 import Register from "@/views/auth/Register.vue";
+import ForgotPassword from "@/views/auth/ForgotPassword.vue";
+import ResetPassword from "@/views/auth/ResetPassword.vue";
 
 // views without layouts
 
@@ -65,6 +67,14 @@ const routes = [
       {
         path: "/register",
         component: Register,
+      },
+      {
+        path: "/forgotPassword",
+        component: ForgotPassword,
+      },
+      {
+        path: "/reset",
+        component: ResetPassword,
       },
     ],
   },

@@ -5,6 +5,12 @@ const Pharmacy = require("../models/pharmacy");
 const config = require("../config/database");
 const { pharmacy } = require("../database-mongodb/schemas");
 const passport = require("passport");
+const crypto = require("crypto");
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport')
+//const {SENDGRID_API,EMAIL} = require('../config/keys')
+
+
 
 router.post("/register", (req, res, next) => {
   let newPharmacy = new pharmacy({
@@ -62,4 +68,49 @@ router.get(
     res.json({ pharmacy: req.pharmacy });
   }
 );
+
+
+router.post("/resetpassword",(req,res)=>{
+
+  var data = req.body;
+  let token = require("crypto").randomBytes(64).toString("hex")
+  let smpTransport = nodemailer.createTransport({
+    service : 'Gmail',
+    port: 465,
+    auth :{
+      user: 'all.in.one.customer.services@gmail.com',
+      pass : 'Azerty123+'
+    }
+  });
+  let mailOption ={
+    from : 'mo.med.services@gmail.com',
+    to : data.email,
+    subject : 'Reset password instructions',
+    html:`      
+    <h3>Click on the link below to reset your password </h3>
+    <p><a href="http://localhost:8080/reset/${token}">link</a></p>
+    <p>Your password won't change until you access the link above and create a new one.</p>`
+  };
+  smpTransport.sendMail(mailOption,(err, response) =>{
+    if(err){
+      res.send('errorrrrr')
+    }else{
+      res.send('success')
+    }
+  })
+  smpTransport.close()
+
+ 
+   
+  })
+  router.post('/ChangePassword', (req, res) =>{
+    
+    console.log(req.params)
+
+
+
+
+  })
+
+
 module.exports = router;

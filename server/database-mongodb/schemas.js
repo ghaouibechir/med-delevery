@@ -53,6 +53,8 @@ const pharmacySchema = new mongoose.Schema({
       type: String,
       required: true,
   },
+  resetToken:String,
+  expireToken:Date,
   location:{type :String },
   connected:{ type: Boolean, default: false },
   banned:{ type: Boolean, default: false }

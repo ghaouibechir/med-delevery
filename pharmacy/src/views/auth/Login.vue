@@ -53,7 +53,6 @@
               </div>
 
               <div class="text-center mt-6">
-                <router-link to="/Index">
                   <button
                     class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                     type="button"
@@ -61,21 +60,20 @@
                   >
                     Sign In
                   </button>
-                </router-link>
               </div>
             </form>
           </div>
         </div>
         <div class="flex flex-wrap mt-6 relative">
-          <div class="w-1/2">
-            <a href="javascript:void(0)" class="text-blueGray-200">
-              <small>Forgot password?</small>
-            </a>
+          <div class="w-1/2" style="cursor:pointer">
+          <router-link to="/forgotPassword">
+            <small class="text-blueGray-200">Forgot password</small>
+          </router-link>
           </div>
           <div class="w-1/2 text-right">
-            <router-link to="/register" class="text-blueGray-200">
+         
               <small>Create new account</small>
-            </router-link>
+            
           </div>
         </div>
       </div>
@@ -90,6 +88,7 @@ export default {
     return {
       username: "",
       password: "",
+      
     };
   },
   methods: {
@@ -110,6 +109,7 @@ export default {
           alert("request failed");
         });
     },
+    
   },
 };
 </script>
