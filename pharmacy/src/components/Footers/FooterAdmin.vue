@@ -14,7 +14,7 @@
               href="https://www.creative-tim.com?ref=vn-footer-admin"
               class="text-blueGray-500 hover:text-blueGray-700 text-sm font-semibold py-1"
             >
-              Creative Tim
+              Ho.Med
             </a>
           </div>
         </div>
@@ -25,7 +25,7 @@
                 href="https://www.creative-tim.com?ref=vn-footer-admin"
                 class="text-blueGray-600 hover:text-blueGray-800 text-sm font-semibold block py-1 px-3"
               >
-                Creative Tim
+                Ho.Med
               </a>
             </li>
             <li>
@@ -42,14 +42,6 @@
                 class="text-blueGray-600 hover:text-blueGray-800 text-sm font-semibold block py-1 px-3"
               >
                 Blog
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://github.com/creativetimofficial/vue-notus/blob/main/LICENSE.md?ref=vn-footer-admin"
-                class="text-blueGray-600 hover:text-blueGray-800 text-sm font-semibold block py-1 px-3"
-              >
-                MIT License
               </a>
             </li>
           </ul>

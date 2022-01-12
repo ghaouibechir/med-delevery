@@ -62,7 +62,7 @@ export default function App() {
         <Stack.Screen
           name="Reminder"
           component={ReminderScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="About"
