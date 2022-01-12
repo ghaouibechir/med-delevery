@@ -13,6 +13,7 @@ router.post("/register", (req, res, next) => {
         password: req.body.password,
         phoneNumber: req.body.PhoneNumber,
         address: req.body.address,
+        connected:true
     });
 
     User.addUser(newUser, (err, data)=> {

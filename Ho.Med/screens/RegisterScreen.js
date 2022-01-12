@@ -46,7 +46,7 @@ class RegisterScreen extends Component {
     password: "",
     username:'',
     emailAddress: "",
-    PhoneNumber:'',
+    PhoneNumber:0,
     typemsg:'',
     address:'',
     message:''
@@ -93,7 +93,7 @@ class RegisterScreen extends Component {
   phoneNumberTextField() {
     return (
       <IntlPhoneInput
-        onChangeText={({ phoneNumber }) => { this.setState({ phoneNumber: phoneNumber }) }}
+        onChangeText={( text ) => { this.setState({ PhoneNumber: text }) }}
         defaultCountry="TN"
         containerStyle={styles.textFieldStyle}
         dialCodeTextStyle={{ ...Fonts.blackColor17Medium, marginLeft: Sizes.fixPadding - 5.0, }}
@@ -111,7 +111,6 @@ class RegisterScreen extends Component {
     return (
       <TextInput
         placeholder="Email Address"
-        placeholderTextColor={Colors.primaryColor}
         value={this.state.emailAddress}
         onChangeText={(text) => this.setState({ emailAddress: text })}
         selectionColor={Colors.primaryColor}
@@ -124,7 +123,6 @@ class RegisterScreen extends Component {
     return (
       <TextInput
         placeholder="Password"
-        placeholderTextColor={Colors.primaryColor}
         value={this.state.password}
         onChangeText={(text) => this.setState({ password: text })}
         secureTextEntry={true}
@@ -138,7 +136,6 @@ class RegisterScreen extends Component {
     return (
       <TextInput
         placeholder="Full Name"
-        placeholderTextColor={Colors.primaryColor}
         value={this.state.fullName}
         onChangeText={(text) => this.setState({ fullName: text })}
         selectionColor={Colors.primaryColor}
@@ -150,7 +147,6 @@ class RegisterScreen extends Component {
     return (
       <TextInput
         placeholder="username"
-        placeholderTextColor={Colors.primaryColor}
         value={this.state.username}
         onChangeText={(text) => this.setState({ username: text })}
         selectionColor={Colors.primaryColor}
@@ -162,7 +158,6 @@ class RegisterScreen extends Component {
     return (
       <TextInput
         placeholder="address"
-        placeholderTextColor={Colors.primaryColor}
         value={this.state.address}
         onChangeText={(text) => this.setState({ address: text })}
         selectionColor={Colors.primaryColor}
@@ -171,7 +166,7 @@ class RegisterScreen extends Component {
     );
   }
   handlemsg(message,typemsg='FAILED'){
-    this.setState({message,typemsg})
+    this.setState({message:message,typemsg:typemsg})
   }
   registerText() {
     return (
@@ -187,11 +182,10 @@ class RegisterScreen extends Component {
     );
   }
   register(){
-    
-
-      this.handlemsg(null);
+ console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaa',this.state.message);
+      this.handlemsg('','FAILED');
        if(this.state.username =='' || this.state.password=='' || this.state.fullName=='' || 
-       this.state.adress=='' || this.state.PhoneNumber=='' || this.state.emailAddress==''){
+       this.state.address=='' || this.state.PhoneNumber=='' || this.state.emailAddress==''){
         this.handlemsg("Please fill all the fields")
        
       }
@@ -201,34 +195,41 @@ class RegisterScreen extends Component {
        password:this.state.password,
        fullName:this.state.fullName,
        address:this.state.address,
-       PhoneNumber:this.state.PhoneNumber,
-       emailAddress:this.state.emailAddress
+       PhoneNumber:this.state.PhoneNumber.phoneNumber,
+       emailAddress:this.state.emailAddress,
+       connected:true
       }
-     axios.post(url,data).then((res)=>{
-       
-       const result=res.data
-       const {success}=result
-      if(success !== true){
-        if(this.state.message !=='Please fill all the fields'){ 
-        this.handlemsg('Invalid credentials entred ')
-      }}else{
-        this.handlemsg(`Welcome To Our Family ✅`,"SUCCESS")
-        setTimeout(() => {
-          this.props.navigation.push("verification")
-        }, 3000);
-      }
-     
-      }).catch(err=>{
-       console.log(err);
-       if(this.state.message !=='Please fill all the fields'){ 
-         this.handlemsg('An error occured .Check your network and try again')
-        }
       
-     })
-  
-  }
-
-  continueButton() {
+      console.log('bbbbbbbbbbbbbbbbbbbbbb',this.state.message,'ccccccccccccccc',data);
+      if(this.state.message !=='Please fill all the fields'){ 
+        axios.post(url,data).then((res)=>{
+          
+          const result=res.data
+          const {success,msg}=result
+          console.log(result);
+          if(success !== true){
+            if(this.state.message !=='Please fill all the fields'){ 
+              this.handlemsg(msg)
+            }}else{
+              if(this.state.message !=='Please fill all the fields'){
+                this.handlemsg(`Welcome To Our Family ✅`,"SUCCESS")
+                setTimeout(() => {
+                  this.props.navigation.push("verification")
+                }, 2000);
+              }
+            }
+          }).catch(err=>{
+            console.log(err);
+            if(this.state.message !=='Please fill all the fields'){ 
+              this.handlemsg('An error occured .Check your network and try again')
+            }
+            
+          })
+          
+        }
+        }
+        
+        continueButton() {
     return (
       <View>
          <MsgBox type={this.state.typemsg}>{this.state.message}</MsgBox>

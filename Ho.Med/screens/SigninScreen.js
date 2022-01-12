@@ -91,7 +91,7 @@ class SigninScreen extends Component {
       this.handlemsg(`Connected ✅`,"SUCCESS")
       setTimeout(() => {
         this.props.navigation.push("navbar")
-      }, 3000);
+      }, 1500);
     }
    
     }).catch(err=>{
@@ -124,7 +124,6 @@ class SigninScreen extends Component {
     return (
       <TextInput
         placeholder="userName"
-        placeholderTextColor={Colors.primaryColor}
         value={this.state.username}
         onChangeText={(text) => this.setState({ username: text })}
         selectionColor={Colors.primaryColor}
@@ -137,7 +136,6 @@ class SigninScreen extends Component {
     return (
       <TextInput
         placeholder="Password"
-        placeholderTextColor={Colors.primaryColor}
         value={this.state.password}
         onChangeText={(text) => this.setState({ password: text })}
         secureTextEntry={true}
