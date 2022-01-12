@@ -11,6 +11,7 @@ import {
   SafeAreaView,
   StatusBar,
   TextInput,
+  Button,
   Animated,
   BackHandler,
   Dimensions,
@@ -35,10 +36,8 @@ class Navbar extends Component {
   }
   fetchdata = async () => {
     try {
-
-      let response = await axios.get("http://192.168.11.27:5000/medecine");
-      this.setState({medecine:response.data});
-
+      let response = await axios.get("http://192.168.43.216:5000/medecine");
+      this.setState({ medecine: response.data });
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -103,6 +102,13 @@ class Navbar extends Component {
             />
           </TouchableOpacity>
         </View>
+        <View>
+        
+          <Button style={styles.bat} title="Prescription" 
+           onPress={() => this.props.navigation.push("Camera")}
+          
+          />
+        </View>
 
         <FlatList
           style={styles.list}
@@ -135,6 +141,7 @@ class Navbar extends Component {
                       <TouchableOpacity
                         style={styles.socialBarButton}
                         onPress={() => this.addProductToCart(item._id)}
+                        
                       >
                         <Image
                           style={styles.icon}
@@ -277,6 +284,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+  },
+  bat: {
+    color: "#10857F",
   },
 });
 Navbar.navigationOptions = () => {
