@@ -72,7 +72,7 @@
                   class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                   htmlFor="grid-password"
                 >
-                  Phone Numbr
+                  Phone Number
                 </label>
                 <input
                   type="text"

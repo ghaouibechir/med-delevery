@@ -11,6 +11,7 @@ import {
   SafeAreaView,
   StatusBar,
   TextInput,
+  Button,
   Animated,
   BackHandler,
   Dimensions,
@@ -102,6 +103,13 @@ class Navbar extends Component {
             />
           </TouchableOpacity>
         </View>
+        <View>
+        
+          <Button style={styles.bat} title="Prescription" 
+           onPress={() => this.props.navigation.push("Camera")}
+          
+          />
+        </View>
 
         <FlatList
           style={styles.list}
@@ -134,6 +142,7 @@ class Navbar extends Component {
                       <TouchableOpacity
                         style={styles.socialBarButton}
                         onPress={() => this.addProductToCart(item._id)}
+                        
                       >
                         <Image
                           style={styles.icon}
@@ -276,6 +285,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+  },
+  bat: {
+    color: "#10857F",
   },
 });
 Navbar.navigationOptions = () => {

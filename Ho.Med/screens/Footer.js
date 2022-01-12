@@ -111,13 +111,8 @@ export default function Footer() {
 }
 const styles = StyleSheet.create({
   NavContainer: {
-
-   
-    
-
     width: 410,
     height: 60,
-
 
   },
   NavBar: {
