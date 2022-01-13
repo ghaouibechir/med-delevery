@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const { pharmacy } = require("../database-mongodb/schemas");
 
+
 module.exports.getPharmacyById = function (id, callback) {
   const query = { _id: id };
   pharmacy.findOne(query, callback);
@@ -48,9 +49,12 @@ module.exports.addPharmacy = function (newPharmacy, callback) {
   });
 };
 
+
 module.exports.comparePassword = function (candidatePassword, hash, callback) {
   bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
     if (err) throw err;
     callback(null, isMatch);
   });
-};
+}
+
+

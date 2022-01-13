@@ -49,6 +49,7 @@
 
 <script>
 import axios from "axios";
+
 export default{
     data: function () {
         return {
@@ -58,17 +59,20 @@ export default{
 
         }
     },
+    created:function(){
+     this.id=this.$route.params.hash_link
+    },
     methods:{
-
      match: function () {
         return this.password === this.confirmedpassword;
     },
+    
       Change :function(){
          
       if (this.match){
          let data={ newPaswword : this.newPassword , id:this.id }
          console.log(data)
-       axios.post('http://localhost:5000/pharmacies/ChangePassword', data)
+       axios.post('http://localhost:5000/pharmacies/changePassword', data)
         .then((response)=>{
             console.log(response);
         })
@@ -80,6 +84,6 @@ export default{
         }
 
     }
-    
+  
 }
 </script>

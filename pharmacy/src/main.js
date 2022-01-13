@@ -72,7 +72,7 @@ const routes = [
         component: ForgotPassword,
       },
       {
-        path: "/reset",
+        path: "/reset/:hash_link",
         component: ResetPassword,
       },
     ],

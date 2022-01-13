@@ -25,13 +25,13 @@
                 />
               </div>
               <div class="text-center mt-3">
-                  <button
-                    class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                    type="button"
-                    v-on:click="resetPassword($event)"
-                  >
-                    Reset
-                  </button>
+                <button
+                  class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                  type="button"
+                  v-on:click="resetPassword($event)"
+                >
+                  Reset
+                </button>
               </div>
             </form>
           </div>
@@ -44,30 +44,26 @@
 import axios from "axios";
 
 export default {
-    data: function(){
-      return{
-        mail:"",
-        sent:""
-     }
-       
+  data: function () {
+    return {
+      mail: "",
+      sent: "",
+    };
+  },
+  methods: {
+    resetPassword: function (event) {
+      var email = { email: this.mail };
+      console.log(email);
+      axios
+        .post("http://localhost:5000/pharmacies/resetpassword", email)
+        .then((res) => {
+          console.log("works");
+          console.log(res);
+          event.target.hidden = true;
+          this.sent =
+            "Check your email and click on the link to set a new password";
+        });
     },
-    methods:{
-      resetPassword:function(event){
-      var email={ email:this.mail}
-      console.log(email)
-      axios.post("http://localhost:5000/pharmacies/resetpassword",email)
-      .then((res)=>{
-        console.log("works");
-        console.log(res);
-        event.target.hidden = true;
-        this.sent="Check your email and click on the link to set a new password"
-      })
-    }
-    
-    }
-    
-    
-    
-}
+  },
+};
 </script>
-
