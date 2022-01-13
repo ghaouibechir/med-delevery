@@ -15,21 +15,48 @@
                 <div class="product-detail-container p-2">
                   <div
                     class="d-flex justify-content-between align-items-center"
+                    v-if="view && currentEdit !== item._id"
                   >
                     <h5 class="dress-name">{{ item.name }}</h5>
                     <div class="d-flex flex-column mb-2">
                       <span class="new-price">{{ item.price }}</span>
                       <small class="old-price text-right">00TND</small>
                     </div>
+                    <div
+                      class="d-flex justify-content-between align-items-center pt-1"
+                    >
+                      <button class="buy" v-on:click="changeView(item._id)">
+                        Edit
+                      </button>
+                    </div>
                   </div>
+
                   <div
-                    class="d-flex justify-content-between align-items-center pt-1"
-                  ></div>
-                  <div
-                    class="d-flex justify-content-between align-items-center pt-1"
+                    class="d-flex justify-content-between align-items-center"
+                    v-if="currentEdit === item._id"
                   >
-                    <button class="buy">Edit</button>
+                    <input
+                      class="dress-name"
+                      :placeholder="item.name"
+                      v-model="name"
+                    />
+                    <div class="d-flex flex-column mb-2">
+                      <input
+                        class="new-price"
+                        :placeholder="item.price"
+                        v-model="price"
+                      />
+                      <small class="old-price text-right">00TND</small>
+                    </div>
+                    <div
+                      class="d-flex justify-content-between align-items-center pt-1"
+                    >
+                      <button class="buy" v-on:click="update(item._id)">
+                        Edit
+                      </button>
+                    </div>
                   </div>
+
                   <div
                     class="d-flex justify-content-between align-items-center pt-1"
                   >
@@ -127,6 +154,8 @@ export default {
       name: "",
       price: "",
       img: "",
+      view: true,
+      currentEdit: "",
     };
   },
   methods: {
@@ -164,6 +193,25 @@ export default {
       axios
         .delete(`http://localhost:5000/pharmacies/delete/${id}`)
         .then(() => {
+          this.$router.go();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    changeView: function (id) {
+      this.currentEdit = id;
+    },
+    update: function (id) {
+      var itemData = {
+        name: this.name,
+        price: this.price,
+        img: this.img,
+      };
+      axios
+        .put(`http://localhost:5000/pharmacies/updatePara/${id}`, itemData)
+        .then(({ data }) => {
+          console.log("response from server:", data);
           this.$router.go();
         })
         .catch((err) => {
