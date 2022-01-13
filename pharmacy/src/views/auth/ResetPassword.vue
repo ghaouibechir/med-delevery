@@ -73,8 +73,10 @@ export default{
          let data={ newPaswword : this.newPassword , id:this.id }
          console.log(data)
        axios.post('http://localhost:5000/pharmacies/changePassword', data)
-        .then((response)=>{
-            console.log(response);
+        .then(({data})=>{
+            console.log(data);
+          this.$router.push("/login");
+
         })
         .catch((err)=>{
             console.error(err)

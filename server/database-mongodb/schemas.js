@@ -69,7 +69,8 @@ const orderSchema = new mongoose.Schema({
  totalPrice:{type:Number},
  prescription:{type:String,default:''},
  response:{type:String,default:''},
- confirmation:{type:Boolean,default:false}
+ confirmation:{type:Boolean,default:false},
+ createdAt: {type: Date, immutable: true,  default: () => Date.now() }
  
 });
 

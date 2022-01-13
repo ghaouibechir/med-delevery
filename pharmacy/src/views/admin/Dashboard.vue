@@ -21,12 +21,28 @@
 <script>
 import CardLineChart from "@/components/Cards/CardLineChart.vue";
 import CardBarChart from "@/components/Cards/CardBarChart.vue";
-
+import axios from "axios";
 export default {
   name: "dashboard-page",
   components: {
     CardLineChart,
     CardBarChart,
   },
+  data:function (){
+    return {
+    id:'',
+
+    }
+  },
+  created:function(){
+    let y = localStorage.getItem('session')
+    this.id = JSON.parse(y).username
+    console.log(this.id);
+   axios.get(`http://localhost:5000/getOrders/${this.id}`)
+   .then((res)=>{
+     console.log(res);
+   })
+   
+  }
 };
 </script>

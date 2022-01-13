@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const Pharmacy = require("../models/pharmacy");
 const config = require("../config/database");
-const { pharmacy , resetpasswords } = require("../database-mongodb/schemas");
+const { pharmacy , resetpasswords, order } = require("../database-mongodb/schemas");
 const passport = require("passport");
 const crypto = require("crypto");
 const nodemailer = require('nodemailer');
@@ -117,7 +117,12 @@ router.post("/resetpassword",(req,res)=>{
    
   })
   
-
+  router.get(`/getOrders/${this._id}`,async(req,res)=>{
+    console.log(req.params)
+    //let id=req.params
+      //var orders = await order.find({owner : id})
+      // res.send(orders)
+  })
  
    
 
