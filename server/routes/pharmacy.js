@@ -83,7 +83,7 @@ router.get("/para/:id", (req, res) => {
 
 //delete Para
 router.delete("/delete/:id",(req,res)=>{
-  Pharmacy.findOneAndRemove({_id:req.params.id})
+  para.findByIdAndRemove({_id:req.params.id})
   .then((removed_product)=>{
     res.send(removed_product)
   })
@@ -110,6 +110,8 @@ router.get("/profile/:id", (req, res) => {
     }
   });
 });
+
+//profile update
 
 router.put("/update/:id", (req, res) => {
   Pharmacy.getPharmacyByIdAndUpdate(req.params.id, req.body, (err, data) => {

@@ -29,18 +29,16 @@
                     class="d-flex justify-content-between align-items-center pt-1"
                   >
                     <button class="buy">Edit</button>
-                    
                   </div>
-                    <div
+                  <div
                     class="d-flex justify-content-between align-items-center pt-1"
                   >
-                    <button class="remove">Remove</button>
-                    
+                    <button class="remove" v-on:click="remove(item._id)">
+                      Remove
+                    </button>
                   </div>
-                  
                 </div>
-        
-            </div>
+              </div>
             </div>
           </div>
         </div>
@@ -121,57 +119,62 @@
   </table>
 </template>
 <script>
-import axios from 'axios';
+import axios from "axios";
 export default {
-  data:function() {
+  data: function () {
     return {
-      items:[],
-      name:'',
-      price:'',
-      img:'',
+      items: [],
+      name: "",
+      price: "",
+      img: "",
     };
-    
-    
   },
-  methods:{
-    add:function(){
-      var item ={
-        name:this.name,
-        price:this.price,
-        img:this.img,
-        pharmacyId:localStorage.getItem('id')
+  methods: {
+    add: function () {
+      var item = {
+        name: this.name,
+        price: this.price,
+        img: this.img,
+        pharmacyId: localStorage.getItem("id"),
+      };
 
-      }
-     
-      axios.post("http://localhost:5000/pharmacies/para",item)
-      .then(()=>{
-        this.getPara();
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
+      axios
+        .post("http://localhost:5000/pharmacies/para", item)
+        .then(() => {
+          this.getPara();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
-    getPara:function(){
-    
-      var id=localStorage.getItem("id")
-      axios.get(`http://localhost:5000/pharmacies/para/${id}`)
-      .then(({data})=>{
-        this.items=data
-        console.log('aaaaaaaaaaaa',this.items);
+    getPara: function () {
+      var id = localStorage.getItem("id");
 
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
+      axios
+        .get(`http://localhost:5000/pharmacies/para/${id}`)
+        .then(({ data }) => {
+          this.items = data;
+          console.log("aaaaaaaaaaaa", this.items);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    remove: function (id) {
+      axios
+        .delete(`http://localhost:5000/pharmacies/delete/${id}`)
+        .then(() => {
+          this.$router.go();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
-   created: function () {
-    
-    this.getPara()
-
+  created: function () {
+    this.getPara();
   },
 };
-
 </script>
 
 <style scoped>
@@ -194,7 +197,6 @@ body {
 
 .image-container {
   position: relative;
-  
 }
 
 .thumbnail-image {
@@ -347,8 +349,6 @@ body {
   justify-content: center;
 }
 
-
-
 .rating-number {
   font-size: 10px;
   color: grey;
@@ -358,16 +358,15 @@ body {
   font-size: 12px;
   font-weight: 500;
   color: #eee;
-  background:rgb(37, 49, 65);
+  background: rgb(37, 49, 65);
   border-radius: 5px;
   width: 50px;
-  
 }
-.remove{
+.remove {
   font-size: 12px;
   font-weight: 500;
   color: #eee;
-  background:rgb(209, 26, 26);
+  background: rgb(209, 26, 26);
   border-radius: 5px;
   width: 50px;
 }
