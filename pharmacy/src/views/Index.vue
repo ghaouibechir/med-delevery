@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <index-navbar /> -->
     <section
       class="header relative pt-16 items-center flex h-screen max-h-860-px"
     >
@@ -12,7 +11,7 @@
                 <h5 class="text-xl font-semibold pb-4 text-center">
                   Paramedical
                 </h5>
-                <router-link to="/admin/dashboard">
+                <router-link to="/admin/paramedical">
                   <div
                     class="hover:-mt-4 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150"
                   >

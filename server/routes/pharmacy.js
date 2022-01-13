@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const Pharmacy = require("../models/pharmacy");
 const config = require("../config/database");
-const { pharmacy } = require("../database-mongodb/schemas");
+const { pharmacy, para } = require("../database-mongodb/schemas");
 const passport = require("passport");
 
 router.post("/register", (req, res, next) => {
@@ -46,7 +46,7 @@ router.post("/authenticate", (req, res, next) => {
             name: pharmacy.name,
             username: pharmacy.username,
             email: pharmacy.email,
-          },
+          }, 
         });
       } else {
         return res.json({ success: false, msg: "Wrong password" });
@@ -54,6 +54,44 @@ router.post("/authenticate", (req, res, next) => {
     });
   });
 });
+
+// add Para
+router.post("/para",(req,res)=>{
+  console.log(req.body);
+para.create(req.body,(err,paraData)=>{
+   if(err){
+      console.log(err);
+    }else{
+      res.send(paraData)
+    }
+  })
+}
+)
+router.get("/para/:id", (req, res) => {
+  console.log(req.params.id);
+  para.find({pharmacyId:req.params.id}, (err, data) => {
+    if (err) {
+      res.send(err);
+    } else {
+      console.log(data);
+      res.send(data);
+    }
+  });
+});
+
+
+
+//delete Para
+router.delete("/delete/:id",(req,res)=>{
+  Pharmacy.findOneAndRemove({_id:req.params.id})
+  .then((removed_product)=>{
+    res.send(removed_product)
+  })
+  .catch((err)=>{
+    res.send(err)
+  })
+})
+
 
 // router.get(
 //   "/profile",
@@ -64,11 +102,11 @@ router.post("/authenticate", (req, res, next) => {
 // );
 
 router.get("/profile/:id", (req, res) => {
-  Pharmacy.getPharmacyById(req.params.id, (err, data) => {
+  Pharmacy.getPharmacyById(req.params.id, (err, paraData) => {
     if (err) {
       res.send(err);
     } else {
-      res.send(data);
+      res.send(paraData);
     }
   });
 });
