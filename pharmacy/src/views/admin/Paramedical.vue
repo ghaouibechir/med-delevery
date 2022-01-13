@@ -15,10 +15,21 @@
                 <div class="product-detail-container p-2">
                   <div
                     class="d-flex justify-content-between align-items-center"
+                    v-if="view"
                   >
                     <h5 class="dress-name">{{ item.name }}</h5>
                     <div class="d-flex flex-column mb-2">
                       <span class="new-price">{{ item.price }}</span>
+                      <small class="old-price text-right">00TND</small>
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                    v-if="!view"
+                  >
+                    <input class="dress-name" :placeholder="item.name" />
+                    <div class="d-flex flex-column mb-2">
+                      <input class="new-price" :placeholder="item.price" />
                       <small class="old-price text-right">00TND</small>
                     </div>
                   </div>
@@ -28,7 +39,7 @@
                   <div
                     class="d-flex justify-content-between align-items-center pt-1"
                   >
-                    <button class="buy">Edit</button>
+                    <button class="buy" v-on:click="changeView()">Edit</button>
                   </div>
                   <div
                     class="d-flex justify-content-between align-items-center pt-1"
@@ -127,6 +138,7 @@ export default {
       name: "",
       price: "",
       img: "",
+      view: true,
     };
   },
   methods: {
@@ -170,6 +182,20 @@ export default {
           console.log(err);
         });
     },
+    changeView: function () {
+      this.view = !this.view;
+    },
+    // update: function (id) {
+    //   var itemData = {
+    //     name: this.name,
+    //     price: this.price,
+    //     img: this.img,
+    //   }
+    //   axios
+    // .put(`http://localhost:5000/pharmacies/update/${_id}`,ite)
+    // },
+    
+    
   },
   created: function () {
     this.getPara();
