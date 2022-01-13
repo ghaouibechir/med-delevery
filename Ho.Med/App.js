@@ -10,8 +10,10 @@ import LandingPage from "./screens/LandingPage";
 import NotificationScreen from "./screens/Notification";
 import ReminderScreen from "./screens/Reminder"
 import ProfileScreen from "./screens/Profile"
+import CameraScreen from "./screens/Camera"
 import VerificationScreen from "./screens/Verification";
 import AboutScreen from "./screens/About";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -57,7 +59,7 @@ export default function App() {
         <Stack.Screen
           name="Notification"
           component={NotificationScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: true }}
         />
         <Stack.Screen
           name="Reminder"
@@ -72,10 +74,18 @@ export default function App() {
         <Stack.Screen
           name="Profile"
           component={ProfileScreen}
-          options={{ headerShown: false }}
+          options={{ headerShown: true }}
         />
+         <Stack.Screen
+          name="Camera"
+          component={CameraScreen}
+          options={{ headerShown: true}}
+        />
+        
+        
+        
       </Stack.Navigator>
-      {/* <Footer/> */}
+      {/* <Footer/> */} 
     </NavigationContainer>
   );
 }

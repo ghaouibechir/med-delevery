@@ -61,7 +61,7 @@ export default function Footer() {
 
           <Pressable
             style={styles.IconBehave}
-            onPress={() => navigation.navigate("Notification")}
+            onPress={() => navigation.navigate("camera")}
             android_ripple={{ borderless: true, radius: 50 }}
           >
             <Icon
@@ -111,13 +111,8 @@ export default function Footer() {
 }
 const styles = StyleSheet.create({
   NavContainer: {
-
-   
-    
-
     width: 410,
     height: 60,
-
 
   },
   NavBar: {
