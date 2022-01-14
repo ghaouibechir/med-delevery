@@ -1,4 +1,4 @@
-const { event, user, medecine } = require("./database-mongodb/schemas");
+const { event, user, medecine, order } = require("./database-mongodb/schemas");
 
 var express = require("express");
 var app = express();
@@ -7,6 +7,7 @@ var port = process.env.PORT || 5000;
 var cors = require("cors");
 const users = require("./routes/users");
 const pharmacy = require("./routes/pharmacy");
+const orders = require("./routes/orders");
 
 require("./config/passport")(passport);
 
@@ -27,6 +28,7 @@ app.get("/medecine", async (req, res) => {
 
 app.use("/users", users);
 app.use("/pharmacies", pharmacy);
+app.use("/orders", orders);
 
 app.listen(process.env.PORT || port, () => {
   console.log(`Express server listening on  ${port}`);
