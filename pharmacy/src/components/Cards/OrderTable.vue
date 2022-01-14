@@ -10,7 +10,7 @@
             class="font-semibold text-lg"
             :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']"
           >
-            Coming Orders
+            Current Orders
           </h3>
         </div>
       </div>
@@ -38,7 +38,7 @@
                   : 'bg-emerald-800 text-emerald-300 border-emerald-700',
               ]"
             >
-              Total Price
+              Budget
             </th>
             <th
               class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -58,9 +58,18 @@
                   : 'bg-emerald-800 text-emerald-300 border-emerald-700',
               ]"
             >
-              User
+              Users
             </th>
-
+            <th
+              class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+              :class="[
+                color === 'light'
+                  ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+              ]"
+            >
+              Completion
+            </th>
             <th
               class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
               :class="[
@@ -87,7 +96,7 @@
                   color === 'light' ? 'text-blueGray-600' : 'text-white',
                 ]"
               >
-                username
+                Argon Design System
               </span>
             </th>
             <td
@@ -105,7 +114,22 @@
             >
               <div class="flex">
                 <img
+                  :src="team1"
+                  alt="..."
+                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
+                />
+                <img
+                  :src="team2"
+                  alt="..."
+                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
+                />
+                <img
                   :src="team3"
+                  alt="..."
+                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
+                />
+                <img
+                  :src="team4"
                   alt="..."
                   class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
                 />
@@ -115,13 +139,17 @@
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
               <div class="flex items-center">
-                <button class="yes">
-                  <i class="fas fa-check"></i>
-                </button>
-
-                <button class="no">
-                  <i class="fas fa-times"></i>
-                </button>
+                <span class="mr-2">60%</span>
+                <div class="relative w-full">
+                  <div
+                    class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
+                  >
+                    <div
+                      style="width: 60%"
+                      class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
+                    ></div>
+                  </div>
+                </div>
               </div>
             </td>
             <td
@@ -171,14 +199,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.yes {
-  width: 20px;
-  color: darkcyan;
-}
-.no {
-  margin-left: 30px;
-  width: 20px;
-  color: crimson;
-}
-</style>

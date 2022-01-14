@@ -4,16 +4,18 @@
       <card-table />
     </div>
     <div class="w-full mb-12 px-4">
-      <card-table color="dark" />
+      <orderTable color="dark" />
     </div>
   </div>
 </template>
 <script>
 import CardTable from "@/components/Cards/CardTable.vue";
+import OrderTable from "@/components/Cards/OrderTable.vue";
 
 export default {
   components: {
     CardTable,
+    OrderTable,
   },
 };
 </script>
