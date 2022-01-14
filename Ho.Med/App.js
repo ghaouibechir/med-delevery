@@ -2,7 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import MyLocation from './screens/Localisation';
 import * as Font from 'expo-font';
 import Navbar from "./screens/Navbar";
 import Localisation from "./screens/Localisation";

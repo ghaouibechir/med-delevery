@@ -20,8 +20,19 @@ import { TransitionPresets } from "react-navigation-stack";
 import axios from "axios";
 
 class VerificationScreen extends Component {
+    constructor(props){
+      super(props)
+       this.state = {
+            isLoading: false,
+            firstDigit: '',
+            secondDigit: '',
+            thirdDigit: '',
+            forthDigit: '',
+        }
+    }
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButton.bind(this));
+        console.log('88888888888888888',this.props.route.params);
     }
 
     componentWillUnmount() {
@@ -33,17 +44,6 @@ class VerificationScreen extends Component {
         return true;
     };
 
-    state = {
-        isLoading: false,
-        firstDigit: '',
-        secondDigit: '',
-        thirdDigit: '',
-        forthDigit: '',
-        verifNum1 : '',
-        verifNum2 : '',
-        verifNum3 : '',
-        verifNum4 : '',
-    }
 
     render() {
         return (
@@ -63,21 +63,9 @@ class VerificationScreen extends Component {
             </SafeAreaView >
         )
     }
-    componentDidMount(){
-        this.getVerificationNumber()
-    }
 
-    getVerificationNumber = async () => {
-        try {
-          let response = await axios.get("http://192.168.11.63:5000/");
-          this.setState({verifNum1 :response.data.num1});
-          this.setState({verifNum2 :response.data.num2});
-          this.setState({verifNum3 :response.data.num3});
-          this.setState({verifNum4 :response.data.num4});
-        } catch (error) {
-          console.log(error);
-        }
-      };
+
+
 
     loading() {
         return (
@@ -105,11 +93,12 @@ class VerificationScreen extends Component {
                 onPress={() => {
                     this.setState({ isLoading: true })
                     setTimeout(() => {
+                        var v=this.props.route.params
                         this.setState({ isLoading: false })
-                        // if(this.state.firstDigit == this.state.verifNum1 && this.state.secondDigit == this.state.verifNum2 && this.state.thirdDigit == this.state.verifNum3 && this.state.forthDigit == this.state.verifNum4) {
+                        if(this.state.firstDigit == v.num1 && this.state.secondDigit == v.num2 && this.state.thirdDigit == v.num3 && this.state.forthDigit == v.num4) {
                         this.props.navigation.navigate('navbar');
-                        // }
-                        // else(console.log('err'))
+                        }
+                        else(console.log('err'))
                     }, 2000);
                 }}
                 style={styles.continueButtonStyle}>
@@ -189,8 +178,9 @@ class VerificationScreen extends Component {
                             this.setState({ forthDigit: text })
                             this.setState({ isLoading: true })
                             setTimeout(() => {
+                                var v=this.props.route.params
                                 this.setState({ isLoading: false })
-                                if(this.state.firstDigit == this.state.verifNum1 && this.state.secondDigit == this.state.verifNum2 && this.state.thirdDigit == this.state.verifNum3 && this.state.forthDigit == this.state.verifNum4) {
+                                if(this.state.firstDigit == v.num1 && this.state.secondDigit == v.num2 && this.state.thirdDigit == v.num3 && this.state.forthDigit == v.num4) {
                                     this.props.navigation.navigate('navbar');
                                     }
                                     else (console.log('err'))

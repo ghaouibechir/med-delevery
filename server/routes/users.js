@@ -9,12 +9,13 @@ const {user}=require('../database-mongodb/schemas')
 
 router.post("/register", (req, res, next) => {
     let newUser = new user ({
-        name: req.body.name,
-        email: req.body.email,
+        name: req.body.username,
+        email: req.body.emailAddress,
         username: req.body.username,
         password: req.body.password,
-        phoneNumber: req.body.phoneNumber,
-        address: req.body.adress,
+        phoneNumber: req.body.PhoneNumber,
+        address: req.body.address,
+        connected:true
     });
 
     User.addUser(newUser, (err, data)=> {
@@ -43,7 +44,7 @@ router.post("/authenticate", (req, res, next)=>{
                     expiresIn: 604800,
                 });
                 res.json({
-                    succes: true,
+                    success: true,
                     token: token,
                     user: {
                         id: user._id,
