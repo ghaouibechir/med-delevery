@@ -6,59 +6,57 @@ const AutoIncrement = require('mongoose-sequence')(mongoose);
 const { isEmail } = require("validator");
 
 const userSchema = new mongoose.Schema({
-  id:{type:Number},
-  name : {
-      type: String,
+  id: { type: Number },
+  name: {
+    type: String,
   },
   phoneNumber:{
     type:String
   },
-  email : {
-      type: String,
-      required: true,
+  email: {
+    type: String,
+    required: true,
   },
-  adress:{
-    type:String
+  adress: {
+    type: String
   },
   username: {
-      type: String,
-      required: true,
+    type: String,
+    required: true,
   },
-  password : {
-      type: String,
-      required: true,
+  password: {
+    type: String,
+    required: true,
   },
-  identityCard:{type:String , default:''},
-  vip:{ type: Boolean, default: false },
-  connected:{ type: Boolean, default: false },
-  banned:{ type: Boolean, default: false }
+  identityCard: { type: String, default: '' },
+  vip: { type: Boolean, default: false },
+  connected: { type: Boolean, default: false },
+  banned: { type: Boolean, default: false }
 
 });
-userSchema.plugin(AutoIncrement, {id:'id_seq',inc_field: 'id'});
+userSchema.plugin(AutoIncrement, { id: 'id_seq', inc_field: 'id' });
 const pharmacySchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
   },
-  email : {
+  email: {
     type: String,
     required: true,
   },
-  adress:{
-    type:Number
+  adress: {
+    type: Number
   },
-  phoneNumber:{
-    type:Number
+  phoneNumber: {
+    type: Number
   },
-  password : {
-      type: String,
-      required: true,
+  password: {
+    type: String,
+    required: true,
   },
-  resetToken:String,
-  expireToken:Date,
-  location:{type :String },
-  connected:{ type: Boolean, default: false },
-  banned:{ type: Boolean, default: false }
+  location: { type: String },
+  connected: { type: Boolean, default: false },
+  banned: { type: Boolean, default: false }
 
 });
 
@@ -79,30 +77,30 @@ const orderSchema = new mongoose.Schema({
 const medecineSchema = new mongoose.Schema({
   name: String,
   description: String,
-  category:String,
-  img:String,
-  price:Number,
-  prescription:{type:Boolean,default:false}
+  category: String,
+  img: String,
+  price: Number,
+  prescription: { type: Boolean, default: false }
 });
 
 const paraSchema = new mongoose.Schema({
   name: String,
   description: String,
-  category:String,
-  img:String,
-  price:Number,
-  pharmacyId:String
+  category: String,
+  img: String,
+  price: Number,
+  pharmacyId: String
 });
 
 const reminderSchema = new mongoose.Schema({
   userId: String,
   timing: String,
-  guide:Array  
+  guide: Array
 });
 const adminSchema = new mongoose.Schema({
   email: String,
   password: String,
-  username:String
+  username: String
 });
 const restPasswordSchema = mongoose.Schema(
   {
@@ -120,7 +118,7 @@ const para = mongoose.model('para', paraSchema);
 const reminder = mongoose.model('reminder', reminderSchema);
 const resetpasswords = mongoose.model('ResetPassword', restPasswordSchema)
 
-module.exports ={
+module.exports = {
   user,
   pharmacy,
   para,
