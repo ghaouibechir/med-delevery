@@ -81,61 +81,61 @@
                   <div class="text-blueGray-400 text-center mb-3 font-bold">
                     <small>Add Paramedical Items From Here</small>
                   </div>
-                  <form>
-                    <div class="relative w-full mb-3">
-                      <label
-                        class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        ProductName
-                      </label>
-                      <input
-                        type="text"
-                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        placeholder="Name"
-                        v-model="name"
-                      />
-                    </div>
 
-                    <div class="relative w-full mb-3">
-                      <label
-                        class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        Image
-                      </label>
-                      <input
-                        type="text"
-                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        placeholder="image"
-                        v-model="img"
-                      />
-                    </div>
-                    <div class="relative w-full mb-3">
-                      <label
-                        class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        Price
-                      </label>
-                      <input
-                        type="text"
-                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        placeholder="Price"
-                        v-model="price"
-                      />
-                    </div>
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                      htmlFor="grid-password"
+                    >
+                      ProductName
+                    </label>
+                    <input
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      placeholder="Name"
+                      v-model="name"
+                    />
+                  </div>
 
-                    <div class="text-center mt-6">
-                      <button
-                        class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                        type="button"
-                        v-on:click="add()"
-                      >
-                        Add
-                      </button>
-                    </div>
-                  </form>
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                      htmlFor="grid-password"
+                    >
+                      Image
+                    </label>
+                    <input
+                      type="file"
+                      class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      placeholder="image"
+                      @change="thumbnailimg"
+                    />
+                  </div>
+
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                      htmlFor="grid-password"
+                    >
+                      Price
+                    </label>
+                    <input
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      placeholder="Price"
+                      v-model="price"
+                    />
+                  </div>
+
+                  <div class="text-center mt-6">
+                    <button
+                      class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                      type="button"
+                      v-on:click="add()"
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -156,14 +156,22 @@ export default {
       img: "",
       view: true,
       currentEdit: "",
+      selectedFile: "",
+      thumbnail:
+        "https://face-pro.net/wp-content/plugins/penci-pennews-portfolio/images/no-thumbnail.jpg",
     };
   },
+
   methods: {
-    add: function () {
-      var item = {
+    add: async function () {
+     this.upload();
+     setTimeout(()=>{
+       console.log('zzzzzzzzzzzzzzzzzz',this.thumbnail);
+       
+       var item = {
         name: this.name,
         price: this.price,
-        img: this.img,
+        img: this.thumbnail,
         pharmacyId: localStorage.getItem("id"),
       };
 
@@ -174,6 +182,26 @@ export default {
         })
         .catch((err) => {
           console.log(err);
+        })},1000)
+      
+    },
+    thumbnailimg(event) {
+      this.selectedFile = event.target.files[0];
+    },
+    upload() {
+      const formData = new FormData();
+      formData.append("file", this.selectedFile);
+      formData.append("upload_preset", "lsom30en");
+      console.log(formData);
+      axios
+        .post(
+          "https://api.cloudinary.com/v1_1/ben-arous/image/upload",
+          formData
+        )
+        .then((response) => {
+          console.log(response.data.url);
+          this.thumbnail = response.data.url;
+          console.log('zzzzzzzabouromek',this.thumbnail);
         });
     },
     getPara: function () {
@@ -202,11 +230,12 @@ export default {
     changeView: function (id) {
       this.currentEdit = id;
     },
+
     update: function (id) {
       var itemData = {
         name: this.name,
         price: this.price,
-        img: this.img,
+        
       };
       axios
         .put(`http://localhost:5000/pharmacies/updatePara/${id}`, itemData)
