@@ -23,9 +23,12 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Footer from "./Footer";
 import axios from "axios";
 import data from "react-native-ico/src/data";
+import  AsyncStorage  from "@react-native-async-storage/async-storage";
+import { CredentialsContext } from "./CredentialsContext";
 
 
 class Navbar extends Component {
+  static contextType = CredentialsContext
   constructor(props) {
     super(props);
     this.state = {
@@ -38,10 +41,12 @@ class Navbar extends Component {
   }
   componentDidMount() {
     this.fetchdata();
+   AsyncStorage.getItem('key').then((d)=>{console.log('qqqqqqqqqqqqqqq',d);})
   }
   fetchdata = async () => {
     try {
-      let response = await axios.get("http://192.168.11.65:5000/medecine");
+
+      let response = await axios.get("http://192.168.11.58:5000/medecine");
       this.setState({medecine:response.data});
       console.log(response.data);
     } catch (error) {
@@ -55,7 +60,7 @@ class Navbar extends Component {
     console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyy", id)
      this.incrementValue() 
    
-    axios.put(`http://192.168.11.65:5000/OrderId/${'bechir'}`, { id })
+    axios.put(`http://192.168.11.58:5000/OrderId/${'bechir'}`, { id })
       .then((res) => {
         console.log(res)
       })
@@ -170,7 +175,7 @@ class Navbar extends Component {
                 <View style={styles.cardHeader}>
                   <View>
                     <Text style={styles.title}>{item.name}</Text>
-                    <Text style={styles.price}>{item.price}00TND</Text>
+                    <Text style={styles.price}>{item.price} TND</Text>
                   </View>
                 </View>
 
