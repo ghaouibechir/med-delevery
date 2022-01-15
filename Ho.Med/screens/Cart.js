@@ -26,7 +26,7 @@ export default class Cart extends Component {
     this.state = {
       data: [],
       Valuue:[],
-      value: 0,
+      value: 1,
       totalPrice: 0,
 
     };
@@ -60,7 +60,7 @@ export default class Cart extends Component {
     this.fetchdata();
   }
   confirm() {
-    axios.put(`http://192.168.43.216:5000/ListOrderById/${'bechir'}`, {})
+    axios.put(`http://192.168.11.65:5000/ListOrderById/${'bechir'}`, {})
       .then((res) => {
         console.log(res)
       })
@@ -78,7 +78,7 @@ export default class Cart extends Component {
   //   }
   // };
   fetchdata() {
-    axios.get(`http://192.168.43.216:5000/medecine/cart/${'bechir'}`).then(({ data }) => {
+    axios.get(`http://192.168.11.65:5000/medecine/cart/${'bechir'}`).then(({ data }) => {
       this.setState({ data: data })
       console.log("12121212121212121212121", this.state.data)
     })

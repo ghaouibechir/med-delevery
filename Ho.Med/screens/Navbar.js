@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  Button,
   ScrollView,
   FlatList,
   SafeAreaView,
@@ -40,7 +41,7 @@ class Navbar extends Component {
   }
   fetchdata = async () => {
     try {
-      let response = await axios.get("http://192.168.11.10:5000/medecine");
+      let response = await axios.get("http://192.168.11.65:5000/medecine");
       this.setState({medecine:response.data});
       console.log(response.data);
     } catch (error) {
@@ -54,7 +55,7 @@ class Navbar extends Component {
     console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyy", id)
      this.incrementValue() 
    
-    axios.put(`http://192.168.43.216:5000/OrderId/${'bechir'}`, { id })
+    axios.put(`http://192.168.11.65:5000/OrderId/${'bechir'}`, { id })
       .then((res) => {
         console.log(res)
       })

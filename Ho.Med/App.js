@@ -16,6 +16,7 @@ import ProfileScreen from "./screens/Profile"
 import VerificationScreen from "./screens/Verification";
 import AboutScreen from "./screens/About";
 import EditProfile from './screens/editProfile';
+import CameraScreen from "./screens/camera"
 
 
 const Stack = createNativeStackNavigator();
@@ -83,6 +84,11 @@ export default function App() {
           name="editProfile"
           component={EditProfile}
           options={{ headerShown: false}}
+        />
+          <Stack.Screen
+          name="Camera"
+          component={CameraScreen}
+          options={{ headerShown: true}}
         />
         
         
