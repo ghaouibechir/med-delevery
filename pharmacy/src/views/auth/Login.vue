@@ -102,9 +102,9 @@ export default {
         .post("http://localhost:5000/pharmacies/authenticate", identity)
         .then(({ data }) => {
           console.log(identity);
-          console.log(data)
+          console.log('data' ,data)
           let session ={ 
-            username: data.pharmacy.username,
+            
             id:data.pharmacy.id
           }
           localStorage.setItem('session', JSON.stringify(session));

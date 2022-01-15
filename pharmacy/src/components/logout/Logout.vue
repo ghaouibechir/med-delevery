@@ -1,13 +1,9 @@
 <template>
     
 
-<a  class="cta" v-on:click="logout()">
-  <span>Logout</span>
-  <svg width="13px" height="10px" viewBox="0 0 13 10">
-    <path d="M1,5 L11,5"></path>
-    <polyline points="8 1 12 5 8 9"></polyline>
-  </svg>
-</a>
+<div class="wrapper">
+    <button class="button" @click="logout()">Logout !</button>
+</div>
 </template>
 
 <script>
@@ -25,63 +21,73 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-$color: #111
-$primary: #FFAB9D
+<style  scoped>
+:root {
+    --bg: #eee;
+    --color: #1a1e24;
+    --font: Montserrat, Roboto, Helvetica, Arial, sans-serif;
+}
 
-html, body
-  height: 100%
-  
-body
-  display: grid
-  font-family: Avenir, sans-serif
-  color: $color
-  
-a
-  text-decoration: none
-  color: inherit
+.wrapper {
+    padding: 1.5rem 0;
+    filter: url('#goo');
+}
 
-.cta
-  position: relative
-  margin: auto
-  padding: 19px 22px
-  transition: all .2s ease
-  &:before
-    content: ""
-    position: absolute
-    top: 0
-    left: 0
-    display: block
-    border-radius: 28px
-    background: rgba($primary,.5)
-    width: 56px
-    height: 56px
-    transition: all .3s ease
-  span
-    position: relative
-    font-size: 16px
-    line-height: 18px
-    font-weight: 900
-    letter-spacing: .25em
-    text-transform: uppercase
-    vertical-align: middle
-  svg
-    position: relative
-    top: 0
-    margin-left: 10px
-    fill: none
-    stroke-linecap: round
-    stroke-linejoin: round
-    stroke: $color
-    stroke-width: 2
-    transform: translateX(-5px)
-    transition: all .3s ease
-  &:hover
-    &:before
-      width: 100%
-      background: rgba($primary,1)
-    svg
-      transform: translateX(0)
-  &:active
-    transform: scale(.96)
+.button {
+    display: inline-block;
+    text-align: center;
+    background: var(--color);
+    color: var(--bg);
+    font-weight: bold;
+    padding: 1.18em 1.32em 1.03em;
+    line-height: 1;
+    border-radius: 1em;
+    position: relative;
+    min-width: 8.23em;
+    text-decoration: none;
+    font-family: var(--font);
+    font-size: 1.25rem;
+}
+
+.button:before,
+.button:after {
+    width: 4.4em;
+    height: 2.95em;
+    position: absolute;
+    content: "";
+    display: inline-block;
+    background: var(--color);
+    border-radius: 50%;
+    transition: transform 1s ease;
+    transform: scale(0);
+    z-index: -1;
+}
+
+.button:before {
+    top: -25%;
+    left: 20%;
+}
+
+.button:after {
+    bottom: -25%;
+    right: 20%;
+}
+
+.button:hover:before,
+.button:hover:after {
+    transform: none;
+}
+
+
+/* Demo styles */
+
+body {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg)
+}
 </style>

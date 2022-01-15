@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="body">
     <logout-component class="logout"/>
     <section
       class="header relative pt-16 items-center flex h-screen max-h-860-px"
@@ -119,6 +119,7 @@ export default {
 };
 </script>
 <style scoped>
+
 #order {
   margin-top: 90px;
 }

@@ -157,15 +157,14 @@ router.post("/resetpassword",(req,res)=>{
   //   res.send(hash)
   // })
   router.post('/changePassword', async(req,res)=>{
-    const { newPassword, id }=req.body
-    const found = await resetpasswords.findOne({ hash : id })
+    var { newPassword, id }=req.body
+    var found = await resetpasswords.findOne({ hash : id })
     console.log('resetpassword',found)
     let email = found.email
-    const foundPharmacy = await pharmacy.findOne({email})
+    var foundPharmacy = await pharmacy.findOne({email})
       console.log(foundPharmacy , ' fouuund')
-
-      const hashedPassword = bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(foundPharmacy.password, salt, (err, hash) => {
+      var hashedPassword = bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash( foundPharmacy.password, salt, (err, hash) => {
           if (err) console.log("error");
           foundPharmacy.password = hash;
           foundPharmacy.save();
