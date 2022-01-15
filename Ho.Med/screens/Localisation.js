@@ -6,6 +6,7 @@ import {
   View,
   Animated,
   Text,
+  Button,
   BackHandler,
   StyleSheet,
   TextInput,
@@ -19,6 +20,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Footer from "./Footer";
 import { WebView } from "react-native-webview";
+// import {geolocation } from "react-native-geolocation-service";
 const MAP =
   "https://www.google.com/maps/search/pharmacie+a+proximit%C3%A9/@36.8942714,10.1870812,16z";
 export default function NotificationScreen({ navigation }) {
@@ -26,10 +28,16 @@ export default function NotificationScreen({ navigation }) {
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
       <View style={{ width: 420, height: 740 }}>
         <WebView source={{ uri: MAP }} onLoad={console.log("Loaded!")} />
+        <Button
+        title="Confirm"
+        color="#10857F"
+        // OnPress={() => { geolocation.requestAuthorization()}} 
+        />
+              <Footer />
       </View>
 
       <View style={{ marginTop: 420, width: 100 }}>
-        <Footer />
+       
       </View>
     </SafeAreaView>
   );
