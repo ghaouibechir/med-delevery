@@ -78,7 +78,7 @@ export default class Cart extends Component {
   //   }
   // };
   fetchdata() {
-    axios.get(`http://192.168.11.65:5000/medecine/cart/${'bechir'}`).then(({ data }) => {
+    axios.get(`http://192.168.11.58:5000/medecine/cart/${'bechir'}`).then(({ data }) => {
       this.setState({ data: data })
       console.log("12121212121212121212121", this.state.data)
     })

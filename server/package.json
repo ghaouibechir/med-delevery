@@ -23,6 +23,6 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "socket.io": "^4.4.0",
-    "twilio": "^3.72.0"
+    "twilio": "^3.73.0"
   }
 }
