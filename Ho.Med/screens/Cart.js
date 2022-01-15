@@ -25,6 +25,7 @@ export default class Cart extends Component {
     super(props);
     this.state = {
       data: [],
+      Valuue:[],
       value: 0,
       totalPrice: 0,
 
@@ -37,12 +38,24 @@ export default class Cart extends Component {
     })
     console.log("value+" + (this.state.value + 1))
   }
+  // decrementValue() {
+  //   this.setState({
+  //     value: this.state.value - 1
+  //   })
+  //   console.log("value+" + (this.state.value - 1))
+  // }
   decrementValue() {
-    this.setState({
-      value: this.state.value - 1
+    if(this.state.value===0){
+      this.setState({
+        value: 0
+    })
+    
+    }else {
+      this.setState({
+        value: this.state.value - 1
     })
     console.log("value+" + (this.state.value - 1))
-  }
+  }}
   componentDidMount() {
     this.fetchdata();
   }

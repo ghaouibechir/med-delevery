@@ -52,6 +52,8 @@ class Navbar extends Component {
   
   myCart(id) {
     console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyy", id)
+     this.incrementValue() 
+   
     axios.put(`http://192.168.43.216:5000/OrderId/${'bechir'}`, { id })
       .then((res) => {
         console.log(res)
@@ -182,8 +184,8 @@ class Navbar extends Component {
                         // onPress={() => {this.addProductToCart(item._id ) } }
                         // onPress={() => navigation.navigate('cart',{name:"bechir",age:"45"}) }
 
-                        onPress={() => { this.myCart(item._id) }}
-                        onPress={() => { this.incrementValue() }}
+                        onPress={() => { this.myCart(item._id)  }}
+                        // onPress={() => { this.incrementValue() }}
 
 
 
@@ -195,7 +197,7 @@ class Navbar extends Component {
                             uri: "https://img.icons8.com/nolan/96/3498db/add-shopping-cart.png",
                           }}
                         />
-                        <Text style={[styles.socialBarLabel, styles.buyNow]}>
+                        <Text  style={[styles.socialBarLabel, styles.buyNow]}>
                           Buy Now
                         </Text>
                       </TouchableOpacity>
