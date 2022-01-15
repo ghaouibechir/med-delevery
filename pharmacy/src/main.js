@@ -20,6 +20,7 @@ import Auth from "@/layouts/Auth.vue";
 import Dashboard from "@/views/admin/Dashboard.vue";
 import Settings from "@/views/admin/Settings.vue";
 import Tables from "@/views/admin/Tables.vue";
+import Paramedical from "@/views/admin/Paramedical.vue";
 
 // views for Auth layout
 
@@ -28,7 +29,6 @@ import Register from "@/views/auth/Register.vue";
 
 // views without layouts
 
-import Profile from "@/views/Profile.vue";
 import Index from "@/views/Index.vue";
 
 // routes
@@ -42,6 +42,10 @@ const routes = [
       {
         path: "/admin/dashboard",
         component: Dashboard,
+      },
+      {
+        path: "/admin/paramedical",
+        component: Paramedical,
       },
       {
         path: "/admin/settings",
@@ -69,10 +73,6 @@ const routes = [
     ],
   },
 
-  {
-    path: "/profile",
-    component: Profile,
-  },
   {
     path: "/Index",
     component: Index,
