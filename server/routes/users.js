@@ -23,7 +23,12 @@ router.post("/register", (req, res, next) => {
             res.json({success: false, msg: err.message});
         }
         else {
-            res.json({success: true, msg: "User registered."});
+            res.json({success: true, msg: "User registered.", user: {
+                id: data._id,
+                name: data.name,
+                username: data.username,
+                email: data.email
+            }});
         }
     });
 });
