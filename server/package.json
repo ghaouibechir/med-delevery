@@ -25,6 +25,7 @@
     "passport-jwt": "^4.0.0",
     "sass-loader": "^12.4.0",
     "socket.io": "^4.4.0",
+    "twilio": "^3.73.0",
     "validator": "^13.7.0"
   },
   "devDependencies": {}

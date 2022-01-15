@@ -36,13 +36,13 @@
                     <img
                       alt="..."
                       class="align-middle border-none max-w-full h-auto rounded-lg"
-                      :src="profile"
+                      :src="dashboard1"
                     />
                   </div>
                 </router-link>
               </div>
 
-              <div class="w-full lg:w-4/12 px-4">
+              <div id="order" class="w-full lg:w-4/12 px-4">
                 <h5 class="text-xl font-semibold pb-4 text-center">
                   Orders History
                 </h5>
@@ -53,7 +53,7 @@
                     <img
                       alt="..."
                       class="align-middle border-none max-w-full h-auto rounded-lg"
-                      :src="landing"
+                      :src="profile1"
                     />
                   </div>
                 </router-link>
@@ -86,10 +86,11 @@ import componentMenu from "@/assets/img/component-menu.png";
 import componentBtnPink from "@/assets/img/component-btn-pink.png";
 import documentation from "@/assets/img/documentation.png";
 import login from "@/assets/img/login.jpg";
-import profile from "@/assets/img/profile.jpg";
+import profile1 from "@/assets/img/profile1.jpg";
 import landing from "@/assets/img/landing.jpg";
 import parapharamcy from "@/assets/img/PARAPHARMACY.jpg";
 import para1 from "@/assets/img/para2.jpg";
+import dashboard1 from "@/assets/img/dashboard1.jpg";
 
 export default {
   data() {
@@ -103,10 +104,11 @@ export default {
       componentBtnPink,
       documentation,
       login,
-      profile,
+      profile1,
       landing,
       parapharamcy,
       para1,
+      dashboard1,
     };
   },
   components: {
@@ -117,10 +119,14 @@ export default {
 };
 </script>
 <style scoped>
+#order {
+  margin-top: 90px;
+}
 #profile {
   /* margin-bottom: 5px; */
   height: 50px;
   margin-top: 10px;
+  width: 52%;
 }
 .logout{
   margin-left:90%;

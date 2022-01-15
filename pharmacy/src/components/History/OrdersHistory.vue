@@ -18,7 +18,7 @@
     </div>
     <div class="block w-full overflow-x-auto">
       <!-- Projects table -->
-      <table v-for="item in orders" :key="item.quan" class="items-center w-full bg-transparent border-collapse">
+      <table class="items-center w-full bg-transparent border-collapse">
         <thead>
           <tr>
             <th
@@ -65,16 +65,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr >
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
               <div class="flex">
-                <img
-                  :src="team1"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-                />
+                <strong class="text-muted">{{username}}</strong>
                 
               </div>
             </td>
@@ -82,10 +78,10 @@
             <td 
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              <i class="far fa-eye" @mouseover="hovered = true" @mouseleave="hovered = false"></i>
+              <i v-if="!hovered" class="far fa-eye" @click="hover()"></i>
                  <div v-if="hovered">
-                     <ul>
-                       <li></li>
+                     <ul class="check-list"  v-for="medecin in medecines" :key="medecin.name"  >
+                       <li>{{medecin}}</li>
                      </ul>
                  </div>
             </td>
@@ -93,23 +89,11 @@
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-black whitespace-nowrap p-4"
               
             >
-               <!-- {{row[key.totalPrice]}} -->
-            
+               {{totalPrice}}
+             
             </td>
-            <!-- <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
-              <div class="flex">
-                <img
-                  :src="team1"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
-                />
-                
-              </div>
-            </td>
-          -->
-          <td><small class="text-muted"> May 2020, 4:30 PM </small></td>
+           
+          <td><small class="text-muted">{{createdAt}}</small></td>
           </tr>
           
           
@@ -122,18 +106,22 @@
 <script>
 
 
-import team1 from "@/assets/img/team-1-800x800.jpg";
 
+// import moment from "moment";
+// import axios from "axios";
 export default {
  
   props:{
     orders:{
       type:Array ,
-      required:true
+     
     },
-    config:{
+     medecines:{
       type:Array ,
-      required:true
+      
+    },
+    username:{
+      type:String ,
     },
      color: {
       default: "light",
@@ -145,21 +133,30 @@ export default {
     
   data:function() {
     return {
-      team1,
-      hovered:false,
-     
       
+      hovered:false,
+      id:0,
+      createdAt:"",
+      totalPrice:0,
     };
     
   },
-  created:function() {
-
+  beforeUpdate:function(){
+ this.createdAt = this.orders.createdAt,
+ this.totalPrice = this.orders.totalPrice
   },
   methods:{
     test:function() {
     
-     console.log(this.orders[0].totalPrice);
+    console.log( "orders",this.orders.totalPrice); 
+     console.log( "medecines",this.medecines);  
+    },
+    hover:function() {
+      this.hovered=!this.hovered
     }
+    // moment() {
+    //   return moment();
+    // },
 
   }
   
@@ -175,5 +172,31 @@ export default {
 <style scoped>
 #p{
   color:white
+}
+.check-list {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.check-list li {
+  position: relative;
+  list-style-type: none;
+  padding-left: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.check-list li:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: -2px;
+    width: 5px;
+    height: 11px;
+    border-width: 0 2px 2px 0;
+    border-style: solid;
+    border-color: #00a8a8;
+    transform-origin: bottom left;
+    transform: rotate(45deg);
 }
 </style>

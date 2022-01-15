@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const Pharmacy = require("../models/pharmacy");
 const config = require("../config/database");
 
-const { pharmacy, para, resetpasswords, order } = require("../database-mongodb/schemas");
+const { pharmacy, para, resetpasswords, order , medecine , user } = require("../database-mongodb/schemas");
 const passport = require("passport");
 const crypto = require("crypto");
 const nodemailer = require('nodemailer');
@@ -122,9 +122,32 @@ router.post("/resetpassword",(req,res)=>{
   router.get('/getOrders/:id',async(req,res)=>{
     console.log(req.params)
      let id=req.params.id
-    var result = await order.find({pharmacyId : id})
-     console.log('orders',result)
-      res.send(result)
+    
+    
+     var orders= await order.findOne({pharmacyId:id })
+      var array=[]
+        for(var i=0; i<orders.medecineId.length; i++){
+          
+          array.push(orders.medecineId[i])
+
+          }
+         
+          var medecin = await medecine.find({ '_id': { $in: array } });
+          
+          var arr=[]
+       for (var i=0; i<medecin.length ;i++) {
+        arr.push(medecin[i].name)
+       } 
+       var username=''
+       var userInfo = await user.find({ '_id': orders.userId });
+       for (var i=0; i<userInfo.length ;i++) {
+        username=userInfo[i].username
+       } 
+      
+       //const userName = userInfo.username
+     res.send({arr, orders ,username });
+     
+
   })
  
    

@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="w-full mb-12 px-4" style="margin-top:5%">
-      <orders-history v-bind:orders="orders" :config="config" />
+      <orders-history v-bind:orders="orders" v-bind:medecines="medecines" v-bind:username="username"/>
     </div>
     
   </div>
@@ -40,6 +40,8 @@ export default {
     return {
     id:'',
    orders:[],
+   medecines:[],
+   username:""
    
     }
   },
@@ -51,8 +53,13 @@ export default {
    .then(({data})=>{
      console.log('data' ,data);
     //  var orders=this.orders;
-      this.orders=data
-      console.log( "orders",this.orders);  
+      this.orders=data.orders
+      this.medecines=data.arr
+      this.username = data.username;
+
+     console.log( "orders",this.orders); 
+     console.log( "medecines",this.medecines);  
+    console.log(this.username);
    })
   
     }

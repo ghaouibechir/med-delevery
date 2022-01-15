@@ -18,7 +18,7 @@ export default {
 
         logout: function(){
       localStorage.clear();
-      this.$router.push("/register");
+      this.$router.push("/login");
     }
     }
    
