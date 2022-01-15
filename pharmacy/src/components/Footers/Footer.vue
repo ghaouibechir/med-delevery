@@ -39,18 +39,12 @@
             >
               <i class="fab fa-facebook-square"></i>
             </button>
-            <button
+            <!-- <button
               class="bg-white text-pink-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
               type="button"
             >
               <i class="fab fa-dribbble"></i>
-            </button>
-            <button
-              class="bg-white text-blueGray-800 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-              type="button"
-            >
-              <i class="fab fa-github"></i>
-            </button>
+            </button> -->
           </div>
         </div>
         <div class="w-full lg:w-6/12 px-4">

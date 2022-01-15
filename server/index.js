@@ -1,4 +1,4 @@
-const { event, user, medecine } = require("./database-mongodb/schemas");
+const { event, user, medecine, order } = require("./database-mongodb/schemas");
 
 var express = require("express");
 const client = require('twilio')('ACed2feeec7ef469a1086ff226bb48ec63', '431afc206c1c8b699bc9bf9162e5742b');
@@ -16,6 +16,7 @@ var num2 = 0
 var num3 = 0
 var num4 = 0
 const pharmacy = require("./routes/pharmacy");
+const orders = require("./routes/orders");
 
 require("./config/passport")(passport);
 
@@ -50,6 +51,7 @@ app.get("/medecine", async (req, res) => {
 
 app.use("/users", users);
 app.use("/pharmacies", pharmacy);
+app.use("/orders", orders);
 
 app.listen(process.env.PORT || port, () => {
   console.log(`Express server listening on  ${port}`);
