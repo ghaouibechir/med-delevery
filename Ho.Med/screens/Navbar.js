@@ -29,6 +29,10 @@ class Navbar extends Component {
     super(props);
     this.state = {
       medecine: [],
+      orderId: "",
+      value: 0,
+
+
     };
   }
   componentDidMount() {
@@ -38,15 +42,49 @@ class Navbar extends Component {
     try {
       let response = await axios.get("http://192.168.43.216:5000/medecine");
       this.setState({ medecine: response.data });
-      console.log(response.data);
+
     } catch (error) {
       console.log(error);
     }
   };
-  addProductToCart = (e) => {
-    Alert.alert("Success", "The product has been added to your cart");
-    console.log(e);
-  };
+
+
+  
+  myCart(id) {
+    console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyy", id)
+    axios.put(`http://192.168.43.216:5000/OrderId/${'bechir'}`, { id })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => { console.log(err) });
+
+
+
+
+    // axios.post("http://  192.168.11.55:5000/ordre", { medecines: this.state.orderId })
+    // .then((res) => {
+    //   console.log(res)
+    // })
+    // .catch((err) => { console.log(err) });
+
+    // this.props.navigation.push("cart")
+  }
+  incrementValue() {
+    this.setState({
+      value: this.state.value + 1
+
+    })
+    console.log("value+" + (this.state.value + 1))
+  }
+
+
+
+
+  // addProductToCart = (e) => {
+  //   Alert.alert("Success", "The product has been added to your cart");
+  //   this.props.navigation.push("cart",{ cartItems:e })
+  //   console.log("aaaaaaaaaaaaaaa",e);
+  // };
 
   render() {
     return (
@@ -78,7 +116,7 @@ class Navbar extends Component {
                   onPress={() => this.props.navigation.push("cart")}
                 />
                 <View style={styles.cartItemCountWrapStyle}>
-                  <Text style={{ ...Fonts.whiteColor15Regular }}></Text>
+                  <Text >{this.state.value}</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -103,10 +141,10 @@ class Navbar extends Component {
           </TouchableOpacity>
         </View>
         <View>
-        
-          <Button style={styles.bat} title="Prescription" 
-           onPress={() => this.props.navigation.push("Camera")}
-          
+
+          <Button style={styles.bat} title="Prescription"
+            onPress={() => this.props.navigation.navigate("Camera")}
+
           />
         </View>
 
@@ -139,9 +177,17 @@ class Navbar extends Component {
                   <View style={styles.socialBarContainer}>
                     <View style={styles.socialBarSection}>
                       <TouchableOpacity
+                        activeOpacity={0.9}
                         style={styles.socialBarButton}
-                        onPress={() => this.addProductToCart(item._id)}
-                        
+                        // onPress={() => {this.addProductToCart(item._id ) } }
+                        // onPress={() => navigation.navigate('cart',{name:"bechir",age:"45"}) }
+
+                        onPress={() => { this.myCart(item._id) }}
+                        onPress={() => { this.incrementValue() }}
+
+
+
+
                       >
                         <Image
                           style={styles.icon}
