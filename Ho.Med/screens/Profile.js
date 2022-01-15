@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import {
   SafeAreaView,
   View,
@@ -14,14 +13,28 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Footer from "./Footer";
-import useState from "react"
+import {useState ,useEffect} from "react";
+import axios from "axios";
+
 
 
 
 export default function ProfileScreen({ navigation }) {
 
-  const [userName , setUserName] = useState()
+  const [user , setUser] = useState({})
+  useEffect(() => {
+    getUser()
+  })
 
+  const getUser = async () => {
+    try {
+      let response = await axios.get("http://192.168.11.82:5000/user/users")
+      setUser(response.data[0])
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
@@ -41,7 +54,7 @@ export default function ProfileScreen({ navigation }) {
              name="edit" 
              size={27} 
              color={Colors.whiteColor}
-             onPress={() => navigation.navigate("editProfile")}
+             onPress={() => navigation.navigate("editProfile",{user:user})}
              />
             <TouchableOpacity>
               <MaterialIcons
@@ -80,10 +93,10 @@ export default function ProfileScreen({ navigation }) {
             </View>
 
             <TouchableOpacity style={styles.buttonContainer}>
-              <Text style={{ fontSize: 26 }}> User</Text>
+              <Text style={{ fontSize: 26 }}> {user.username}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer}>
-              <Text style={{ fontSize: 15 }}> user@gmail.com</Text>
+              <Text style={{ fontSize: 15 }}> {user.email}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonContainer}

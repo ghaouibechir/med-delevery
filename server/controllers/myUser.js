@@ -6,7 +6,7 @@ module.exports = {
     find_All: async (req, res, next) => {
          // get all the users
          try {
-              console.log("\nRequesting the server to give me all users from the database ...\n");
+          //     console.log("\nRequesting the server to give me all users from the database ...\n");
               // the server will try the following
               const users = await User.user.find({})
 

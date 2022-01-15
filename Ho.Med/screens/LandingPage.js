@@ -30,7 +30,7 @@ class LandingPage extends Component {
     return (
       <TouchableOpacity
         onPress={() => {
-          this.props.navigation.push("registerScreen");
+          this.props.navigation.push("navbar");
         }}
         activeOpacity={0.9}
         style={styles.exploreButton}

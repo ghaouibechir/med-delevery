@@ -14,7 +14,46 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Footer from "./Footer";
+import {useState ,useEffect} from "react";
+import axios from "axios";
+
 export default function EditProfile({ navigation }) {
+
+  const [user , setUser] = useState({})
+  const [userNameEdit , setUserNameEdit] = useState(user.username)
+  const [emailEdit , setemailEdit] = useState(user.email)
+  const [phoneNumberEdit , setPhoneNumberEdit] = useState(user.phoneNumber)
+
+  useEffect(() => {
+    getUser()
+  },[])
+
+  const UpdateUser = async () => {
+    const id = user._id
+    const username = userNameEdit
+    const email = emailEdit
+    const phoneNumber = phoneNumberEdit
+    try {
+      console.log("user updating...")
+      let result = await axios.put("http://192.168.11.82:5000/user/" + id , {username , email , phoneNumber})
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+
+  const getUser = async () => {
+    try {
+      console.log("geting user")
+      let response = await axios.get("http://192.168.11.82:5000/user/users")
+      setUser(response.data[0])
+      console.log(user)
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
       <View
@@ -33,13 +72,17 @@ export default function EditProfile({ navigation }) {
              name="check" 
              size={27} 
              color={Colors.whiteColor}
-             onPress={() => navigation.navigate('Profile')}
+             onPress={() => { 
+              UpdateUser()
+              navigation.navigate('Profile')
+              }}
              />
           </View>
         </View>
       </View>
       <View style={styles.container}>
         <View style={styles.header}></View>
+        
         <Image
           style={styles.avatar}
           source={{ uri: "https://bootdey.com/img/Content/avatar/avatar6.png" }}
@@ -60,23 +103,18 @@ export default function EditProfile({ navigation }) {
 
             <TouchableOpacity style={styles.buttonContainer}>
               <TextInput style={{ fontSize: 26 }}
-              placeholder="User name"
-              ></TextInput>
+              onChangeText={text => setUserNameEdit(text)}
+              >{user.username}</TextInput>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer}>
               <TextInput style={{ fontSize: 26 }}
-              placeholder="Email"
-              ></TextInput>
+              onChangeText={text => setemailEdit(text)}
+              >{user.email}</TextInput>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer}>
               <TextInput style={{ fontSize: 26 }}
-              placeholder="Phone number"
-              ></TextInput>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonContainer}>
-              <TextInput style={{ fontSize: 26 }}
-              placeholder="Adress"
-              ></TextInput>
+              onChangeText={text => setPhoneNumberEdit(text)}
+              >{user.phoneNumber}</TextInput>
             </TouchableOpacity>
           </View>
         </View>
