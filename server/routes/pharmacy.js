@@ -3,7 +3,8 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const Pharmacy = require("../models/pharmacy");
 const config = require("../config/database");
-const { pharmacy , resetpasswords, order } = require("../database-mongodb/schemas");
+
+const { pharmacy, para, resetpasswords, order } = require("../database-mongodb/schemas");
 const passport = require("passport");
 const crypto = require("crypto");
 const nodemailer = require('nodemailer');
@@ -62,13 +63,14 @@ router.post("/authenticate", (req, res, next) => {
   });
 });
 
-router.get(
-  "/profile",
-  passport.authenticate("jwt", { session: false }),
-  (req, res, next) => {
-    res.json({ pharmacy: req.pharmacy });
-  }
-);
+// router.get(
+//   "/profile",
+//   passport.authenticate("jwt", { session: false }),
+//   (req, res, next) => {
+  
+//     res.json({ pharmacy: req.pharmacy });
+//   }
+// );
 
 
 router.post("/resetpassword",(req,res)=>{
@@ -117,11 +119,12 @@ router.post("/resetpassword",(req,res)=>{
    
   })
   
-  router.get(`/getOrders/${this._id}`,async(req,res)=>{
+  router.get('/getOrders/:id',async(req,res)=>{
     console.log(req.params)
-    //let id=req.params
-      //var orders = await order.find({owner : id})
-      // res.send(orders)
+     let id=req.params.id
+    var result = await order.find({pharmacyId : id})
+     console.log('orders',result)
+      res.send(result)
   })
  
    
@@ -132,10 +135,12 @@ router.post("/resetpassword",(req,res)=>{
   // })
   router.post('/changePassword', async(req,res)=>{
     const { newPassword, id }=req.body
-    const found = await resetpasswords.findOne({ id })
+    const found = await resetpasswords.findOne({ hash : id })
+    console.log('resetpassword',found)
     let email = found.email
     const foundPharmacy = await pharmacy.findOne({email})
       console.log(foundPharmacy , ' fouuund')
+
       const hashedPassword = bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(foundPharmacy.password, salt, (err, hash) => {
           if (err) console.log("error");
@@ -149,12 +154,57 @@ router.post("/resetpassword",(req,res)=>{
           { password: hashedPassword },
           { new: true }
         ).select("-password");
-  
+        console.log('update done',updatedPharmacy)
        res.send("done")
         
       })
     
     
+// add Para
+router.post("/para", (req, res) => {
+  console.log(req.body);
+  para.create(req.body, (err, paraData) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(paraData);
+    }
+  });
+});
+router.get("/para/:id", (req, res) => {
+  console.log(req.params.id);
+  para.find({ pharmacyId: req.params.id }, (err, data) => {
+    if (err) {
+      res.send(err);
+    } else {
+      console.log(data);
+      res.send(data);
+    }
+  });
+});
+
+//delete Para
+router.delete("/delete/:id", (req, res) => {
+  para
+    .findByIdAndRemove({ _id: req.params.id })
+    .then((removed_product) => {
+      res.send(removed_product);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+//update Para
+router.put("/updatePara/:id", (req, res) => {
+  para.findByIdAndUpdate({ _id: req.params.id }, req.body, (err, data) => {
+    console.log(req.body);
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(data);
+    }
+  });
+});
 
 // router.get(
 //   "/profile",
@@ -165,14 +215,16 @@ router.post("/resetpassword",(req,res)=>{
 // );
 
 router.get("/profile/:id", (req, res) => {
-  Pharmacy.getPharmacyById(req.params.id, (err, data) => {
+  Pharmacy.getPharmacyById(req.params.id, (err, paraData) => {
     if (err) {
       res.send(err);
     } else {
-      res.send(data);
+      res.send(paraData);
     }
   });
 });
+
+//profile update
 
 router.put("/update/:id", (req, res) => {
   Pharmacy.getPharmacyByIdAndUpdate(req.params.id, req.body, (err, data) => {

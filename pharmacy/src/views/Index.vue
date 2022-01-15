@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <index-navbar /> -->
+    <logout-component class="logout"/>
     <section
       class="header relative pt-16 items-center flex h-screen max-h-860-px"
     >
@@ -12,7 +12,7 @@
                 <h5 class="text-xl font-semibold pb-4 text-center">
                   Paramedical
                 </h5>
-                <router-link to="/admin/dashboard">
+                <router-link to="/admin/paramedical">
                   <div
                     class="hover:-mt-4 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150"
                   >
@@ -76,7 +76,7 @@
 <script>
 // import IndexNavbar from "@/components/Navbars/IndexNavbar.vue";
 import FooterComponent from "@/components/Footers/Footer.vue";
-
+import LogoutComponent from "@/components/logout/Logout.vue";
 import patternVue from "@/assets/img/pattern_vue.png";
 import componentBtn from "@/assets/img/component-btn.png";
 import componentProfileCard from "@/assets/img/component-profile-card.png";
@@ -112,6 +112,7 @@ export default {
   components: {
     // IndexNavbar,
     FooterComponent,
+    LogoutComponent
   },
 };
 </script>
@@ -120,5 +121,9 @@ export default {
   /* margin-bottom: 5px; */
   height: 50px;
   margin-top: 10px;
+}
+.logout{
+  margin-left:90%;
+  margin-top: 1%;
 }
 </style>

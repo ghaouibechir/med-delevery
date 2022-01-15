@@ -14,6 +14,7 @@ import CameraScreen from "./screens/Camera"
 import VerificationScreen from "./screens/Verification";
 import AboutScreen from "./screens/About";
 
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {

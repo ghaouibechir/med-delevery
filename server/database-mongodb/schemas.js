@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
       type: String,
   },
   phoneNumber:{
-    type:Number
+    type:String
   },
   email : {
       type: String,
@@ -64,14 +64,14 @@ const pharmacySchema = new mongoose.Schema({
 
 const orderSchema = new mongoose.Schema({
  pharmacyId:{type:String },
- userId:{type:Number},
+ userId:{type:String},
  medecineId:{type:Array},
  totalPrice:{type:Number},
  prescription:{type:String,default:''},
  response:{type:String,default:''},
  confirmation:{type:Boolean,default:false},
- createdAt: {type: Date, immutable: true,  default: () => Date.now() }
- 
+ createdAt: {type: Date, immutable: true,  default: () => Date.now() },
+ updatedAt: { type: Date, default: () => Date.now() }
 });
 
 

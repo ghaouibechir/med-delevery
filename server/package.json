@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
-    "seed": "node database-mongodb/seed.js"
+    "seed": "node seed.js"
   },
   "author": "",
   "license": "ISC",
@@ -23,7 +23,9 @@
     "npm": "^8.2.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
+    "sass-loader": "^12.4.0",
     "socket.io": "^4.4.0",
     "validator": "^13.7.0"
-  }
+  },
+  "devDependencies": {}
 }

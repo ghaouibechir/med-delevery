@@ -28,7 +28,7 @@
                   : 'bg-emerald-800 text-emerald-300 border-emerald-700',
               ]"
             >
-              Project
+              Order
             </th>
             <th
               class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -38,7 +38,7 @@
                   : 'bg-emerald-800 text-emerald-300 border-emerald-700',
               ]"
             >
-              Budget
+              Total Price
             </th>
             <th
               class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -48,7 +48,7 @@
                   : 'bg-emerald-800 text-emerald-300 border-emerald-700',
               ]"
             >
-              Status
+              prescription
             </th>
             <th
               class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -58,7 +58,7 @@
                   : 'bg-emerald-800 text-emerald-300 border-emerald-700',
               ]"
             >
-              Users
+              Date 
             </th>
             <th
               class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -118,21 +118,7 @@
                   alt="..."
                   class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
                 />
-                <img
-                  :src="team2"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                />
-                <img
-                  :src="team3"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                />
-                <img
-                  :src="team4"
-                  alt="..."
-                  class="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                />
+                
               </div>
             </td>
             <td

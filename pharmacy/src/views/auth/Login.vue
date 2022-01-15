@@ -101,6 +101,13 @@ export default {
       axios
         .post("http://localhost:5000/pharmacies/authenticate", identity)
         .then(({ data }) => {
+          console.log(identity);
+          console.log(data)
+          let session ={ 
+            username: data.pharmacy.username,
+            id:data.pharmacy.id
+          }
+          localStorage.setItem('session', JSON.stringify(session));
           localStorage.setItem("id", data.pharmacy.id);
           this.$router.push("/Index");
           console.log(localStorage.getItem("id"));

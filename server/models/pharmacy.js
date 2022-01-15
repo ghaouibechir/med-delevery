@@ -32,10 +32,10 @@ module.exports.addPharmacy = function (newPharmacy, callback) {
     if (pharmacyy) {
       callback(new Error("Pharmacy already registered."), pharmacyy);
     } else {
-      pharmacy.findOne({ email: newPharmacy.email }, (err, pharmacyy) => {
-        if (pharmacyy) {
-          callback(new Error("Email already registered."), pharmacyy);
-        } else {
+      // pharmacy.findOne({ email: newPharmacy.email }, (err, pharmacyy) => {
+      //   if (pharmacyy) {
+      //     callback(new Error("Email already registered."), pharmacyy);
+      //   } else {
           bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(newPharmacy.password, salt, (err, hash) => {
               if (err) throw err;
@@ -46,8 +46,7 @@ module.exports.addPharmacy = function (newPharmacy, callback) {
         }
       });
     }
-  });
-};
+  
 
 
 module.exports.comparePassword = function (candidatePassword, hash, callback) {
