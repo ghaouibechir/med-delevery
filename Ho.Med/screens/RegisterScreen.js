@@ -100,7 +100,7 @@ class RegisterScreen extends Component {
     var num=this.state.PhoneNumber.phoneNumber
     console.log('kkkkkkkkkkkkkkk',num);
     try {
-      let response = await axios.post("http://192.168.11.10:5000/",{number:num});
+      let response = await axios.post("http://192.168.11.58:5000/",{number:num});
       this.setState({verifNum1 :response.data.num1});
       this.setState({verifNum2 :response.data.num2});
       this.setState({verifNum3 :response.data.num3});

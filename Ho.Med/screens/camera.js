@@ -402,7 +402,7 @@ class CameraScreen extends Component {
                         color={Colors.whiteColor}
                         onPress={() => this.props.navigation.push('Search')}
                     />
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         activeOpacity={0.9}
                         onPress={() => this.props.navigation.push('Cart')}
                     >
@@ -417,7 +417,7 @@ class CameraScreen extends Component {
                                 1
                             </Text>
                         </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </View>
         )
