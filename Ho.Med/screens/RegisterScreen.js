@@ -22,7 +22,7 @@ import  AsyncStorage  from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "./CredentialsContext";
 
 class RegisterScreen extends Component {
-  static contextType = CredentialsContext
+  // static contextType = CredentialsContext
   componentDidMount() {
     BackHandler.addEventListener(
       "hardwareBackPress",
@@ -251,7 +251,7 @@ class RegisterScreen extends Component {
                 this.handlemsg(`Welcome To Our Family ✅`,"SUCCESS")
                 this.getVerificationNumber()
                 setTimeout(() => {
-                  this.props.navigation.push("verification" ,{num1:this.state.verifNum1,num2:this.state.verifNum2,num3:this.state.verifNum3,num4:this.state.verifNum4})
+                  this.props.navigation.push("verification" ,{num1:this.state.verifNum1,num2:this.state.verifNum2,num3:this.state.verifNum3,num4:this.state.verifNum4,credentials:this.state.credentials})
                 }, 2000);
               }
             }
