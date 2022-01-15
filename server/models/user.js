@@ -7,6 +7,11 @@ module.exports.getUserById = function(id, callback){
     user.findOne(query, callback);
 }
 
+module.exports.find_a_user_by_id_and_update =  function (id, callback) {
+   const query = {_id: id};
+   user.findByIdAndUpdate(query, callback);
+}
+
 module.exports.getUserByEmail = function(email, callback){
     const query = {email: email};
     user.findOne(query, callback);

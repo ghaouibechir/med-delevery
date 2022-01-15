@@ -8,8 +8,8 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
   },
-  phoneNumber: {
-    type: Number
+  phoneNumber:{
+    type:String
   },
   email: {
     type: String,

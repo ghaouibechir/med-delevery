@@ -7,19 +7,14 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  Button,
+  TextInput,
 } from "react-native";
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Footer from "./Footer";
-
-
-
-export default function ProfileScreen({ navigation }) {
-
-
+export default function EditProfile({ navigation }) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
       <View
@@ -35,23 +30,11 @@ export default function ProfileScreen({ navigation }) {
           </View>
           <View style={{ flexDirection: "row" }}>
           <AntDesign
-             name="edit" 
+             name="check" 
              size={27} 
              color={Colors.whiteColor}
-             onPress={() => navigation.navigate("editProfile")}
+             onPress={() => navigation.navigate('Profile')}
              />
-            <TouchableOpacity>
-              <MaterialIcons
-                name="shopping-cart"
-                size={26}
-                color={Colors.whiteColor}
-                style={{ marginLeft: Sizes.fixPadding + 10.0 }}
-                onPress={() => navigation.navigate("cart")}
-              />
-              <View style={styles.cartItemCountWrapStyle}>
-                <Text style={{ ...Fonts.whiteColor15Regular }}></Text>
-              </View>
-            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -61,7 +44,6 @@ export default function ProfileScreen({ navigation }) {
           style={styles.avatar}
           source={{ uri: "https://bootdey.com/img/Content/avatar/avatar6.png" }}
         />
-        
         <View style={styles.body}>
           <View style={styles.bodyContent}>
             <Text style={styles.name}>John Doe</Text>
@@ -77,27 +59,29 @@ export default function ProfileScreen({ navigation }) {
             </View>
 
             <TouchableOpacity style={styles.buttonContainer}>
-              <Text style={{ fontSize: 26 }}> User</Text>
+              <TextInput style={{ fontSize: 26 }}
+              placeholder="User name"
+              ></TextInput>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer}>
-              <Text style={{ fontSize: 15 }}> user@gmail.com</Text>
+              <TextInput style={{ fontSize: 26 }}
+              placeholder="Email"
+              ></TextInput>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.buttonContainer}
-              onPress={() => navigation.navigate("cart")}
-            >
-              <Text style={{ fontSize: 15 }}> Your card</Text>
+            <TouchableOpacity style={styles.buttonContainer}>
+              <TextInput style={{ fontSize: 26 }}
+              placeholder="Phone number"
+              ></TextInput>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.buttonContainer}
-              onPress={() => navigation.navigate("login")}
-            >
-              <Text style={{ fontSize: 15 }}>Logout</Text>
+            <TouchableOpacity style={styles.buttonContainer}>
+              <TextInput style={{ fontSize: 26 }}
+              placeholder="Adress"
+              ></TextInput>
             </TouchableOpacity>
           </View>
         </View>
       </View>
-      <View style={{ marginTop: 650 }}>
+      <View style={{ marginTop: 420 }}>
         <Footer />
       </View>
     </SafeAreaView>

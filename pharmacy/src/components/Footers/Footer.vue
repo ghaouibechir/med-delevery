@@ -2,7 +2,7 @@
   <footer class="relative bg-blueGray-200 pt-8 pb-6">
     <div
       class="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
-      style="transform: translateZ(0);"
+      style="transform: translateZ(0)"
     >
       <svg
         class="absolute bottom-0 overflow-hidden"
@@ -39,18 +39,12 @@
             >
               <i class="fab fa-facebook-square"></i>
             </button>
-            <button
+            <!-- <button
               class="bg-white text-pink-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
               type="button"
             >
               <i class="fab fa-dribbble"></i>
-            </button>
-            <button
-              class="bg-white text-blueGray-800 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-              type="button"
-            >
-              <i class="fab fa-github"></i>
-            </button>
+            </button> -->
           </div>
         </div>
         <div class="w-full lg:w-6/12 px-4">
@@ -86,14 +80,6 @@
                     Github
                   </a>
                 </li>
-                <li>
-                  <a
-                    class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm"
-                    href="https://www.creative-tim.com/bootstrap-themes/free?ref=vn-footer"
-                  >
-                    Free Products
-                  </a>
-                </li>
               </ul>
             </div>
             <div class="w-full lg:w-4/12 px-4">
@@ -103,14 +89,6 @@
                 Other Resources
               </span>
               <ul class="list-unstyled">
-                <li>
-                  <a
-                    class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm"
-                    href="https://github.com/creativetimofficial/vue-notus/blob/main/LICENSE.md?ref=vn-footer"
-                  >
-                    MIT License
-                  </a>
-                </li>
                 <li>
                   <a
                     class="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm"
@@ -146,12 +124,12 @@
       >
         <div class="w-full md:w-4/12 px-4 mx-auto text-center">
           <div class="text-sm text-blueGray-500 font-semibold py-1">
-            Copyright © {{ date }} Vue Notus by
+            Copyright © {{ date }}
             <a
               href="https://www.creative-tim.com?ref=vn-footer"
               class="text-blueGray-500 hover:text-blueGray-800"
             >
-              Creative Tim
+              Ho.Med
             </a>
             .
           </div>
