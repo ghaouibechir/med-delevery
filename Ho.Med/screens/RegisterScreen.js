@@ -49,11 +49,15 @@ class RegisterScreen extends Component {
     password: "",
     username:'',
     emailAddress: "",
-    PhoneNumber:0,
+    PhoneNumber:'',
     typemsg:'',
     address:'',
     message:'',
-    credentials:null
+    credentials:null,
+    verifNum1 : '',
+    verifNum2 : '',
+    verifNum3 : '',
+    verifNum4 : '',
   };
 
   render() {
@@ -89,6 +93,23 @@ class RegisterScreen extends Component {
   //     this.handlemsg('Persisting login failed')
   //   })
   // }
+
+
+
+  getVerificationNumber = async () => {
+    var num=this.state.PhoneNumber.phoneNumber
+    console.log('kkkkkkkkkkkkkkk',num);
+    try {
+      let response = await axios.post("http://192.168.11.10:5000/",{number:num});
+      this.setState({verifNum1 :response.data.num1});
+      this.setState({verifNum2 :response.data.num2});
+      this.setState({verifNum3 :response.data.num3});
+      this.setState({verifNum4 :response.data.num4});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   backArrow() {
     return (
       <MaterialIcons
@@ -228,8 +249,9 @@ class RegisterScreen extends Component {
             }}else{
               if(this.state.message !=='Please fill all the fields'){
                 this.handlemsg(`Welcome To Our Family ✅`,"SUCCESS")
+                this.getVerificationNumber()
                 setTimeout(() => {
-                  this.props.navigation.push("verification")
+                  this.props.navigation.push("verification" ,{num1:this.state.verifNum1,num2:this.state.verifNum2,num3:this.state.verifNum3,num4:this.state.verifNum4})
                 }, 2000);
               }
             }

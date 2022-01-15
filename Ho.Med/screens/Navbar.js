@@ -11,7 +11,6 @@ import {
   SafeAreaView,
   StatusBar,
   TextInput,
-  Button,
   Animated,
   BackHandler,
   Dimensions,
@@ -25,6 +24,7 @@ import axios from "axios";
 import data from "react-native-ico/src/data";
 import  AsyncStorage  from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "./CredentialsContext";
+
 
 class Navbar extends Component {
   static contextType = CredentialsContext
@@ -43,7 +43,7 @@ class Navbar extends Component {
 
       let response = await axios.get("http://192.168.11.58:5000/medecine");
       this.setState({medecine:response.data});
-     
+      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -72,7 +72,7 @@ class Navbar extends Component {
                 name="map-marker-outline"
                 size={27}
                 color={Colors.whiteColor}
-                onPress={() => this.props.navigation.push("MyLocation")}
+                onPress={() => this.props.navigation.push("localisation")}
               />
               <TouchableOpacity>
                 <MaterialIcons
@@ -107,13 +107,6 @@ class Navbar extends Component {
             />
           </TouchableOpacity>
         </View>
-        <View>
-        
-          <Button style={styles.bat} title="Prescription" 
-           onPress={() => this.props.navigation.push("Camera")}
-          
-          />
-        </View>
 
         <FlatList
           style={styles.list}
@@ -146,7 +139,6 @@ class Navbar extends Component {
                       <TouchableOpacity
                         style={styles.socialBarButton}
                         onPress={() => this.addProductToCart(item._id)}
-                        
                       >
                         <Image
                           style={styles.icon}
@@ -290,9 +282,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  bat: {
-    color: "#10857F",
-  },
 });
 Navbar.navigationOptions = () => {
   return {
@@ -300,4 +289,4 @@ Navbar.navigationOptions = () => {
     ...TransitionPresets.SlideFromRightIOS,
   };
 };
-export default withNavigation(Navbar);
+export default Navbar;
