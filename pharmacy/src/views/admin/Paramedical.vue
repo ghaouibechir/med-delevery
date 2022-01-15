@@ -20,7 +20,7 @@
                     <h5 class="dress-name">{{ item.name }}</h5>
                     <div class="d-flex flex-column mb-2">
                       <span class="new-price">{{ item.price }}</span>
-                      <small class="old-price text-right">00TND</small>
+                      <small class="old-price text-right">TND</small>
                     </div>
                     <div
                       class="d-flex justify-content-between align-items-center pt-1"
@@ -46,7 +46,7 @@
                         :placeholder="item.price"
                         v-model="price"
                       />
-                      <small class="old-price text-right">00TND</small>
+                      <small class="old-price text-right">TND</small>
                     </div>
                     <div
                       class="d-flex justify-content-between align-items-center pt-1"
@@ -164,26 +164,26 @@ export default {
 
   methods: {
     add: async function () {
-     this.upload();
-     setTimeout(()=>{
-       console.log('zzzzzzzzzzzzzzzzzz',this.thumbnail);
-       
-       var item = {
-        name: this.name,
-        price: this.price,
-        img: this.thumbnail,
-        pharmacyId: localStorage.getItem("id"),
-      };
+      this.upload();
+      setTimeout(() => {
+        console.log("zzzzzzzzzzzzzzzzzz", this.thumbnail);
 
-      axios
-        .post("http://localhost:5000/pharmacies/para", item)
-        .then(() => {
-          this.getPara();
-        })
-        .catch((err) => {
-          console.log(err);
-        })},1000)
-      
+        var item = {
+          name: this.name,
+          price: this.price,
+          img: this.thumbnail,
+          pharmacyId: localStorage.getItem("id"),
+        };
+
+        axios
+          .post("http://localhost:5000/pharmacies/para", item)
+          .then(() => {
+            this.getPara();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }, 1000);
     },
     thumbnailimg(event) {
       this.selectedFile = event.target.files[0];
@@ -201,7 +201,7 @@ export default {
         .then((response) => {
           console.log(response.data.url);
           this.thumbnail = response.data.url;
-          console.log('zzzzzzzabouromek',this.thumbnail);
+          console.log("zzzzzzzabouromek", this.thumbnail);
         });
     },
     getPara: function () {
@@ -235,7 +235,6 @@ export default {
       var itemData = {
         name: this.name,
         price: this.price,
-        
       };
       axios
         .put(`http://localhost:5000/pharmacies/updatePara/${id}`, itemData)
