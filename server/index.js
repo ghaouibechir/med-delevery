@@ -7,6 +7,7 @@ const passport = require("passport");
 var port = process.env.PORT || 5000;
 var cors = require("cors");
 const users = require("./routes/users");
+const myUsers = require("./routes/myUser");
 
 
 
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use("/user", myUsers);
 
 
 app.post("/" , (req , res) => {

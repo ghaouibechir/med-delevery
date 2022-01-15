@@ -44,10 +44,7 @@ class SigninScreen extends Component {
   };
 
   state = {
-    password: "",
-    username: "",
-    message:'',
-    typemsg:''
+   
   };
   
   render() {
@@ -59,49 +56,14 @@ class SigninScreen extends Component {
           <ScrollView showsVerticalScrollIndicator={false}>
             {this.appLogo()}
             {this.usernameAddressTextField()}
-            {this.passwordTextField()}
             {this.continueButton()}
           </ScrollView>
         </View>
       </SafeAreaView>
     );
   }
-  handlemsg(message,typemsg='FAILED'){
-    this.setState({message,typemsg})
 
-  }
   
-  
-  handleLogin(username=this.state.username,password=this.state.password){
-
-    this.handlemsg(null);
-     if(this.state.username =='' || this.state.password==''){
-      this.handlemsg("Please fill all the fields")
-     
-    }
-   const url='http://192.168.11.82:5000/users/authenticate'
-   axios.post(url,{username:username,password:password}).then((res)=>{
-     
-     const result=res.data
-     const {success}=result
-    if(success !== true){
-      if(this.state.message !=='Please fill all the fields'){ 
-      this.handlemsg('Invalid credentials entred ')
-    }}else{
-      this.handlemsg(`Connected ✅`,"SUCCESS")
-      setTimeout(() => {
-        this.props.navigation.push("navbar")
-      }, 1500);
-    }
-   
-    }).catch(err=>{
-     console.log(err);
-     if(this.state.message !=='Please fill all the fields'){ 
-       this.handlemsg('An error occured .Check your network and try again')
-      }
-    
-   })
-  }
 
   backArrow() {
     return (
@@ -132,18 +94,6 @@ class SigninScreen extends Component {
     );
   }
 
-  passwordTextField() {
-    return (
-      <TextInput
-        placeholder="Password"
-        value={this.state.password}
-        onChangeText={(text) => this.setState({ password: text })}
-        secureTextEntry={true}
-        selectionColor={Colors.primaryColor}
-        style={styles.textFieldStyle}
-      />
-    );
-  }
 
   registerText() {
     return (

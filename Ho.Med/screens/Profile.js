@@ -14,10 +14,13 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Footer from "./Footer";
+import useState from "react"
 
 
 
 export default function ProfileScreen({ navigation }) {
+
+  const [userName , setUserName] = useState()
 
 
   return (
