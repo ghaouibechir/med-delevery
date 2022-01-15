@@ -18,8 +18,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { TransitionPresets } from "react-navigation-stack";
 import IntlPhoneInput from 'react-native-intl-phone-input';
 import axios from "axios"
+import  AsyncStorage  from "@react-native-async-storage/async-storage";
+import { CredentialsContext } from "./CredentialsContext";
 
 class RegisterScreen extends Component {
+  static contextType = CredentialsContext
   componentDidMount() {
     BackHandler.addEventListener(
       "hardwareBackPress",
@@ -49,8 +52,8 @@ class RegisterScreen extends Component {
     PhoneNumber:0,
     typemsg:'',
     address:'',
-    message:''
-
+    message:'',
+    credentials:null
   };
 
   render() {
@@ -75,6 +78,17 @@ class RegisterScreen extends Component {
     );
   }
 
+  // persistLogin(credentials=this.state.credentials){
+  //   AsyncStorage.setItem('key',JSON.stringify(credentials))
+  //   .then(()=>{
+  //     this.handlemsg('okkkkkkkkkk')
+  //     this.context.setStored(credentials)
+  //   })
+  //   .catch((error)=>{
+  //     console.log(error);
+  //     this.handlemsg('Persisting login failed')
+  //   })
+  // }
   backArrow() {
     return (
       <MaterialIcons
@@ -189,7 +203,7 @@ class RegisterScreen extends Component {
         this.handlemsg("Please fill all the fields")
        
       }
-     const url='http://192.168.43.184:5000/users/register',
+     const url='http://192.168.11.58:5000/users/register',
      data={
        username :this.state.username,
        password:this.state.password,
@@ -206,7 +220,8 @@ class RegisterScreen extends Component {
           
           const result=res.data
           const {success,msg}=result
-          console.log(result);
+          this.setState({credentials:result.user})
+          console.log(this.state.credentials);
           if(success !== true){
             if(this.state.message !=='Please fill all the fields'){ 
               this.handlemsg(msg)

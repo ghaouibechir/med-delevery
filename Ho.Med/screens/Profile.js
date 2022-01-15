@@ -1,4 +1,4 @@
-import * as React from "react";
+import {React,useContext,useEffect}  from "react";
 
 import {
   SafeAreaView,
@@ -11,8 +11,20 @@ import {
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import  AsyncStorage  from "@react-native-async-storage/async-storage";
+import { CredentialsContext } from "./CredentialsContext";
+
 import Footer from "./Footer";
 export default function ProfileScreen({ navigation }) {
+  useEffect(()=>{
+    // console.log(stored);
+  },[])
+  const {stored,setStored}=useContext(CredentialsContext);
+  const clearLogin =()=>{
+    AsyncStorage.removeItem('key').then(()=>{
+      setStored(null)
+    }).catch(err=>console.log(err))
+  }
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
       <View
@@ -82,7 +94,7 @@ export default function ProfileScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonContainer}
-              onPress={() => navigation.navigate("login")}
+              onPress={clearLogin}
             >
               <Text style={{ fontSize: 15 }}>Logout</Text>
             </TouchableOpacity>

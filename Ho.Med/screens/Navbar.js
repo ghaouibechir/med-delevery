@@ -23,8 +23,11 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Footer from "./Footer";
 import axios from "axios";
 import data from "react-native-ico/src/data";
+import  AsyncStorage  from "@react-native-async-storage/async-storage";
+import { CredentialsContext } from "./CredentialsContext";
 
 class Navbar extends Component {
+  static contextType = CredentialsContext
   constructor(props) {
     super(props);
     this.state = {
@@ -33,11 +36,12 @@ class Navbar extends Component {
   }
   componentDidMount() {
     this.fetchdata();
+   AsyncStorage.getItem('key').then((d)=>{console.log('qqqqqqqqqqqqqqq',d);})
   }
   fetchdata = async () => {
     try {
 
-      let response = await axios.get("http://192.168.43.184:5000/medecine");
+      let response = await axios.get("http://192.168.11.58:5000/medecine");
       this.setState({medecine:response.data});
      
     } catch (error) {
