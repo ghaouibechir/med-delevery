@@ -65,8 +65,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr >
-            <td
+          <tr>
+            <td 
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
               <div class="flex">
@@ -142,21 +142,14 @@ export default {
     
   },
   beforeUpdate:function(){
- this.createdAt = this.orders.createdAt,
- this.totalPrice = this.orders.totalPrice
+  this.createdAt = this.orders.createdAt,
+  this.totalPrice = this.orders.totalPrice
   },
   methods:{
-    test:function() {
     
-    console.log( "orders",this.orders.totalPrice); 
-     console.log( "medecines",this.medecines);  
-    },
     hover:function() {
       this.hovered=!this.hovered
     }
-    // moment() {
-    //   return moment();
-    // },
 
   }
   

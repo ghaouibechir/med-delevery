@@ -18,8 +18,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { TransitionPresets } from "react-navigation-stack";
 import IntlPhoneInput from 'react-native-intl-phone-input';
 import axios from "axios"
+import  AsyncStorage  from "@react-native-async-storage/async-storage";
+import { CredentialsContext } from "./CredentialsContext";
 
 class RegisterScreen extends Component {
+  // static contextType = CredentialsContext
   componentDidMount() {
     BackHandler.addEventListener(
       "hardwareBackPress",
@@ -50,6 +53,7 @@ class RegisterScreen extends Component {
     typemsg:'',
     address:'',
     message:'',
+    credentials:null,
     verifNum1 : '',
     verifNum2 : '',
     verifNum3 : '',
@@ -78,6 +82,17 @@ class RegisterScreen extends Component {
     );
   }
 
+  // persistLogin(credentials=this.state.credentials){
+  //   AsyncStorage.setItem('key',JSON.stringify(credentials))
+  //   .then(()=>{
+  //     this.handlemsg('okkkkkkkkkk')
+  //     this.context.setStored(credentials)
+  //   })
+  //   .catch((error)=>{
+  //     console.log(error);
+  //     this.handlemsg('Persisting login failed')
+  //   })
+  // }
 
 
 
@@ -85,7 +100,7 @@ class RegisterScreen extends Component {
     var num=this.state.PhoneNumber.phoneNumber
     console.log('kkkkkkkkkkkkkkk',num);
     try {
-      let response = await axios.post("http://192.168.11.10:5000/",{number:num});
+      let response = await axios.post("http://192.168.11.58:5000/",{number:num});
       this.setState({verifNum1 :response.data.num1});
       this.setState({verifNum2 :response.data.num2});
       this.setState({verifNum3 :response.data.num3});
@@ -211,7 +226,7 @@ class RegisterScreen extends Component {
         this.handlemsg("Please fill all the fields")
        
       }
-     const url='http://192.168.11.10:5000/users/register',
+     const url='http://192.168.11.58:5000/users/register',
      data={
        username :this.state.username,
        password:this.state.password,
@@ -228,7 +243,8 @@ class RegisterScreen extends Component {
           
           const result=res.data
           const {success,msg}=result
-          console.log(result);
+          this.setState({credentials:result.user})
+          console.log(this.state.credentials);
           if(success !== true){
             if(this.state.message !=='Please fill all the fields'){ 
               this.handlemsg(msg)
@@ -237,7 +253,7 @@ class RegisterScreen extends Component {
                 this.handlemsg(`Welcome To Our Family ✅`,"SUCCESS")
                 this.getVerificationNumber()
                 setTimeout(() => {
-                  this.props.navigation.push("verification" ,{num1:this.state.verifNum1,num2:this.state.verifNum2,num3:this.state.verifNum3,num4:this.state.verifNum4})
+                  this.props.navigation.push("verification" ,{num1:this.state.verifNum1,num2:this.state.verifNum2,num3:this.state.verifNum3,num4:this.state.verifNum4,credentials:this.state.credentials})
                 }, 2000);
               }
             }

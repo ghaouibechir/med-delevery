@@ -48,18 +48,14 @@ export default {
     mounted:function(){
     let y = localStorage.getItem('session')
     this.id = JSON.parse(y).id
-    console.log(this.id);
    axios.get(`http://localhost:5000/pharmacies/getOrders/${this.id}`)
    .then(({data})=>{
      console.log('data' ,data);
-    //  var orders=this.orders;
       this.orders=data.orders
       this.medecines=data.arr
       this.username = data.username;
 
-     console.log( "orders",this.orders); 
-     console.log( "medecines",this.medecines);  
-    console.log(this.username);
+    
    })
   
     }
