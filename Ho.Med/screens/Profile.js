@@ -1,4 +1,5 @@
-import * as React from "react";
+import {React,useContext,useEffect ,useState}  from "react";
+
 import {
   SafeAreaView,
   View,
@@ -12,8 +13,9 @@ import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import  AsyncStorage  from "@react-native-async-storage/async-storage";
+import { CredentialsContext } from "./CredentialsContext";
 import Footer from "./Footer";
-import {useState ,useEffect} from "react";
 import axios from "axios";
 
 
@@ -22,20 +24,37 @@ import axios from "axios";
 export default function ProfileScreen({ navigation }) {
 
   const [user , setUser] = useState({})
+  const [userId , setUserId] = useState("")
+
+  useEffect(() => {
+    AsyncStorage.getItem('key').then((d)=>{setUserId(JSON.parse(d).id)})
+    console.log(userId)
+  },[])
+
   useEffect(() => {
     getUser()
   })
 
+  
+
   const getUser = async () => {
+    const id = userId
     try {
-      let response = await axios.get("http://192.168.11.82:5000/user/users")
-      setUser(response.data[0])
+      let response = await axios.get("http://192.168.1.113:5000/user/" + id)
+      setUser(response.data)
     }
     catch (err) {
       console.log(err)
     }
   }
 
+
+  const {stored,setStored}=useContext(CredentialsContext);
+  const clearLogin =()=>{
+    AsyncStorage.removeItem('key').then(()=>{
+      setStored(null)
+    }).catch(err=>console.log(err))
+  }
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
       <View
@@ -54,7 +73,7 @@ export default function ProfileScreen({ navigation }) {
              name="edit" 
              size={27} 
              color={Colors.whiteColor}
-             onPress={() => navigation.navigate("editProfile",{user:user})}
+             onPress={() => navigation.navigate("editProfile")}
              />
             <TouchableOpacity>
               <MaterialIcons
@@ -106,7 +125,7 @@ export default function ProfileScreen({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonContainer}
-              onPress={() => navigation.navigate("login")}
+              onPress={clearLogin}
             >
               <Text style={{ fontSize: 15 }}>Logout</Text>
             </TouchableOpacity>

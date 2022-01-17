@@ -17,7 +17,7 @@ module.exports = {
     },
     find_One: async (req, res, next) => {
          try {
-              console.log("\nRequesting the server to give me a specific user from the database ...\n");
+          //     console.log("\nRequesting the server to give me a specific user from the database ...\n");
               // the server will try the following
               const foundUser = await User.user
                    .findById(req.params.userId)

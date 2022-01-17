@@ -9,7 +9,7 @@ router.route("/users")
 
 router.route("/service").get(UsersController.find)
 
-router.route("/").get(UsersController.find)
+router.route("/hh").get(UsersController.find)
 
 router.route("/:userId")
   .get(UsersController.find_One) 

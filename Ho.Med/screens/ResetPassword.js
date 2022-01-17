@@ -23,7 +23,7 @@ import { TransitionPresets } from "react-navigation-stack";
 import axios from 'axios'
 
 
-class SigninScreen extends Component {
+class ResetPassword extends Component {
   componentDidMount() {
     BackHandler.addEventListener(
       "hardwareBackPress",
@@ -44,7 +44,8 @@ class SigninScreen extends Component {
   };
 
   state = {
-   
+   username : "" ,
+   credentials : ""
   };
   
   render() {
@@ -63,7 +64,19 @@ class SigninScreen extends Component {
     );
   }
 
-  
+   UpdateUser = async () => {
+    const id = userId
+    const username = userNameEdit
+    const email = emailEdit
+    const phoneNumber = phoneNumberEdit
+    try {
+      console.log("user updating...")
+      let result = await axios.put("http://192.168.1.113:5000/user/" + id , {username , email , phoneNumber})
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
 
   backArrow() {
     return (
@@ -95,6 +108,7 @@ class SigninScreen extends Component {
   }
 
 
+
   registerText() {
     return (
       <Text
@@ -122,19 +136,9 @@ class SigninScreen extends Component {
       >
         <Text style={{ ...Fonts.whiteColor19Medium }}>Sign In</Text>
       </TouchableOpacity>
-      <Line/>
-      <TouchableOpacity
-      onPress={() => this.handleLogin()
-      }
-      activeOpacity={0.9}
-      style={styles.continueButtonStyle}
-      >
-        <Text style={{ ...Fonts.whiteColor19Medium }}>Sign In with Google</Text>
-      </TouchableOpacity>
       <Text style={{marginLeft:80,marginTop:10}}>Don't have an accout already ? 
       <TextLink style={{textDecorationLine:'underline'}}
       onPress={()=>this.props.navigation.push("registerScreen")} >Sign up</TextLink></Text>
-      
       </View>
     );
   }
@@ -204,11 +208,11 @@ const styles = StyleSheet.create({
   },
 });
 
-SigninScreen.navigationOptions = () => {
+ResetPassword.navigationOptions = () => {
   return {
     header: () => null,
     ...TransitionPresets.SlideFromRightIOS,
   };
 };
 
-export default withNavigation(SigninScreen);
+export default withNavigation(ResetPassword);

@@ -13,6 +13,7 @@ import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons'; 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import  AsyncStorage  from "@react-native-async-storage/async-storage";
 import Footer from "./Footer";
 import {useState ,useEffect} from "react";
 import axios from "axios";
@@ -23,31 +24,38 @@ export default function EditProfile({ navigation }) {
   const [userNameEdit , setUserNameEdit] = useState(user.username)
   const [emailEdit , setemailEdit] = useState(user.email)
   const [phoneNumberEdit , setPhoneNumberEdit] = useState(user.phoneNumber)
+  const [userId , setUserId] = useState("")
+
+  useEffect(() => {
+    AsyncStorage.getItem('key').then((d)=>{setUserId(JSON.parse(d).id)})
+    console.log(userId)
+  },[])
 
   useEffect(() => {
     getUser()
-  },[])
+  })
 
-  const UpdateUser = async () => {
-    const id = user._id
-    const username = userNameEdit
-    const email = emailEdit
-    const phoneNumber = phoneNumberEdit
+  
+
+  const getUser = async () => {
+    const id = userId
     try {
-      console.log("user updating...")
-      let result = await axios.put("http://192.168.11.82:5000/user/" + id , {username , email , phoneNumber})
+      let response = await axios.get("http://192.168.1.113:5000/user/" + id)
+      setUser(response.data)
     }
     catch (err) {
       console.log(err)
     }
   }
 
-  const getUser = async () => {
+  const UpdateUser = async () => {
+    const id = userId
+    const username = userNameEdit
+    const email = emailEdit
+    const phoneNumber = phoneNumberEdit
     try {
-      console.log("geting user")
-      let response = await axios.get("http://192.168.11.82:5000/user/users")
-      setUser(response.data[0])
-      console.log(user)
+      console.log("user updating...")
+      let result = await axios.put("http://192.168.1.113:5000/user/" + id , {username , email , phoneNumber})
     }
     catch (err) {
       console.log(err)

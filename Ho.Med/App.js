@@ -6,6 +6,7 @@ import * as Font from 'expo-font';
 import Navbar from "./screens/Navbar";
 import Localisation from "./screens/Localisation";
 import Cart from "./screens/Cart";
+import React, { useState ,useEffect} from 'react'
 import RegisterScreen from "./screens/RegisterScreen";
 import Login from "./screens/SigninScreen";
 import LandingPage from "./screens/LandingPage";
@@ -15,36 +16,49 @@ import ReminderScreen from "./screens/Reminder"
 import ProfileScreen from "./screens/Profile"
 import VerificationScreen from "./screens/Verification";
 import AboutScreen from "./screens/About";
+import Apploading from 'expo-app-loading';
+import  AsyncStorage  from "@react-native-async-storage/async-storage";
+import { CredentialsContext } from "./screens/CredentialsContext";
 import EditProfile from './screens/editProfile';
+import CameraScreen from './screens/camera';
+import ResetPassword from './screens/ResetPassword';
 
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+    const [appReady,setAppReady]=useState(false);
+    const [stored,setStored]=useState('');
+   
+    const checkLogin=()=>{
+      AsyncStorage.getItem('key').then((res)=>{
+        if(res !== null){
+          setStored( JSON.parse(res))
+      }else {
+        setStored(null)
+      }
+    
+    }).catch(error=>console.log(error))
+    }
+    if(!appReady){
+      return (
+        <Apploading
+        startAsync={checkLogin}
+        onFinish={()=>setAppReady(true)}
+        onError={console.warn}
+        />
+      )
+    }
   return (
-    <NavigationContainer>
+    <CredentialsContext.Provider value={{stored,setStored}}>
+      <CredentialsContext.Consumer>
+        {({stored})=>(
+          <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
-          name="landingPage"
-          component={LandingPage}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="registerScreen"
-          component={RegisterScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="verification"
-          component={VerificationScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="login"
-          component={Login}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
+          {
+            stored ?
+             <>
+             <Stack.Screen
           name="navbar"
           component={Navbar}
           options={{ headerShown: false }}
@@ -79,17 +93,56 @@ export default function App() {
           component={ProfileScreen}
           options={{ headerShown: false}}
         />
+         <Stack.Screen
+          name="Camera"
+          component={CameraScreen}
+          options={{ headerShown: true}}
+        /> 
         <Stack.Screen
           name="editProfile"
           component={EditProfile}
           options={{ headerShown: false}}
+        /> 
+        </>
+        :
+        <><Stack.Screen
+          name="landingPage"
+          component={LandingPage}
+          options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="registerScreen"
+          component={RegisterScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="forgotPassword"
+          component={ResetPassword}
+          options={{ headerShown: false}}
+        />
+        <Stack.Screen
+          name="verification"
+          component={VerificationScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="login"
+          component={Login}
+          options={{ headerShown: false }}
+        /></>
+          }
+
+         
         
         
         
         
       </Stack.Navigator>
-      {/* <Footer/> */}
-    </NavigationContainer>
+      
+    </NavigationContainer> 
+        )}
+      </CredentialsContext.Consumer>
+     </CredentialsContext.Provider>
+    
   );
 }

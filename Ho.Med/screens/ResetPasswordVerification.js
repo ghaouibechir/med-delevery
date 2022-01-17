@@ -19,7 +19,7 @@ import { CircleFade } from 'react-native-animated-spinkit';
 import { TransitionPresets } from "react-navigation-stack";
 import { CredentialsContext } from "./CredentialsContext";
 // this.context.setStored(credentials)
-class VerificationScreen extends Component {
+class ResetPasswordVerification extends Component {
     static contextType = CredentialsContext
     constructor(props){
       super(props)
@@ -261,11 +261,11 @@ const styles = StyleSheet.create({
     }
 })
 
-VerificationScreen.navigationOptions = () => {
+ResetPasswordVerification.navigationOptions = () => {
     return {
         header: () => null,
         ...TransitionPresets.SlideFromRightIOS,
     }
 }
 
-export default withNavigation(VerificationScreen);
+export default withNavigation(ResetPasswordVerification);

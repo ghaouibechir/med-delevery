@@ -21,14 +21,19 @@ import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TransitionPresets } from "react-navigation-stack";
 import axios from 'axios'
-
+import  AsyncStorage  from "@react-native-async-storage/async-storage";
+import { CredentialsContext } from "./CredentialsContext";
 
 class SigninScreen extends Component {
+  static contextType = CredentialsContext
+
   componentDidMount() {
     BackHandler.addEventListener(
       "hardwareBackPress",
       this.handleBackButton.bind(this)
+      
     );
+    console.log('aaaa',this.context);
   }
 
   componentWillUnmount() {
@@ -47,7 +52,8 @@ class SigninScreen extends Component {
     password: "",
     username: "",
     message:'',
-    typemsg:''
+    typemsg:'',
+    credentials:null
   };
   
   render() {
@@ -66,6 +72,20 @@ class SigninScreen extends Component {
       </SafeAreaView>
     );
   }
+
+persistLogin(credentials=this.state.credentials){
+  AsyncStorage.setItem('key',JSON.stringify(credentials) )
+  .then(()=>{
+    this.handlemsg('okkkkkkkkkk')
+    this.context.setStored(credentials)
+  })
+  .catch((error)=>{
+    console.log(error);
+    this.handlemsg('Persisting login failed')
+  })
+}
+
+
   handlemsg(message,typemsg='FAILED'){
     this.setState({message,typemsg})
 
@@ -79,10 +99,12 @@ class SigninScreen extends Component {
       this.handlemsg("Please fill all the fields")
      
     }
-   const url='http://192.168.11.82:5000/users/authenticate'
+   const url='http://192.168.1.113:5000/users/authenticate'
    axios.post(url,{username:username,password:password}).then((res)=>{
      
      const result=res.data
+     this.setState({credentials:result.user})
+     
      const {success}=result
     if(success !== true){
       if(this.state.message !=='Please fill all the fields'){ 
@@ -90,7 +112,8 @@ class SigninScreen extends Component {
     }}else{
       this.handlemsg(`Connected ✅`,"SUCCESS")
       setTimeout(() => {
-        this.props.navigation.push("navbar")
+        // this.props.navigation.push("navbar")
+        this.persistLogin(this.state.credentials)
       }, 1500);
     }
    
@@ -162,7 +185,6 @@ class SigninScreen extends Component {
   continueButton() {
     return (
       <View>
-
       <MsgBox type={this.state.typemsg}>{this.state.message}</MsgBox>
       <TouchableOpacity
       onPress={() => this.handleLogin()
@@ -184,7 +206,9 @@ class SigninScreen extends Component {
       <Text style={{marginLeft:80,marginTop:10}}>Don't have an accout already ? 
       <TextLink style={{textDecorationLine:'underline'}}
       onPress={()=>this.props.navigation.push("registerScreen")} >Sign up</TextLink></Text>
-      
+      <Text style={{marginLeft:80,marginTop:10}}>You forgot your password ? 
+      <TextLink style={{textDecorationLine:'underline'}}
+      onPress={()=>this.props.navigation.push("forgotPassword")} >Forgot password</TextLink></Text>
       </View>
     );
   }
