@@ -71,9 +71,9 @@
           </router-link>
           </div>
           <div class="w-1/2 text-right">
-         
-              <small>Create new account</small>
-            
+          <router-link to="/register">
+              <small class="text-blueGray-200">Create new account</small>
+          </router-link>
           </div>
         </div>
       </div>

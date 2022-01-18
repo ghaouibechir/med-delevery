@@ -4,14 +4,13 @@ const jwt = require("jsonwebtoken");
 const Pharmacy = require("../models/pharmacy");
 const config = require("../config/database");
 
-const { pharmacy, para, resetpasswords, order , medecine , user } = require("../database-mongodb/schemas");
+const { pharmacy, para, resetpasswords} = require("../database-mongodb/schemas");
 const passport = require("passport");
 const crypto = require("crypto");
 const nodemailer = require('nodemailer');
 const bcrypt = require("bcryptjs");
 
-// const sendgridTransport = require('nodemailer-sendgrid-transport')
-//const {SENDGRID_API,EMAIL} = require('../config/key 
+
 
 
 router.post("/register", (req, res, next) => {
@@ -119,36 +118,7 @@ router.post("/resetpassword",(req,res)=>{
    
   })
   
-  router.get('/getOrders/:id',async(req,res)=>{
-    console.log(req.params)
-     let id=req.params.id
-    
-    
-     var orders= await order.findOne({pharmacyId:id })
-      var array=[]
-        for(var i=0; i<orders.medecineId.length; i++){
-          
-          array.push(orders.medecineId[i])
 
-          }
-         
-          var medecin = await medecine.find({ '_id': { $in: array } });
-          
-          var arr=[]
-       for (var i=0; i<medecin.length ;i++) {
-        arr.push(medecin[i].name)
-       } 
-       var username=''
-       var userInfo = await user.find({ '_id': orders.userId });
-       for (var i=0; i<userInfo.length ;i++) {
-        username=userInfo[i].username
-       } 
-      
-       //const userName = userInfo.username
-     res.send({arr, orders ,username });
-     
-
-  })
  
    
 
@@ -162,24 +132,29 @@ router.post("/resetpassword",(req,res)=>{
     console.log('resetpassword',found)
     let email = found.email
     var foundPharmacy = await pharmacy.findOne({email})
-      console.log(foundPharmacy , ' fouuund')
-      var hashedPassword = bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash( foundPharmacy.password, salt, (err, hash) => {
-          if (err) console.log("error");
-          foundPharmacy.password = hash;
-          foundPharmacy.save();
+      console.log(' fouuund',foundPharmacy._id )
+
+
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newPassword, salt, (err, hash) => {
+          if (err){throw err;} 
+         else{newPassword = hash;
+        } 
         });
       });
-     
-      const updatedPharmacy = pharmacy.findByIdAndUpdate(
-          { _id: foundPharmacy._id },
-          { password: hashedPassword },
-          { new: true }
-        ).select("-password");
-        console.log('update done',updatedPharmacy)
-       res.send("done")
-        
-      })
+   setTimeout(()=>{
+   console.log(newPassword)
+   pharmacy.findOneAndUpdate( {email},{ password: newPassword},(erreur,data)=>{
+     if(erreur){
+       res.send(erreur)
+     }else{
+       res.send(data)
+     }
+   })
+   },1000)
+
+
+})
     
     
 // add Para
