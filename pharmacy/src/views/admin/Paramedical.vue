@@ -166,7 +166,7 @@ export default {
     add: async function () {
       this.upload();
       setTimeout(() => {
-        console.log("zzzzzzzzzzzzzzzzzz", this.thumbnail);
+        console.log(this.thumbnail);
 
         var item = {
           name: this.name,
@@ -211,7 +211,7 @@ export default {
         .get(`http://localhost:5000/pharmacies/para/${id}`)
         .then(({ data }) => {
           this.items = data;
-          console.log("aaaaaaaaaaaa", this.items);
+          console.log(this.items);
         })
         .catch((err) => {
           console.log(err);
