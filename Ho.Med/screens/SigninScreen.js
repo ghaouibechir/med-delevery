@@ -12,20 +12,28 @@ import {
   Image,
   Alert,
   TouchableOpacity,
- 
+  ActivityIndicator
+
 } from "react-native";
+import {Formik} from 'formik'
 import { withNavigation } from "react-navigation";
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TransitionPresets } from "react-navigation-stack";
 import axios from 'axios'
+import  AsyncStorage  from "@react-native-async-storage/async-storage";
+import { CredentialsContext } from "./CredentialsContext";
 
 class SigninScreen extends Component {
+  static contextType = CredentialsContext
+
   componentDidMount() {
     BackHandler.addEventListener(
       "hardwareBackPress",
       this.handleBackButton.bind(this)
+      
     );
+    console.log('aaaa',this.context);
   }
 
   componentWillUnmount() {
@@ -42,14 +50,12 @@ class SigninScreen extends Component {
 
   state = {
     password: "",
-    emailAddress: "",
+    username: "",
     message:'',
-    typemsg:''
+    typemsg:'',
+    credentials:null
   };
-  msg() {
-      Alert.alert("Welcome", "connected successfully")
-      this.props.navigation.push("navbar")
-  }
+  
   render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
@@ -58,32 +64,65 @@ class SigninScreen extends Component {
           {this.backArrow()}
           <ScrollView showsVerticalScrollIndicator={false}>
             {this.appLogo()}
-            {this.emailAddressTextField()}
+            {this.usernameAddressTextField()}
             {this.passwordTextField()}
-           
             {this.continueButton()}
           </ScrollView>
         </View>
       </SafeAreaView>
     );
   }
-  handlemsg(message,type='failed'){
-    this.setState({message,type})
+
+persistLogin(credentials=this.state.credentials){
+  AsyncStorage.setItem('key',JSON.stringify(credentials) )
+  .then(()=>{
+    this.handlemsg('okkkkkkkkkk')
+    this.context.setStored(credentials)
+  })
+  .catch((error)=>{
+    console.log(error);
+    this.handlemsg('Persisting login failed')
+  })
+}
+
+
+  handlemsg(message,typemsg='FAILED'){
+    this.setState({message,typemsg})
 
   }
-  msg(){
-   
-      this.props.navigation.push("navbar")
-      Alert.alert('welcome','User connected')
-    
-  }
-  handleLogin(email=this.state.email,password=this.state.password){
-   const url='http://192.168.43.184:5000/users/authenticate'
-   axios.post(url,{email:email,password:password}).then((res)=>{
+  
+  
+  handleLogin(username=this.state.username,password=this.state.password){
+
+    this.handlemsg(null);
+     if(this.state.username =='' || this.state.password==''){
+      this.handlemsg("Please fill all the fields")
+     
+    }
+   const url='http://192.168.11.58:5000/users/authenticate'
+   axios.post(url,{username:username,password:password}).then((res)=>{
+     
      const result=res.data
-     const {message,status,data}=result
-   }).catch(err=>{
-     console.log(err.JSON());
+     this.setState({credentials:result.user})
+     
+     const {success}=result
+    if(success !== true){
+      if(this.state.message !=='Please fill all the fields'){ 
+      this.handlemsg('Invalid credentials entred ')
+    }}else{
+      this.handlemsg(`Connected ✅`,"SUCCESS")
+      setTimeout(() => {
+        // this.props.navigation.push("navbar")
+        this.persistLogin(this.state.credentials)
+      }, 1500);
+    }
+   
+    }).catch(err=>{
+     console.log(err);
+     if(this.state.message !=='Please fill all the fields'){ 
+       this.handlemsg('An error occured .Check your network and try again')
+      }
+    
    })
   }
 
@@ -104,13 +143,12 @@ class SigninScreen extends Component {
   }
 
 
-  emailAddressTextField() {
+  usernameAddressTextField() {
     return (
       <TextInput
-        placeholder="Email Address"
-        placeholderTextColor={Colors.primaryColor}
-        value={this.state.emailAddress}
-        onChangeText={(text) => this.setState({ emailAddress: text })}
+        placeholder="userName"
+        value={this.state.username}
+        onChangeText={(text) => this.setState({ username: text })}
         selectionColor={Colors.primaryColor}
         style={styles.textFieldStyle}
       />
@@ -121,7 +159,6 @@ class SigninScreen extends Component {
     return (
       <TextInput
         placeholder="Password"
-        placeholderTextColor={Colors.primaryColor}
         value={this.state.password}
         onChangeText={(text) => this.setState({ password: text })}
         secureTextEntry={true}
@@ -147,14 +184,31 @@ class SigninScreen extends Component {
 
   continueButton() {
     return (
+      <View>
+
+      <MsgBox type={this.state.typemsg}>{this.state.message}</MsgBox>
       <TouchableOpacity
-        onPress={() => this.msg()
+      onPress={() => this.handleLogin()
       }
-        activeOpacity={0.9}
-        style={styles.continueButtonStyle}
+      activeOpacity={0.9}
+      style={styles.continueButtonStyle}
       >
         <Text style={{ ...Fonts.whiteColor19Medium }}>Sign In</Text>
       </TouchableOpacity>
+      <Line/>
+      <TouchableOpacity
+      onPress={() => this.handleLogin()
+      }
+      activeOpacity={0.9}
+      style={styles.continueButtonStyle}
+      >
+        <Text style={{ ...Fonts.whiteColor19Medium }}>Sign In with Google</Text>
+      </TouchableOpacity>
+      <Text style={{marginLeft:80,marginTop:10}}>Don't have an accout already ? 
+      <TextLink style={{textDecorationLine:'underline'}}
+      onPress={()=>this.props.navigation.push("registerScreen")} >Sign up</TextLink></Text>
+      
+      </View>
     );
   }
 
@@ -169,8 +223,27 @@ class SigninScreen extends Component {
   }
 }
  const MsgBox = styled.Text`
-color:red;
-font-size:16px;
+text-align:center;
+font-size:13px;
+color:${(props)=>(props.type =='SUCCESS' ? 'green' :'red' )};
+margin-bottom:-15px
+margin-top:25px
+`
+const Line=styled.View`
+height:1px;
+text-align:center;
+width:90%;
+margin-bottom:-15px
+margin-top:23px
+background-color:black;
+margin-vertical:40px
+margin-left:20px
+`
+const TextLink=styled.Text`
+
+color:blue;
+justify-content:center;
+align-items:center
 `
  
 
@@ -181,7 +254,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primaryColor,
     paddingVertical: Sizes.fixPadding,
     marginHorizontal: Sizes.fixPadding,
-    borderRadius: Sizes.fixPadding - 5.0,
+    borderRadius: 20,
     marginTop: Sizes.fixPadding * 4.0,
   },
   appLogoStyle: {
@@ -194,7 +267,7 @@ const styles = StyleSheet.create({
   textFieldStyle: {
     borderColor: "rgba(0, 150, 136, 0.3)",
     borderWidth: 1.0,
-    borderRadius: Sizes.fixPadding - 5.0,
+    borderRadius: 20,
     paddingHorizontal: Sizes.fixPadding * 2.0,
     height: 55.0,
     ...Fonts.primaryColor18Medium,

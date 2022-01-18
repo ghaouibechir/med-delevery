@@ -1,232 +1,71 @@
-import React, { useState, useEffect } from "react";
-import MapView, { Marker, Circle } from "react-native-maps";
+import * as React from "react";
+
 import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  Platform,
   SafeAreaView,
+  
+  View,
+ 
+  StyleSheet,
+  
 } from "react-native";
-import * as Location from "expo-location";
-import { Colors, Fonts, Sizes } from "../constant/styles";
-import * as Font from "expo-font";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
-
-const MyLocation = ({ navigation }) => {
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
-
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
+import { Colors, Sizes } from "../constant/styles";
+import Footer from "./Footer";
+import { WebView } from "react-native-webview";
+import * as Location from 'expo-location';
+const MAP =
+  "https://www.google.com/maps/search/pharmacie+a+proximit%C3%A9/@36.8942714,10.1870812,16z";
+export default function NotificationScreen() {
+  const {errorMsg,setErrorMsg}=React.useState('')
+  const [longitude,setLongitude]=React.useState('')
+  const [latitude,setLatitude]=React.useState('')
+  React.useEffect(() => {
+    (
+       Location.requestForegroundPermissionsAsync().then(({status})=>{ if (status !== "granted") {
         setErrorMsg("Permission to access location was denied");
         return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLongitude(location.coords.longitude);
-      setLatitude(location.coords.latitude);
-    })();
+      }}).catch(()=>{}).then(()=>{  Location.getCurrentPositionAsync({}).catch(()=>{}).then((location)=>{  setLongitude(location.coords.longitude);
+      setLatitude(location.coords.latitude);})
+     }).catch(err=>{console.log(err)})
+    );
   }, []);
-
-  let text = "waiting...";
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
-
-  console.log(text);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
-      <View style={styles.container}>
-        <MapView
-          style={styles.map}
-          region={{
-            longitude: longitude,
-            latitude: latitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-          provider="google"
-        >
-          <Marker
-            coordinate={{
-              longitude: longitude,
-              latitude: latitude,
-            }}
-          >
-            <Text>USER</Text>
-            <Ionicons name="person-circle" size={30} color="green
-            " />
-          </Marker>
-          <Circle
-            center={{
-              longitude: longitude,
-              latitude: latitude,
-            }}
-            à
-            radius={5000}
-          />
-          <Marker
-            coordinate={{
-              longitude: 10.179535715461565,
-              latitude: 36.88146820239279,
-            }}
-          >
-            <MaterialCommunityIcons name="pharmacy" size={30} color="red" />
-          </Marker>
-          <Marker
-            coordinate={{
-              longitude: 10.180702559933698,
-              latitude: 36.89956335605289,
-            }}
-          >
-            <MaterialCommunityIcons name="pharmacy" size={30} color="red" />
-          </Marker>
-          <Marker
-            coordinate={{
-              longitude: 10.219451630415131,
-              latitude: 36.86990111747545,
-            }}
-          >
-            <MaterialCommunityIcons name="pharmacy" size={30} color="red" />
-          </Marker>
-          <Marker
-            coordinate={{
-              longitude: 10.199378918419225,
-              latitude: 36.86884079399952,
-            }}
-          >
-            <MaterialCommunityIcons name="pharmacy" size={30} color="red" />
-          </Marker>
-          <Marker
-            coordinate={{
-              longitude: 10.265798701297873,
-              latitude: 36.88103101623302,
-            }}
-          >
-            <MaterialCommunityIcons name="pharmacy" size={30} color="red" />
-          </Marker>
-          <Marker
-            coordinate={{
-              longitude: 10.166332263487682,
-              latitude: 36.8503442536553,
-            }}
-          >
-            <MaterialCommunityIcons name="pharmacy" size={30} color="red" />
-          </Marker>
-          <Marker
-            coordinate={{
-              longitude: 10.199009086009795,
-              latitude: 36.850006905589076,
-            }}
-          >
-            <MaterialCommunityIcons name="pharmacy" size={30} color="red" />
-          </Marker>
-          <Marker
-            coordinate={{
-              longitude: 10.198849513337217,
-              latitude: 36.84809151097825,
-            }}
-          >
-            <MaterialCommunityIcons name="pharmacy" size={30} color="red" />
-          </Marker>
-          <Marker
-            coordinate={{
-              longitude: 10.255441314977794,
-              latitude: 36.86310264620973,
-            }}
-          >
-            <MaterialCommunityIcons name="pharmacy" size={30} color="red" />
-          </Marker>
-          <Marker
-            coordinate={{
-              longitude: 10.257699573792456,
-              latitude: 36.85542349719524,
-            }}
-          >
-            <MaterialCommunityIcons name="pharmacy" size={30} color="red" />
-          </Marker>
-          <Marker
-            coordinate={{
-              longitude: 10.271249126569797,
-              latitude: 36.85135775292978,
-            }}
-          >
-            <MaterialCommunityIcons name="pharmacy" size={30} color="red" />
-          </Marker>
-          <Marker
-            coordinate={{
-              longitude: 10.282822702994943,
-              latitude: 36.84661411138088,
-            }}
-          >
-            <MaterialCommunityIcons name="pharmacy" size={30} color="red" />
-          </Marker>
-          <Marker
-            coordinate={{
-              longitude: 10.243867738442013,
-              latitude: 36.84254789865419,
-            }}
-          >
-            <MaterialCommunityIcons name="pharmacy" size={30} color="red" />
-          </Marker>
-          <Marker
-            coordinate={{
-              longitude: 10.230882750257704,
-              latitude: 36.83373702931288,
-            }}
-          >
-            <MaterialCommunityIcons name="pharmacy" size={30} color="red" />
-          </Marker>
-          <Marker
-            coordinate={{
-              longitude: 10.179507362224133,
-              latitude: 36.83283329301609,
-            }}
-          >
-            <MaterialCommunityIcons name="pharmacy" size={30} color="red" />
-          </Marker>
-          <Marker
-            coordinate={{
-              longitude: 10.180513490924131,
-              latitude: 36.82223713615669,
-            }}
-          >
-            <MaterialCommunityIcons name="pharmacy" size={30} color="red" />
-          </Marker>
-          <Marker
-            coordinate={{
-              longitude: 10.179826845461172,
-              latitude: 36.81344208827283,
-            }}
-          >
-            <MaterialCommunityIcons name="pharmacy" size={30} color="red" />
-          </Marker>
-        </MapView>
+      <View style={{ width: 420, height: 740 }}>
+        <WebView source={{ uri: MAP }} onLoad={console.log("Loaded!")} />
+      </View>
+
+      <View style={{ marginTop: 420, width: 100 }}>
+        <Footer />
       </View>
     </SafeAreaView>
   );
-};
-
+}
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
+  headerInfoWrapStyle: {
+    flexDirection: "row",
+    paddingLeft: Sizes.fixPadding,
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  cartItemCountWrapStyle: {
+    position: "absolute",
+    right: -8.0,
+    height: 17.0,
+    width: 17.0,
+    borderRadius: 8.5,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: Colors.redColor,
+    elevation: 10.0,
   },
-  map: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+  searchButtonStyle: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: Colors.whiteColor,
+    borderRadius: Sizes.fixPadding - 5.0,
+    paddingHorizontal: Sizes.fixPadding,
+    paddingVertical: Sizes.fixPadding + 1.0,
+    marginTop: Sizes.fixPadding + 5.0,
   },
 });
-
-export default MyLocation;
