@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Footer from "./Footer";
 export default function EditProfile({ navigation }) {
@@ -29,12 +29,12 @@ export default function EditProfile({ navigation }) {
             <Text style={{ ...Fonts.whiteColor20Medium }}>Ho-Med</Text>
           </View>
           <View style={{ flexDirection: "row" }}>
-          <AntDesign
-             name="check" 
-             size={27} 
-             color={Colors.whiteColor}
-             onPress={() => navigation.navigate('Profile')}
-             />
+            <AntDesign
+              name="check"
+              size={27}
+              color={Colors.whiteColor}
+              onPress={() => navigation.navigate('Profile')}
+            />
           </View>
         </View>
       </View>
@@ -60,22 +60,22 @@ export default function EditProfile({ navigation }) {
 
             <TouchableOpacity style={styles.buttonContainer}>
               <TextInput style={{ fontSize: 26 }}
-              placeholder="User name"
+                placeholder="User name"
               ></TextInput>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer}>
               <TextInput style={{ fontSize: 26 }}
-              placeholder="Email"
+                placeholder="Email"
               ></TextInput>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer}>
               <TextInput style={{ fontSize: 26 }}
-              placeholder="Phone number"
+                placeholder="Phone number"
               ></TextInput>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer}>
               <TextInput style={{ fontSize: 26 }}
-              placeholder="Adress"
+                placeholder="Adress"
               ></TextInput>
             </TouchableOpacity>
           </View>

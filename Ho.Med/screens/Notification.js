@@ -5,11 +5,11 @@ import { Colors, Sizes } from "../constant/styles";
 
 import Footer from "./Footer";
 
-  
+
 export default function NotificationScreen({ navigation }) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
-     
+
 
       <View style={{ marginTop: 420, width: 100 }}>
         <Footer />
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     width: 17.0,
     borderRadius: 8.5,
     alignItems: "center",
-    
+
     justifyContent: "center",
     backgroundColor: Colors.redColor,
     elevation: 10.0,

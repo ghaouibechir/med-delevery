@@ -7,8 +7,6 @@ import { TransitionPresets } from "react-navigation-stack";
 import * as ImagePicker from 'expo-image-picker';
 import Dialog from "react-native-dialog";
 import { FlatList } from "react-native-gesture-handler";
-
-
 import axios from "axios"
 const { width, height } = Dimensions.get('screen');
 
@@ -16,7 +14,6 @@ class CameraScreen extends Component {
 
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButton.bind(this));
-       
     }
 
     componentWillUnmount() {
@@ -223,26 +220,12 @@ class CameraScreen extends Component {
         )
     }
 
-    pickImageFromGallery = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        })
 
-        if (!result.cancelled) {
-            let newDataImg = this.state.prescriptionsList;
-            let item = {
-                id: Date.now(),
-                url: result.uri,
-            };
-            newDataImg.push(item);
-            this.setState({ prescriptionsList: newDataImg });
-        }
-    }
 
     pickImageFromCamera = async () => {
         let result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: false 
+            allowsEditing: false
         })
 
         if (!result.cancelled) {
@@ -250,9 +233,9 @@ class CameraScreen extends Component {
             let item = {
                 id: Date.now(),
                 url: result.uri,
-                
+
             };
-            console.log('jjjjjjjjjjjjjj',result);
+            console.log('jjjjjjjjjjjjjj', result);
             newDataImg.push(item);
             this.setState({ prescriptionsList: newDataImg });
         }
@@ -329,7 +312,7 @@ class CameraScreen extends Component {
                         ?
                         // this.props.navigation.push('PreviouslyBoughtItems')
                         // axios.post(url,esmelpersprectionfischema:this.state.prescriptionsList)
-                        console.log('Prescriptions list:',this.state.prescriptionsList)
+                        console.log('Prescriptions list:', this.state.prescriptionsList)
                         :
                         null
                     }
@@ -387,7 +370,7 @@ class CameraScreen extends Component {
         return (
             <View style={styles.headerWrapStyle}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    {/* <MaterialIcons name="arrow-back" size={24} color={Colors.whiteColor}
+                    <MaterialIcons name="arrow-back" size={24} color={Colors.whiteColor}
                         onPress={() => this.props.navigation.pop()}
                     />
                     <Text style={{
@@ -404,8 +387,8 @@ class CameraScreen extends Component {
                         size={26}
                         color={Colors.whiteColor}
                         onPress={() => this.props.navigation.push('Search')}
-                    /> */}
-                    {/* <TouchableOpacity
+                    />
+                    <TouchableOpacity
                         activeOpacity={0.9}
                         onPress={() => this.props.navigation.push('Cart')}
                     >
@@ -416,9 +399,11 @@ class CameraScreen extends Component {
                             style={{ marginLeft: Sizes.fixPadding + 10.0 }}
                         />
                         <View style={styles.cartItemCountWrapStyle}>
-                            
+                            <Text style={{ ...Fonts.whiteColor15Regular }}>
+                                1
+                            </Text>
                         </View>
-                    </TouchableOpacity> */}
+                    </TouchableOpacity>
                 </View>
             </View>
         )
