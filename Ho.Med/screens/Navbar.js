@@ -6,12 +6,12 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  Button,
   ScrollView,
   FlatList,
   SafeAreaView,
   StatusBar,
   TextInput,
-  Button,
   Animated,
   BackHandler,
   Dimensions,
@@ -23,31 +23,78 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Footer from "./Footer";
 import axios from "axios";
 import data from "react-native-ico/src/data";
+import  AsyncStorage  from "@react-native-async-storage/async-storage";
+import { CredentialsContext } from "./CredentialsContext";
+
 
 class Navbar extends Component {
+  static contextType = CredentialsContext
   constructor(props) {
     super(props);
     this.state = {
       medecine: [],
+      orderId: "",
+      value: 0,
+
+
     };
   }
   componentDidMount() {
     this.fetchdata();
+   AsyncStorage.getItem('key').then((d)=>{console.log('qqqqqqqqqqqqqqq',d);})
+  
   }
   fetchdata = async () => {
     try {
 
-      let response = await axios.get("http://192.168.43.184:5000/medecine");
+      let response = await axios.get("http://192.168.11.58:5000/medecine");
       this.setState({medecine:response.data});
-     
+      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
   };
-  addProductToCart = (e) => {
-    Alert.alert("Success", "The product has been added to your cart");
-    console.log(e);
-  };
+
+
+  
+  myCart(id) {
+    console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyy", id)
+     this.incrementValue() 
+   
+    axios.put(`http://192.168.11.58:5000/OrderId/${'bechir'}`, { id })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => { console.log(err) });
+
+
+
+
+    // axios.post("http://  192.168.11.55:5000/ordre", { medecines: this.state.orderId })
+    // .then((res) => {
+    //   console.log(res)
+    // })
+    // .catch((err) => { console.log(err) });
+
+    // this.props.navigation.push("cart")
+  }
+  incrementValue() {
+    
+    this.setState({
+      value: this.state.value + 1
+
+    })
+    console.log("value+" + (this.state.value + 1))
+  }
+
+
+
+
+  // addProductToCart = (e) => {
+  //   Alert.alert("Success", "The product has been added to your cart");
+  //   this.props.navigation.push("cart",{ cartItems:e })
+  //   console.log("aaaaaaaaaaaaaaa",e);
+  // };
 
   render() {
     return (
@@ -68,7 +115,7 @@ class Navbar extends Component {
                 name="map-marker-outline"
                 size={27}
                 color={Colors.whiteColor}
-                onPress={() => this.props.navigation.push("MyLocation")}
+                onPress={() => this.props.navigation.push("localisation")}
               />
               <TouchableOpacity>
                 <MaterialIcons
@@ -79,7 +126,7 @@ class Navbar extends Component {
                   onPress={() => this.props.navigation.push("cart")}
                 />
                 <View style={styles.cartItemCountWrapStyle}>
-                  <Text style={{ ...Fonts.whiteColor15Regular }}></Text>
+                  <Text >{this.state.value}</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -104,10 +151,10 @@ class Navbar extends Component {
           </TouchableOpacity>
         </View>
         <View>
-        
-          <Button style={styles.bat} title="Prescription" 
-           onPress={() => this.props.navigation.push("Camera")}
-          
+
+          <Button style={styles.bat} title="Prescription"
+            onPress={() => this.props.navigation.navigate("Camera")}
+
           />
         </View>
 
@@ -130,7 +177,7 @@ class Navbar extends Component {
                 <View style={styles.cardHeader}>
                   <View>
                     <Text style={styles.title}>{item.name}</Text>
-                    <Text style={styles.price}>{item.price}00TND</Text>
+                    <Text style={styles.price}>{item.price} TND</Text>
                   </View>
                 </View>
 
@@ -140,9 +187,17 @@ class Navbar extends Component {
                   <View style={styles.socialBarContainer}>
                     <View style={styles.socialBarSection}>
                       <TouchableOpacity
+                        activeOpacity={0.9}
                         style={styles.socialBarButton}
-                        onPress={() => this.addProductToCart(item._id)}
-                        
+                        // onPress={() => {this.addProductToCart(item._id ) } }
+                        // onPress={() => navigation.navigate('cart',{name:"bechir",age:"45"}) }
+
+                        onPress={() => { this.myCart(item._id)  }}
+                        // onPress={() => { this.incrementValue() }}
+
+
+
+
                       >
                         <Image
                           style={styles.icon}
@@ -150,7 +205,7 @@ class Navbar extends Component {
                             uri: "https://img.icons8.com/nolan/96/3498db/add-shopping-cart.png",
                           }}
                         />
-                        <Text style={[styles.socialBarLabel, styles.buyNow]}>
+                        <Text  style={[styles.socialBarLabel, styles.buyNow]}>
                           Buy Now
                         </Text>
                       </TouchableOpacity>
@@ -286,9 +341,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  bat: {
-    color: "#10857F",
-  },
 });
 Navbar.navigationOptions = () => {
   return {
@@ -296,4 +348,4 @@ Navbar.navigationOptions = () => {
     ...TransitionPresets.SlideFromRightIOS,
   };
 };
-export default withNavigation(Navbar);
+export default Navbar;

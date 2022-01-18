@@ -20,7 +20,7 @@
                 <input
                   type="text"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  placeholder="Email"
+                  placeholder="Username"
                   v-model="username"
                 />
               </div>
@@ -65,15 +65,15 @@
           </div>
         </div>
         <div class="flex flex-wrap mt-6 relative">
-          <div class="w-1/2">
-            <a href="javascript:void(0)" class="text-blueGray-200">
-              <small>Forgot password?</small>
-            </a>
+          <div class="w-1/2" style="cursor:pointer">
+          <router-link to="/forgotPassword">
+            <small class="text-blueGray-200">Forgot password</small>
+          </router-link>
           </div>
           <div class="w-1/2 text-right">
-            <router-link to="/register" class="text-blueGray-200">
-              <small>Create new account</small>
-            </router-link>
+          <router-link to="/register">
+              <small class="text-blueGray-200">Create new account</small>
+          </router-link>
           </div>
         </div>
       </div>
@@ -88,6 +88,7 @@ export default {
     return {
       username: "",
       password: "",
+      
     };
   },
   methods: {
@@ -100,6 +101,13 @@ export default {
       axios
         .post("http://localhost:5000/pharmacies/authenticate", identity)
         .then(({ data }) => {
+          console.log(identity);
+          console.log('data' ,data)
+          let session ={ 
+            
+            id:data.pharmacy.id
+          }
+          localStorage.setItem('session', JSON.stringify(session));
           localStorage.setItem("id", data.pharmacy.id);
           this.$router.push("/Index");
           console.log(localStorage.getItem("id"));
@@ -109,6 +117,7 @@ export default {
           alert("request failed");
         });
     },
+    
   },
 };
 </script>
