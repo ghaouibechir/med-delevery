@@ -42,6 +42,7 @@ class Navbar extends Component {
   componentDidMount() {
     this.fetchdata();
    AsyncStorage.getItem('key').then((d)=>{console.log('qqqqqqqqqqqqqqq',d);})
+  
   }
   fetchdata = async () => {
     try {
@@ -78,6 +79,7 @@ class Navbar extends Component {
     // this.props.navigation.push("cart")
   }
   incrementValue() {
+    
     this.setState({
       value: this.state.value + 1
 
