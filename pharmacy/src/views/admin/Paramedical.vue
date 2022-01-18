@@ -201,7 +201,7 @@ export default {
         .then((response) => {
           console.log(response.data.url);
           this.thumbnail = response.data.url;
-          console.log( this.thumbnail);
+          console.log("test", this.thumbnail);
         });
     },
     getPara: function () {
