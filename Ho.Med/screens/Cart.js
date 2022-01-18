@@ -31,6 +31,7 @@ export default class Cart extends Component {
 
     };
   }
+  
   incrementValue() {
     this.setState({
       value: this.state.value + 1
