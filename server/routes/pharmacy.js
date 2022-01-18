@@ -3,8 +3,15 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const Pharmacy = require("../models/pharmacy");
 const config = require("../config/database");
-const { pharmacy, para } = require("../database-mongodb/schemas");
+
+const { pharmacy, para, resetpasswords} = require("../database-mongodb/schemas");
 const passport = require("passport");
+const crypto = require("crypto");
+const nodemailer = require('nodemailer');
+const bcrypt = require("bcryptjs");
+
+
+
 
 router.post("/register", (req, res, next) => {
   let newPharmacy = new pharmacy({
@@ -55,6 +62,101 @@ router.post("/authenticate", (req, res, next) => {
   });
 });
 
+// router.get(
+//   "/profile",
+//   passport.authenticate("jwt", { session: false }),
+//   (req, res, next) => {
+  
+//     res.json({ pharmacy: req.pharmacy });
+//   }
+// );
+
+
+router.post("/resetpassword",(req,res)=>{
+  var data = req.body;
+  
+  let smpTransport = nodemailer.createTransport({
+    service : 'Gmail',
+    port: 465,
+    auth :{
+      user: 'all.in.one.customer.services@gmail.com',
+      pass : 'Azerty123+'
+    }
+  });
+
+  let hash_link = require("crypto").randomBytes(64).toString("hex")
+//   http://localhost:8080/reset/:hash_link
+  let mailOption ={
+    from : 'mo.med.services@gmail.com',
+    to : data.email,
+    subject : 'Reset password instructions',
+    html:`      
+    <h3>Click on the link below to reset your password </h3>
+    <p> <a href="http://localhost:8080/reset/${hash_link}">Change my password</a</p>
+    <p>Your password won't change until you access the link above and create a new one.</p>`
+  };
+    let PharmacyFound =   pharmacy.findOne(data.email) 
+    if (PharmacyFound){
+      let email=data.email
+      const resetPassword = {
+        id: PharmacyFound._id,
+        email,
+        hash: hash_link,
+      };
+      const createdResetPassword =  resetpasswords.create(resetPassword)};
+      smpTransport.sendMail(mailOption,(err, res) =>{
+        if(err){
+          res.send('error')
+        }else{
+          res.send('success')
+        }
+      })
+      smpTransport.close()
+      res.send('success')
+    
+    
+   
+  })
+  
+
+ 
+   
+
+  // router.get('/changePassword/:id', (req, res) =>{ 
+  //    let hash=req.params
+  //   res.send(hash)
+  // })
+  router.post('/changePassword', async(req,res)=>{
+    var { newPassword, id }=req.body
+    var found = await resetpasswords.findOne({ hash : id })
+    console.log('resetpassword',found)
+    let email = found.email
+    var foundPharmacy = await pharmacy.findOne({email})
+      console.log(' fouuund',foundPharmacy._id )
+
+
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newPassword, salt, (err, hash) => {
+          if (err){throw err;} 
+         else{newPassword = hash;
+        } 
+        });
+      });
+   setTimeout(()=>{
+   console.log(newPassword)
+   pharmacy.findOneAndUpdate( {email},{ password: newPassword},(erreur,data)=>{
+     if(erreur){
+       res.send(erreur)
+     }else{
+       res.send(data)
+     }
+   })
+   },1000)
+
+
+})
+    
+    
 // add Para
 router.post("/para", (req, res) => {
   console.log(req.body);

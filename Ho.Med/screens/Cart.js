@@ -31,6 +31,7 @@ export default class Cart extends Component {
 
     };
   }
+  
   incrementValue() {
     this.setState({
       value: this.state.value + 1
@@ -115,7 +116,7 @@ export default class Cart extends Component {
           columnWrapperStyle={styles.listContainer}
           data={this.state.data}
           keyExtractor={(item) => {
-            return item.id;
+            return item._id;
           }}
           renderItem={({ item }) => {
             return (

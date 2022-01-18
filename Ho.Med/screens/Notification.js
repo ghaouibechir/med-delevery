@@ -11,7 +11,7 @@ export default function NotificationScreen({ navigation }) {
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
 
 
-      <View style={{ marginTop: 420, width: 100 }}>
+      <View style={{ marginTop: 680, width: 100 }}>
         <Footer />
       </View>
     </SafeAreaView>

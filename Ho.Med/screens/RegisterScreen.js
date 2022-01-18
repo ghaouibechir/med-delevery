@@ -22,7 +22,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "./CredentialsContext";
 
 class RegisterScreen extends Component {
-  static contextType = CredentialsContext
+  // static contextType = CredentialsContext
   componentDidMount() {
     BackHandler.addEventListener(
       "hardwareBackPress",
@@ -180,6 +180,7 @@ class RegisterScreen extends Component {
   }
   userNameTextField() {
     return (
+      
       <TextInput
         placeholder="username"
         value={this.state.username}
@@ -187,6 +188,7 @@ class RegisterScreen extends Component {
         selectionColor={Colors.primaryColor}
         style={styles.textFieldStyle}
       />
+      
     );
   }
   addressTextField() {

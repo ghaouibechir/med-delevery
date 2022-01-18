@@ -11,18 +11,19 @@ import {
     Dimensions,
     BackHandler,
 } from "react-native";
-import { MaterialIcons } from '@expo/vector-icons';
+
 import { withNavigation } from "react-navigation";
 import { Colors, Sizes, Fonts } from "../constant/styles";
 import Dialog from "react-native-dialog";
 import { CircleFade } from 'react-native-animated-spinkit';
 import { TransitionPresets } from "react-navigation-stack";
-import axios from "axios";
-
+import { CredentialsContext } from "./CredentialsContext";
+// this.context.setStored(credentials)
 class VerificationScreen extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
+    static contextType = CredentialsContext
+    constructor(props){
+      super(props)
+       this.state = {
             isLoading: false,
             firstDigit: '',
             secondDigit: '',
@@ -32,7 +33,9 @@ class VerificationScreen extends Component {
     }
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButton.bind(this));
-        console.log('88888888888888888', this.props.route.params);
+        console.log('88888888888888888',this.props.route.params);
+        
+
     }
 
     componentWillUnmount() {
@@ -66,6 +69,7 @@ class VerificationScreen extends Component {
 
 
 
+ 
 
     loading() {
         return (
@@ -95,8 +99,9 @@ class VerificationScreen extends Component {
                     setTimeout(() => {
                         var v = this.props.route.params
                         this.setState({ isLoading: false })
-                        if (this.state.firstDigit == v.num1 && this.state.secondDigit == v.num2 && this.state.thirdDigit == v.num3 && this.state.forthDigit == v.num4) {
-                            this.props.navigation.navigate('navbar');
+                        if(this.state.firstDigit == v.num1 && this.state.secondDigit == v.num2 && this.state.thirdDigit == v.num3 && this.state.forthDigit == v.num4) {
+                        this.context.setStored(this.props.route.params.credentials)   
+                        this.props.navigation.navigate('navbar');
                         }
                         else (console.log('err'))
                     }, 2000);
@@ -180,7 +185,8 @@ class VerificationScreen extends Component {
                             setTimeout(() => {
                                 var v = this.props.route.params
                                 this.setState({ isLoading: false })
-                                if (this.state.firstDigit == v.num1 && this.state.secondDigit == v.num2 && this.state.thirdDigit == v.num3 && this.state.forthDigit == v.num4) {
+                                if(this.state.firstDigit == v.num1 && this.state.secondDigit == v.num2 && this.state.thirdDigit == v.num3 && this.state.forthDigit == v.num4) {
+                                    this.context.setStored(this.props.route.params.credentials)
                                     this.props.navigation.navigate('navbar');
                                 }
                                 else (console.log('err'))

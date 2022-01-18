@@ -44,28 +44,25 @@ class LandingPage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#c6dee4',
-
+    backgroundColor: "#c6dee4",
   },
   backgroundImage: {
     width: 600,
     height: 500,
     marginTop: 200,
     marginLeft: -50,
-
-
   },
   text: {
     //  fontFamily:"Helvetica Neue",
     fontSize: 20,
     lineHeight: 28,
-    color: '#29aba7',
+    color: "#29aba7",
     marginTop: 90,
 
     marginLeft: 70,
   },
   text2: {
-    color: "#c7e2eb"
+    color: "#c7e2eb",
   },
   exploreButton: {
     alignItems: "center",
@@ -74,8 +71,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginHorizontal: 155,
     borderRadius: 20,
-
-  }
+  },
 });
 LandingPage.navigationOptions = () => {
   return {

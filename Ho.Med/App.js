@@ -20,7 +20,7 @@ import Apploading from 'expo-app-loading';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "./screens/CredentialsContext";
 import EditProfile from './screens/editProfile';
-import CameraScreen from './screens/Camera'
+import CameraScreen from './screens/camera'
 const Stack = createNativeStackNavigator();
 export default function App() {
   const [appReady, setAppReady] = useState(false);

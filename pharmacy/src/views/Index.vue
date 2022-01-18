@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <section class="header pt-16 items-center flex h-screen max-h-860-px">
+  <div class="body">
+    <logout-component class="logout"/>
+    <section
+      class="header relative pt-16 items-center flex h-screen max-h-860-px"
+    >
       <div class="container mx-auto">
         <div class="justify-center flex flex-wrap">
           <div class="w-full lg:w-12/12 px-4 -mt-24">
@@ -73,7 +76,7 @@
 <script>
 // import IndexNavbar from "@/components/Navbars/IndexNavbar.vue";
 import FooterComponent from "@/components/Footers/Footer.vue";
-
+import LogoutComponent from "@/components/logout/Logout.vue";
 import patternVue from "@/assets/img/pattern_vue.png";
 import componentBtn from "@/assets/img/component-btn.png";
 import componentProfileCard from "@/assets/img/component-profile-card.png";
@@ -111,10 +114,12 @@ export default {
   components: {
     // IndexNavbar,
     FooterComponent,
+    LogoutComponent
   },
 };
 </script>
 <style scoped>
+
 #order {
   margin-top: 90px;
 }
@@ -123,5 +128,9 @@ export default {
   height: 50px;
   margin-top: 10px;
   width: 52%;
+}
+.logout{
+  margin-left:90%;
+  margin-top: 1%;
 }
 </style>
