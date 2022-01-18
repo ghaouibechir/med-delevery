@@ -59,14 +59,14 @@ const pharmacySchema = new mongoose.Schema({
 });
 
 const orderSchema = new mongoose.Schema({
-  pharmacyId: { type: String },
-  userId: { type: String },
-  medecineId: [Object],
-  totalPrice: { type: Number },
-  prescription: { type: String, default: '' },
-  response: { type: String, default: '' },
-  confirmation: { type: Boolean, default: false }
-
+ pharmacyId:{type:String },
+ userId:{type:String},
+ medecineId:{type:Array,default:[]},
+ totalPrice:{type:Number},
+ prescription:{type:String,default:''},
+ response:{type:String,default:''},
+ confirmation:{type:Boolean,default:false}
+ 
 });
 
 

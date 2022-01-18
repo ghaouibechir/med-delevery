@@ -60,7 +60,7 @@ export default class Cart extends Component {
     this.fetchdata();
   }
   confirm() {
-    axios.put(`http://192.168.11.65:5000/ListOrderById/${'bechir'}`, {})
+    axios.put(`http://192.168.11.58:5000/ListOrderById/${'bechir'}`, {})
       .then((res) => {
         console.log(res)
       })
@@ -78,7 +78,7 @@ export default class Cart extends Component {
   //   }
   // };
   fetchdata() {
-    axios.get(`http://192.168.11.65:5000/medecine/cart/${'bechir'}`).then(({ data }) => {
+    axios.get(`http://192.168.11.58:5000/medecine/cart/${'bechir'}`).then(({ data }) => {
       this.setState({ data: data })
       console.log("12121212121212121212121", this.state.data)
     })
@@ -114,7 +114,7 @@ export default class Cart extends Component {
           columnWrapperStyle={styles.listContainer}
           data={this.state.data}
           keyExtractor={(item) => {
-            return item.id;
+            return item._id;
           }}
           renderItem={({ item }) => {
             return (
