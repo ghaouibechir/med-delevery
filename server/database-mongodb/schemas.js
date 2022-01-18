@@ -1,7 +1,9 @@
+
 const mongoose = require('mongoose');
 const db = require('./index.js');
 mongoose.Promise = global.Promise;
 const AutoIncrement = require('mongoose-sequence')(mongoose);
+const { isEmail } = require("validator");
 
 const userSchema = new mongoose.Schema({
   id: { type: Number },
@@ -61,12 +63,13 @@ const pharmacySchema = new mongoose.Schema({
 const orderSchema = new mongoose.Schema({
  pharmacyId:{type:String },
  userId:{type:String},
- medecineId:{type:Array,default:[]},
+ medecineId:{type:Array},
  totalPrice:{type:Number},
  prescription:{type:String,default:''},
  response:{type:String,default:''},
- confirmation:{type:Boolean,default:false}
- 
+ confirmation:{type:Boolean,default:false},
+ createdAt: {type: Date, immutable: true,  default: () => Date.now() },
+ updatedAt: { type: Date, default: () => Date.now() }
 });
 
 
@@ -99,6 +102,13 @@ const adminSchema = new mongoose.Schema({
   password: String,
   username: String
 });
+const restPasswordSchema = mongoose.Schema(
+  {
+    hash: String,
+    email: String,
+  },
+  { versionKey: false } // to not save the __v attribute ... // Source: https://mongoosejs.com/docs/guide.html#versionKey
+);
 const admin = mongoose.model('admin', adminSchema);
 const user = mongoose.model('user', userSchema);
 const pharmacy = mongoose.model('pharmacy', pharmacySchema);
@@ -106,6 +116,7 @@ const order = mongoose.model('order', orderSchema);
 const medecine = mongoose.model('medecine', medecineSchema);
 const para = mongoose.model('para', paraSchema);
 const reminder = mongoose.model('reminder', reminderSchema);
+const resetpasswords = mongoose.model('ResetPassword', restPasswordSchema)
 
 module.exports = {
   user,
@@ -114,5 +125,6 @@ module.exports = {
   medecine,
   order,
   reminder,
-  admin
+  admin,
+  resetpasswords
 } 

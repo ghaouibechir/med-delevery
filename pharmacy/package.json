@@ -38,7 +38,10 @@
     "eslint": "7.22.0",
     "eslint-plugin-vue": "7.7.0",
     "postcss": "8.2.8",
-    "vue-template-compiler": "2.6.12"
+    "sass": "^1.48.0",
+    "sass-loader": "^12.4.0",
+    "vue-template-compiler": "2.6.12",
+    "webpack": "^5.66.0"
   },
   "eslintConfig": {
     "root": true,
