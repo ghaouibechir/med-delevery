@@ -9,12 +9,9 @@ import {
   Button,
   ScrollView,
   FlatList,
-  SafeAreaView,
-  StatusBar,
+
   TextInput,
-  Animated,
-  BackHandler,
-  Dimensions,
+
 } from "react-native";
 import { withNavigation } from "react-navigation";
 import { Colors, Fonts, Sizes } from "../constant/styles";
@@ -23,9 +20,12 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Footer from "./Footer";
 import axios from "axios";
 import data from "react-native-ico/src/data";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { CredentialsContext } from "./CredentialsContext";
 
 
 class Navbar extends Component {
+  static contextType = CredentialsContext
   constructor(props) {
     super(props);
     this.state = {
@@ -38,11 +38,14 @@ class Navbar extends Component {
   }
   componentDidMount() {
     this.fetchdata();
+   AsyncStorage.getItem('key').then((d)=>{console.log('qqqqqqqqqqqqqqq',d);})
+  
   }
   fetchdata = async () => {
     try {
-      let response = await axios.get("http://192.168.11.65:5000/medecine");
-      this.setState({medecine:response.data});
+
+      let response = await axios.get("http://192.168.43.216:5000/medecine");
+      this.setState({ medecine: response.data });
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -50,12 +53,12 @@ class Navbar extends Component {
   };
 
 
-  
+
   myCart(id) {
     console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyy", id)
-     this.incrementValue() 
-   
-    axios.put(`http://192.168.11.65:5000/OrderId/${'bechir'}`, { id })
+    this.incrementValue()
+
+    axios.put(`http://192.168.43.216:5000/OrderId/${'bechir'}`, { id })
       .then((res) => {
         console.log(res)
       })
@@ -73,6 +76,7 @@ class Navbar extends Component {
     // this.props.navigation.push("cart")
   }
   incrementValue() {
+    
     this.setState({
       value: this.state.value + 1
 
@@ -170,7 +174,7 @@ class Navbar extends Component {
                 <View style={styles.cardHeader}>
                   <View>
                     <Text style={styles.title}>{item.name}</Text>
-                    <Text style={styles.price}>{item.price}00TND</Text>
+                    <Text style={styles.price}>{item.price} TND</Text>
                   </View>
                 </View>
 
@@ -185,8 +189,8 @@ class Navbar extends Component {
                         // onPress={() => {this.addProductToCart(item._id ) } }
                         // onPress={() => navigation.navigate('cart',{name:"bechir",age:"45"}) }
 
-                        onPress={() => { this.myCart(item._id)  }}
-                        // onPress={() => { this.incrementValue() }}
+                        onPress={() => { this.myCart(item._id) }}
+                      // onPress={() => { this.incrementValue() }}
 
 
 
@@ -198,7 +202,7 @@ class Navbar extends Component {
                             uri: "https://img.icons8.com/nolan/96/3498db/add-shopping-cart.png",
                           }}
                         />
-                        <Text  style={[styles.socialBarLabel, styles.buyNow]}>
+                        <Text style={[styles.socialBarLabel, styles.buyNow]}>
                           Buy Now
                         </Text>
                       </TouchableOpacity>

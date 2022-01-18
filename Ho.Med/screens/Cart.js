@@ -25,12 +25,13 @@ export default class Cart extends Component {
     super(props);
     this.state = {
       data: [],
-      Valuue:[],
+      Valuue: [],
       value: 1,
       totalPrice: 0,
 
     };
   }
+  
   incrementValue() {
     this.setState({
       value: this.state.value + 1
@@ -45,22 +46,23 @@ export default class Cart extends Component {
   //   console.log("value+" + (this.state.value - 1))
   // }
   decrementValue() {
-    if(this.state.value===0){
+    if (this.state.value === 0) {
       this.setState({
         value: 0
-    })
-    
-    }else {
+      })
+
+    } else {
       this.setState({
         value: this.state.value - 1
-    })
-    console.log("value+" + (this.state.value - 1))
-  }}
+      })
+      console.log("value+" + (this.state.value - 1))
+    }
+  }
   componentDidMount() {
     this.fetchdata();
   }
   confirm() {
-    axios.put(`http://192.168.11.65:5000/ListOrderById/${'bechir'}`, {})
+    axios.put(`http://192.168.43.216:5000/ListOrderById/${'bechir'}`, {})
       .then((res) => {
         console.log(res)
       })
@@ -78,7 +80,7 @@ export default class Cart extends Component {
   //   }
   // };
   fetchdata() {
-    axios.get(`http://192.168.11.65:5000/medecine/cart/${'bechir'}`).then(({ data }) => {
+    axios.get(`http://192.168.11.58:5000/medecine/cart/${'bechir'}`).then(({ data }) => {
       this.setState({ data: data })
       console.log("12121212121212121212121", this.state.data)
     })
@@ -114,7 +116,7 @@ export default class Cart extends Component {
           columnWrapperStyle={styles.listContainer}
           data={this.state.data}
           keyExtractor={(item) => {
-            return item.id;
+            return item._id;
           }}
           renderItem={({ item }) => {
             return (
@@ -128,11 +130,11 @@ export default class Cart extends Component {
                     <Text style={[styles.description, this.__getDescriptionStyle(item)]}>{item.name}</Text>
                     <Text size={29}>Price :{item.price}DT</Text>
                     <Text>    </Text>
-                    <View style={{ flexDirection: "column"}}>
+                    <View style={{ flexDirection: "column" }}>
                       <MaterialCommunityIcons
                         name="plus"
                         size={29}
-                        onPress={() =>this.incrementValue() }
+                        onPress={() => this.incrementValue()}
                       />
                       <Text>    </Text>
                       <View style={{ fontSize: 900 }}><Text>Quantity : {this.state.value}</Text></View>

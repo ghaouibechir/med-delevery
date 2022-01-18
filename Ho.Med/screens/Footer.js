@@ -61,7 +61,7 @@ export default function Footer() {
 
           <Pressable
             style={styles.IconBehave}
-            onPress={() => navigation.navigate("camera")}
+            onPress={() => navigation.navigate("Notification")}
             android_ripple={{ borderless: true, radius: 50 }}
           >
             <Icon
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   NavBar: {
     flexDirection: "row",
     backgroundColor: "#eee",
-    
+
 
     justifyContent: "space-evenly",
   },

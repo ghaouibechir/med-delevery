@@ -83,7 +83,7 @@
                     color === 'light' ? 'text-blueGray-600' : 'text-white',
                   ]"
                 >
-                  {{username}}
+                  {{ username }}
                 </span>
               </th>
               <td
@@ -100,15 +100,31 @@
                 <div class="flex"></div>
               </td>
               <td
+                v-if="view && currentEdit !== item._id"
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
               >
                 <div class="flex items-center">
-                  <button class="yes">
+                  <button class="yes" v-on:click="changeView(item._id)">
                     <i class="fas fa-check"></i>
                   </button>
 
-                  <button class="no">
+                  <button class="no" v-on:click="changeView(item._id)">
                     <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </td>
+              <!-- confirmation view -->
+              <td
+                v-if="currentEdit === item._id"
+                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+              >
+                <div class="flex items-center">
+                  <button class="confirm" v-on:click="confirm(item._id)">
+                    confirm
+                  </button>
+
+                  <button class="decline" v-on:click="decline(item._id)">
+                    decline
                   </button>
                 </div>
               </td>
@@ -200,7 +216,7 @@
                 ></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody v-for="item in confirmeOrders" :key="item._id">
               <tr>
                 <th
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
@@ -216,18 +232,19 @@
                       color === 'dark' ? 'text-blueGray-600' : 'text-white',
                     ]"
                   >
-                    username
+                    {{ username }}
                   </span>
                 </th>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                 >
-                  price
+                  {{ item.totalPrice }}
                 </td>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                 >
-                  <i class="fas fa-circle text-orange-500 mr-2"></i> pending
+                  <i class="fas fa-circle text-emerald-500 mr-2"></i> In
+                  progress
                 </td>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -268,6 +285,9 @@ export default {
   data() {
     return {
       orders: [],
+      confirmeOrders: [],
+      view: true,
+      currentEdit: "",
     };
   },
   methods: {
@@ -282,7 +302,19 @@ export default {
           console.log(err);
         });
     },
+    changeView: function (id) {
+      // this.view = !this.view;
+      this.currentEdit = id;
+    },
+    confirm: function (id) {
+      this.confirmeOrders.push(id);
+      this.orders.pop(id);
+    },
+    decline: function (id) {
+      this.orders.pop(id);
+    },
   },
+
   components: {},
   props: {
     color: {
@@ -304,6 +336,15 @@ export default {
   color: darkcyan;
 }
 .no {
+  margin-left: 30px;
+  width: 20px;
+  color: crimson;
+}
+.confirm {
+  width: 20px;
+  color: darkcyan;
+}
+.decline {
   margin-left: 30px;
   width: 20px;
   color: crimson;
