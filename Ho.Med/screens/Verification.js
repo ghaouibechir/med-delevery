@@ -55,7 +55,7 @@ class VerificationScreen extends Component {
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                 >
-                    
+
                     {/* {this.backArrow()} */}
                     {this.verificationInfo()}
                     {this.otpFields()}
@@ -97,13 +97,13 @@ class VerificationScreen extends Component {
                 onPress={() => {
                     this.setState({ isLoading: true })
                     setTimeout(() => {
-                        var v=this.props.route.params
+                        var v = this.props.route.params
                         this.setState({ isLoading: false })
                         if(this.state.firstDigit == v.num1 && this.state.secondDigit == v.num2 && this.state.thirdDigit == v.num3 && this.state.forthDigit == v.num4) {
                         this.context.setStored(this.props.route.params.credentials)   
                         this.props.navigation.navigate('navbar');
                         }
-                        else(console.log('err'))
+                        else (console.log('err'))
                     }, 2000);
                 }}
                 style={styles.continueButtonStyle}>
@@ -134,7 +134,7 @@ class VerificationScreen extends Component {
                     <TextInput
                         value={this.state.firstDigit}
                         selectionColor={Colors.primaryColor}
-                        style={{ ...Fonts.primaryColor18Medium, paddingLeft: Sizes.fixPadding ,borderRadius:20 }}
+                        style={{ ...Fonts.primaryColor18Medium, paddingLeft: Sizes.fixPadding, borderRadius: 20 }}
                         onChangeText={(text) => {
                             this.setState({ firstDigit: text })
                             this.secondTextInput.focus();
@@ -147,7 +147,7 @@ class VerificationScreen extends Component {
                     <TextInput
                         value={this.state.secondDigit}
                         selectionColor={Colors.primaryColor}
-                        style={{ ...Fonts.primaryColor18Medium, paddingLeft: Sizes.fixPadding , borderRadius:20 }}
+                        style={{ ...Fonts.primaryColor18Medium, paddingLeft: Sizes.fixPadding, borderRadius: 20 }}
                         ref={(input) => { this.secondTextInput = input; }}
                         keyboardType="numeric"
                         onChangeText={(text) => {
@@ -160,7 +160,7 @@ class VerificationScreen extends Component {
                 <View style={styles.textFieldContentStyle}>
                     <TextInput
                         selectionColor={Colors.primaryColor}
-                        style={{ ...Fonts.primaryColor18Medium, paddingLeft: Sizes.fixPadding , borderRadius:20 }}
+                        style={{ ...Fonts.primaryColor18Medium, paddingLeft: Sizes.fixPadding, borderRadius: 20 }}
                         keyboardType="numeric"
                         value={this.state.thirdDigit}
                         ref={(input) => { this.thirdTextInput = input; }}
@@ -175,7 +175,7 @@ class VerificationScreen extends Component {
                 <View style={styles.textFieldContentStyle}>
                     <TextInput
                         selectionColor={Colors.primaryColor}
-                        style={{ ...Fonts.primaryColor18Medium, paddingLeft: Sizes.fixPadding, borderRadius:20 }}
+                        style={{ ...Fonts.primaryColor18Medium, paddingLeft: Sizes.fixPadding, borderRadius: 20 }}
                         keyboardType="numeric"
                         value={this.state.forthDigit}
                         ref={(input) => { this.forthTextInput = input; }}
@@ -183,13 +183,13 @@ class VerificationScreen extends Component {
                             this.setState({ forthDigit: text })
                             this.setState({ isLoading: true })
                             setTimeout(() => {
-                                var v=this.props.route.params
+                                var v = this.props.route.params
                                 this.setState({ isLoading: false })
                                 if(this.state.firstDigit == v.num1 && this.state.secondDigit == v.num2 && this.state.thirdDigit == v.num3 && this.state.forthDigit == v.num4) {
                                     this.context.setStored(this.props.route.params.credentials)
                                     this.props.navigation.navigate('navbar');
-                                    }
-                                    else (console.log('err'))
+                                }
+                                else (console.log('err'))
                             }, 2000);
                         }}
                     />
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     },
     dialogContainerStyle: {
         borderRadius: Sizes.fixPadding,
-        width:  - 80,
+        width: - 80,
         paddingBottom: Sizes.fixPadding * 3.0,
     },
     resendInfoWrapStyle: {

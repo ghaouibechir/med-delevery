@@ -15,13 +15,13 @@ import {
   ActivityIndicator
 
 } from "react-native";
-import {Formik} from 'formik'
+import { Formik } from 'formik'
 import { withNavigation } from "react-navigation";
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TransitionPresets } from "react-navigation-stack";
 import axios from 'axios'
-import  AsyncStorage  from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "./CredentialsContext";
 
 class SigninScreen extends Component {
@@ -31,9 +31,9 @@ class SigninScreen extends Component {
     BackHandler.addEventListener(
       "hardwareBackPress",
       this.handleBackButton.bind(this)
-      
+
     );
-    console.log('aaaa',this.context);
+    console.log('aaaa', this.context);
   }
 
   componentWillUnmount() {
@@ -51,11 +51,11 @@ class SigninScreen extends Component {
   state = {
     password: "",
     username: "",
-    message:'',
-    typemsg:'',
-    credentials:null
+    message: '',
+    typemsg: '',
+    credentials: null
   };
-  
+
   render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
@@ -73,57 +73,58 @@ class SigninScreen extends Component {
     );
   }
 
-persistLogin(credentials=this.state.credentials){
-  AsyncStorage.setItem('key',JSON.stringify(credentials) )
-  .then(()=>{
-    this.handlemsg('okkkkkkkkkk')
-    this.context.setStored(credentials)
-  })
-  .catch((error)=>{
-    console.log(error);
-    this.handlemsg('Persisting login failed')
-  })
-}
+  persistLogin(credentials = this.state.credentials) {
+    AsyncStorage.setItem('key', JSON.stringify(credentials))
+      .then(() => {
+        this.handlemsg('okkkkkkkkkk')
+        this.context.setStored(credentials)
+      })
+      .catch((error) => {
+        console.log(error);
+        this.handlemsg('Persisting login failed')
+      })
+  }
 
 
-  handlemsg(message,typemsg='FAILED'){
-    this.setState({message,typemsg})
+  handlemsg(message, typemsg = 'FAILED') {
+    this.setState({ message, typemsg })
 
   }
-  
-  
-  handleLogin(username=this.state.username,password=this.state.password){
+
+
+  handleLogin(username = this.state.username, password = this.state.password) {
 
     this.handlemsg(null);
-     if(this.state.username =='' || this.state.password==''){
+    if (this.state.username == '' || this.state.password == '') {
       this.handlemsg("Please fill all the fields")
-     
+
     }
-   const url='http://192.168.11.58:5000/users/authenticate'
-   axios.post(url,{username:username,password:password}).then((res)=>{
-     
-     const result=res.data
-     this.setState({credentials:result.user})
-     
-     const {success}=result
-    if(success !== true){
-      if(this.state.message !=='Please fill all the fields'){ 
-      this.handlemsg('Invalid credentials entred ')
-    }}else{
-      this.handlemsg(`Connected ✅`,"SUCCESS")
-      setTimeout(() => {
-        // this.props.navigation.push("navbar")
-        this.persistLogin(this.state.credentials)
-      }, 1500);
-    }
-   
-    }).catch(err=>{
-     console.log(err);
-     if(this.state.message !=='Please fill all the fields'){ 
-       this.handlemsg('An error occured .Check your network and try again')
+    const url = 'http://192.168.43.216:5000/users/authenticate'
+    axios.post(url, { username: username, password: password }).then((res) => {
+
+      const result = res.data
+      this.setState({ credentials: result.user })
+
+      const { success } = result
+      if (success !== true) {
+        if (this.state.message !== 'Please fill all the fields') {
+          this.handlemsg('Invalid credentials entred ')
+        }
+      } else {
+        this.handlemsg(`Connected ✅`, "SUCCESS")
+        setTimeout(() => {
+          // this.props.navigation.push("navbar")
+          this.persistLogin(this.state.credentials)
+        }, 1500);
       }
-    
-   })
+
+    }).catch(err => {
+      console.log(err);
+      if (this.state.message !== 'Please fill all the fields') {
+        this.handlemsg('An error occured .Check your network and try again')
+      }
+
+    })
   }
 
   backArrow() {
@@ -186,28 +187,28 @@ persistLogin(credentials=this.state.credentials){
     return (
       <View>
 
-      <MsgBox type={this.state.typemsg}>{this.state.message}</MsgBox>
-      <TouchableOpacity
-      onPress={() => this.handleLogin()
-      }
-      activeOpacity={0.9}
-      style={styles.continueButtonStyle}
-      >
-        <Text style={{ ...Fonts.whiteColor19Medium }}>Sign In</Text>
-      </TouchableOpacity>
-      <Line/>
-      <TouchableOpacity
-      onPress={() => this.handleLogin()
-      }
-      activeOpacity={0.9}
-      style={styles.continueButtonStyle}
-      >
-        <Text style={{ ...Fonts.whiteColor19Medium }}>Sign In with Google</Text>
-      </TouchableOpacity>
-      <Text style={{marginLeft:80,marginTop:10}}>Don't have an accout already ? 
-      <TextLink style={{textDecorationLine:'underline'}}
-      onPress={()=>this.props.navigation.push("registerScreen")} >Sign up</TextLink></Text>
-      
+        <MsgBox type={this.state.typemsg}>{this.state.message}</MsgBox>
+        <TouchableOpacity
+          onPress={() => this.handleLogin()
+          }
+          activeOpacity={0.9}
+          style={styles.continueButtonStyle}
+        >
+          <Text style={{ ...Fonts.whiteColor19Medium }}>Sign In</Text>
+        </TouchableOpacity>
+        <Line />
+        <TouchableOpacity
+          onPress={() => this.handleLogin()
+          }
+          activeOpacity={0.9}
+          style={styles.continueButtonStyle}
+        >
+          <Text style={{ ...Fonts.whiteColor19Medium }}>Sign In with Google</Text>
+        </TouchableOpacity>
+        <Text style={{ marginLeft: 80, marginTop: 10 }}>Don't have an accout already ?
+          <TextLink style={{ textDecorationLine: 'underline' }}
+            onPress={() => this.props.navigation.push("registerScreen")} >Sign up</TextLink></Text>
+
       </View>
     );
   }
@@ -222,14 +223,14 @@ persistLogin(credentials=this.state.credentials){
     );
   }
 }
- const MsgBox = styled.Text`
+const MsgBox = styled.Text`
 text-align:center;
 font-size:13px;
-color:${(props)=>(props.type =='SUCCESS' ? 'green' :'red' )};
+color:${(props) => (props.type == 'SUCCESS' ? 'green' : 'red')};
 margin-bottom:-15px
 margin-top:25px
 `
-const Line=styled.View`
+const Line = styled.View`
 height:1px;
 text-align:center;
 width:90%;
@@ -239,13 +240,13 @@ background-color:black;
 margin-vertical:40px
 margin-left:20px
 `
-const TextLink=styled.Text`
+const TextLink = styled.Text`
 
 color:blue;
 justify-content:center;
 align-items:center
 `
- 
+
 
 const styles = StyleSheet.create({
   continueButtonStyle: {
