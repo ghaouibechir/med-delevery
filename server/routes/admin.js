@@ -77,6 +77,16 @@ router.put('/ban/:_id', async(req, res)=>{
     }
   )
 
+  router.put('/banUser/:_id', async(req, res)=>{
+    console.log("bannnU");
+    console.log(req.params._id)
+    var ban = await pharmacy.findByIdAndUpdate({_id:req.params._id},{banned:true})
+      
+        console.log(ban.banned)
+        res.send("done")
+      }
+    )
+
 
 
 module.exports = router;

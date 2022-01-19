@@ -74,7 +74,7 @@ function Tables() {
                     status={row.connected}
                     date={moment(row.createdAt).format("MMM Do YY")}
                     
-                    />  
+                    _id={row._id} />  
                 );
               })}
 

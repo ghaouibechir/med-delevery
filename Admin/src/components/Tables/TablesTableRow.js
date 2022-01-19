@@ -9,13 +9,21 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
-
+import axios from "axios"
 function TablesTableRow(props) {
-  const { logo, name, email, subdomain, domain, connected, date } = props;
+  const { logo, name, email, subdomain, domain, connected, date ,_id } = props;
   const textColor = useColorModeValue("gray.700", "white");
   const bgStatus = useColorModeValue("gray.400", "#1a202c");
   const colorStatus = useColorModeValue("white", "gray.400");
+  const ban = (_id) =>{
+    setTimeout(() =>{
+    console.log(_id)
+  
+  axios.put(`http://localhost:5000/admin/banUser/${_id}`)
+   .then(({data}) => console.log(data))
 
+        },3000)
+      }
   return (
     <Tr>
       <Td minWidth={{ sm: "250px" }} pl="0px">
@@ -64,7 +72,7 @@ function TablesTableRow(props) {
         </Text>
       </Td>
       <Td>
-        <Button p="0px" bg="transparent" variant="no-hover">
+        <Button p="0px" bg="transparent" variant="no-hover" onClick={ ()=>{ban(_id)}}>
           <Text
             fontSize="md"
             color="gray.400"
