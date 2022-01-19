@@ -45,9 +45,18 @@ class Navbar extends Component {
 
   fetchdata = async () => {
     try {
-      let response = await axios.get("http://192.168.43.23:5000/medecine");
+      let response = await axios.get("http://192.168.1.113:5000/medecine");
       this.setState({medecine:response.data});
       this.setState({medecines:response.data});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  fetchParasData = async () => {
+    try {
+      let response = await axios.get("http://192.168.1.113:5000/para/paras");
+      this.setState({medecine:response.data});
     } catch (error) {
       console.log(error);
     }
@@ -58,7 +67,7 @@ class Navbar extends Component {
     console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyy", id)
      this.incrementValue() 
    
-    axios.put(`http://192.168.43.23:5000/OrderId/${'bechir'}`, { id })
+    axios.put(`http://192.168.1.113:5000/OrderId/${'bechir'}`, { id })
       .then((res) => {
         console.log(res)
       })
@@ -86,6 +95,70 @@ class Navbar extends Component {
       }
     }
     this.setState({medecine : res})
+  }
+
+  allMeds () {
+    this.setState({medecine: this.state.medecines})
+  }
+
+  covidMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "COVID CARE AND PROTECTION") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
+  }
+
+  teethMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "Teeth") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
+  }
+
+  cardiohMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "Cardio") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
+  }
+
+  noseMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "Nose") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
+  }
+
+  eyesMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "Eyes") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
+  }
+
+  headMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "Head") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
   }
 
 
@@ -152,6 +225,32 @@ class Navbar extends Component {
           <Button style={styles.bat} title="Prescription"
             onPress={() => this.props.navigation.navigate("Camera")}
           />
+        </View>
+        <View>
+        <Button  title="ALL" 
+        onPress={() => this.allMeds()}
+        />
+        <Button  title="COVID"
+        onPress={() => this.covidMeds()}
+        />
+        <Button  title="TEETH"
+        onPress={() => this.teethMeds()}
+        />
+        <Button  title="CARDIO"
+        onPress={() => this.cardiohMeds()}
+        />
+        <Button  title="NOSE"
+        onPress={() => this.noseMeds()}
+        />
+        <Button  title="EYES"
+        onPress={() => this.eyesMeds()}
+        />
+        <Button  title="HEAD"
+        onPress={() => this.headMeds()}
+        />
+        <Button  title="PARAS"
+        onPress={() => this.fetchParasData()}
+        />
         </View>
         <FlatList
           style={styles.list}

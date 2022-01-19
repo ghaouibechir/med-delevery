@@ -69,7 +69,7 @@ class ResetPassword extends Component {
     var username = this.state.username;
     console.log('kkkkkkkkkkkkkkk', username);
     try {
-      let response = await axios.post("http://192.168.43.23:5000/users/username",{username: username});
+      let response = await axios.post("http://192.168.1.113:5000/users/username",{username: username});
           this.setState({user : response.data})
     } catch (error) {
       console.log('my errrrrrrrrrrrr',error);
