@@ -101,7 +101,7 @@ export default {
       axios
         .post("http://localhost:5000/pharmacies/authenticate", identity)
         .then(({ data }) => {
-         
+         console.log(data);
           let session ={ 
             
             id:data.pharmacy.id
