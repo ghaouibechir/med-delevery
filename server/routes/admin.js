@@ -62,17 +62,8 @@ router.get("/getfeedbacks", async (req, res) => {
 
 router.get("/getPharmacies", async (req, res) => {
   console.log("work");
-  // pharmacy.find({}, (err, data) => {
-  //   if (err) {
-  //     res.send(err);
-  //   } else {
-  //     res.send(data);
-  //   }
-  // });
-
   var pharmacies = await pharmacy.find({});
   console.log("found", pharmacies);
-
   res.send(pharmacies);
 });
 

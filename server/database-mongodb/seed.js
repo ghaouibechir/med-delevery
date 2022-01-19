@@ -1,15 +1,19 @@
 const db = require("./index.js");
-const { order } = require("./schemas.js");
+const { feedback } = require("./schemas.js");
 
-const samplePosts ={
-  userId:'bechir'
-} 
-  
-
-
+const samplePosts = [
+  {
+    userId: "61e7445be207564b6bf8a154",
+    Text: "hello im feedback 1",
+  },
+  {
+    userId: "61e80993a413acb2c920c8da",
+    Text: "hello im  feedback 2",
+  },
+];
 
 const insertMedecines = function () {
-  order
+  feedback
     .create(samplePosts)
     .then(() => {
       console.log("Database seeded successfully");
