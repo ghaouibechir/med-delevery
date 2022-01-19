@@ -21,6 +21,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "./screens/CredentialsContext";
 import EditProfile from './screens/editProfile';
 import CameraScreen from './screens/camera'
+import Paiment from "./screens/Paiment";
 const Stack = createNativeStackNavigator();
 
 
@@ -92,6 +93,11 @@ export default function App() {
                       name="Profile"
                       component={ProfileScreen}
                       options={{ headerShown: false }}
+                    />
+                     <Stack.Screen
+                      name="Paiment"
+                      component={Paiment}
+                      options={{ headerShown: true }}
                     />
                     <Stack.Screen
                       name="Camera"

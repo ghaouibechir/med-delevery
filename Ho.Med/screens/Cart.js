@@ -68,21 +68,11 @@ export default class Cart extends Component {
       })
       .catch((err) => { console.log(err) });
   }
-  // fetchdata = async () => {
-  //   try {
-  //     let response = await axios.get("http://192.168.11.55:5000/ordre/cart");
-  //     this.setState({ order: response.data });
-  //     console.log("AAAAAAAAAAAAAAAA",order)
-
-
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+ 
   fetchdata() {
-    axios.get(`http://192.168.11.58:5000/medecine/cart/${'bechir'}`).then(({ data }) => {
+    axios.get(`http://192.168.43.216:5000/medecine/cart/${'bechir'}`).then(({ data }) => {
       this.setState({ data: data })
-      console.log("12121212121212121212121", this.state.data)
+      // console.log("12121212121212121212121", this.state.data)
     })
 
   }
@@ -157,8 +147,17 @@ export default class Cart extends Component {
             )
           }} />
         <View>
+        <Button
+           
+            onPress={() => this.props.navigation.push("Paiment")}
+            title="Stripe"
+            color="#10857F"
+            accessibilityLabel="Learn more about this purple button"
+          />
+
           <Button
             onPress={() => this.confirm()}
+           
             title="Confirm"
             color="#10857F"
             accessibilityLabel="Learn more about this purple button"
