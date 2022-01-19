@@ -1,5 +1,6 @@
 const { event, user, medecine, order } = require("./database-mongodb/schemas");
 
+
 var express = require("express");
 const client = require('twilio')('ACed2feeec7ef469a1086ff226bb48ec63', '431afc206c1c8b699bc9bf9162e5742b');
 var app = express();
@@ -7,6 +8,9 @@ const passport = require("passport");
 var port = process.env.PORT || 5000;
 var cors = require("cors");
 const users = require("./routes/users");
+// import {Stripe} from "stripe";
+
+
 
 
 
@@ -16,6 +20,8 @@ var num3 = 0
 var num4 = 0
 const pharmacy = require("./routes/pharmacy");
 const orders = require("./routes/orders");
+//const pubKey="pk_test_51KAJlaHCkVRXX2YEoKKBzheHwz5wxxcDYyhXdmcFlGJgSQIkAn9OPSeHBQQNgUSlsU2hOG8HKRDzdy4L0lkAqBez00aqJr5abu"
+//const secKey="sk_test_51KAJlaHCkVRXX2YEVvHwfwoQVbx8kEgmLV3XsQeycxAYY63EPXDmWtdTFeveMCjq8pSlRnB0vUhSNAmPLYMRXbXC00w89ZKzOa"
 
 require("./config/passport")(passport);
 
@@ -24,6 +30,27 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
+/*==================================={Stripe }=========================================================== */
+// const stripe = Stripe(secKey , { apiVersion: "2020-08-27" });
+app.post("/create-payment-intent", async (req, res) => {
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: 1099, 
+      currency: "usd",
+      payment_method_types: ["card"], 
+    });
+
+    const clientSecret = paymentIntent.client_secret;
+
+    res.json({
+      clientSecret: clientSecret,
+    });
+  } catch (e) {
+    console.log(e.message);
+    res.json({ error: e.message });
+  }
+});
+
 /*======================={Get the all  medecines in side the home page}=========================[Navbar]================================ */
 
 

@@ -17,6 +17,7 @@
     "@react-native-picker/picker": "^2.2.1",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
+    "@stripe/stripe-react-native": "^0.2.3",
     "@twotalltotems/react-native-otp-input": "^1.3.11",
     "axios": "^0.24.0",
     "create-navigation": "^0.1.3",
