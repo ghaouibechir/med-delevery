@@ -13,7 +13,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-//import { useNavigation } from '@react-navigation/native';
+
 import { useHistory } from 'react-router-dom'
 // Assets
 import signInImage from "assets/img/signInImage.png";
@@ -36,9 +36,14 @@ function SignIn() {
     .then(({data}) =>{
       console.log(data)
       history.push('/admin/dashboard')
+      let session ={ 
+         id:data.admin.id
+      }
+      localStorage.setItem('session', JSON.stringify(session));
+      console.log(localStorage.getItem("session"));
     })
   }
-  
+  //localStorage.clear();
   return (
     <Flex position="relative" mb="40px">
       <Flex
