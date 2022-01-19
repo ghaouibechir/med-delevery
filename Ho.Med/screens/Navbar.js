@@ -32,24 +32,26 @@ class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      view:false,
       medecine: [],
       orderId: "",
       value: 0,
-
+      id:''
 
     };
   }
   componentDidMount() {
     this.fetchdata();
-   AsyncStorage.getItem('key').then((d)=>{console.log('qqqqqqqqqqqqqqq',d);})
+   AsyncStorage.getItem('key').then((d)=>{this.setState({id:JSON.parse(d).id})}).catch(err=>console.log(err))
   
   }
+
+
   fetchdata = async () => {
     try {
-
-      let response = await axios.get("http://192.168.11.58:5000/medecine");
+      let response = await axios.get("http://192.168.43.184:5000/medecine");
       this.setState({medecine:response.data});
-      console.log(response.data);
+     
     } catch (error) {
       console.log(error);
     }
@@ -61,22 +63,14 @@ class Navbar extends Component {
     console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyy", id)
      this.incrementValue() 
    
-    axios.put(`http://192.168.11.58:5000/OrderId/${'bechir'}`, { id })
+    axios.put(`http://192.168.43.184:5000/OrderId/${this.state.id}`, { id })
       .then((res) => {
-        console.log(res)
+     this.addProductToCart()
       })
       .catch((err) => { console.log(err) });
 
 
 
-
-    // axios.post("http://  192.168.11.55:5000/ordre", { medecines: this.state.orderId })
-    // .then((res) => {
-    //   console.log(res)
-    // })
-    // .catch((err) => { console.log(err) });
-
-    // this.props.navigation.push("cart")
   }
   incrementValue() {
     
@@ -90,11 +84,10 @@ class Navbar extends Component {
 
 
 
-  // addProductToCart = (e) => {
-  //   Alert.alert("Success", "The product has been added to your cart");
-  //   this.props.navigation.push("cart",{ cartItems:e })
-  //   console.log("aaaaaaaaaaaaaaa",e);
-  // };
+  addProductToCart = (id) => {
+    Alert.alert("Success", "The product has been added to your cart");
+    this.setState({view:!this.state.view})
+  };
 
   render() {
     return (

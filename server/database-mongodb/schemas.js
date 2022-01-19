@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const db = require('./index.js');
 mongoose.Promise = global.Promise;
 const AutoIncrement = require('mongoose-sequence')(mongoose);
-const { isEmail } = require("validator");
 
 const userSchema = new mongoose.Schema({
   id: { type: Number },

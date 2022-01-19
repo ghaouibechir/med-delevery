@@ -111,10 +111,10 @@ app.put("/OrderId/:id", async (req, res) => {
 
 app.get("/medecine/cart/:id", async (req, res) => {
   
-  
+  console.log(req.params.id);
    
   var x= await order.findOne({ userId: req.params.id })
-  
+  console.log(x);
   var array=[]
   for(var i=0; i<x.medecineId.length; i++){
     array.push(x.medecineId[i].id)

@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 
 import {
-  SafeAreaView,
-  StatusBar,
   View,
-  Animated,
   Text,
-  BackHandler,
   StyleSheet,
   Button,
   FlatList,
@@ -14,10 +10,10 @@ import {
   Alert,
   TouchableOpacity,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors, Fonts, Sizes } from "../constant/styles";
-
+import  AsyncStorage  from "@react-native-async-storage/async-storage";
 import axios from "axios"
 export default class Cart extends Component {
   constructor(props) {
@@ -28,10 +24,15 @@ export default class Cart extends Component {
       Valuue:[],
       value: 1,
       totalPrice: 0,
-
+      id:''
     };
   }
   
+  componentDidMount(){
+    AsyncStorage.getItem('key').then((d)=>{this.setState({id:JSON.parse(d).id})}).then(()=>{this.fetchdata();}).catch(err=>console.log(err))
+    
+    
+  }
   incrementValue() {
     this.setState({
       value: this.state.value + 1
@@ -57,29 +58,22 @@ export default class Cart extends Component {
     })
     console.log("value+" + (this.state.value - 1))
   }}
-  componentDidMount() {
-    this.fetchdata();
-  }
+  
+
+
   confirm() {
-    axios.put(`http://192.168.11.58:5000/ListOrderById/${'bechir'}`, {})
+    axios.put(`http://192.168.43.184:5000/ListOrderById/${this.state.id}`, {})
       .then((res) => {
         console.log(res)
       })
       .catch((err) => { console.log(err) });
   }
-  // fetchdata = async () => {
-  //   try {
-  //     let response = await axios.get("http://192.168.11.55:5000/ordre/cart");
-  //     this.setState({ order: response.data });
-  //     console.log("AAAAAAAAAAAAAAAA",order)
+  
 
 
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
   fetchdata() {
-    axios.get(`http://192.168.11.58:5000/medecine/cart/${'bechir'}`).then(({ data }) => {
+    
+    axios.get(`http://192.168.43.184:5000/medecine/cart/${this.state.id}`).then(({ data }) => {
       this.setState({ data: data })
       console.log("12121212121212121212121", this.state.data)
     })

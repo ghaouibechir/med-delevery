@@ -281,6 +281,22 @@ class CameraScreen extends Component {
     }
   };
 
+  pickImageFromGallery = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    })
+
+    if (!result.cancelled) {
+        let newDataImg = this.state.prescriptionsList;
+        let item = {
+            id: Date.now(),
+            url: result.uri,
+        };
+        newDataImg.push(item);
+        this.setState({ prescriptionsList: newDataImg });
+    }
+}
+
   chooseFromCameraOrGalleryBox() {
     return (
       <Modal
