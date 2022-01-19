@@ -22,6 +22,8 @@ import { CredentialsContext } from "./screens/CredentialsContext";
 import EditProfile from './screens/editProfile';
 import CameraScreen from './screens/camera';
 import ResetPassword from './screens/ResetPassword';
+import ResetPasswordVerification from './screens/ResetPasswordVerification';
+import NewPassword from "./screens/NewPassword";
 
 
 const Stack = createNativeStackNavigator();
@@ -111,8 +113,18 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+        name="forgotPasswordVerification"
+        component={ResetPasswordVerification}
+        options={{ headerShown: false}}
+      /> 
+        <Stack.Screen
           name="registerScreen"
           component={RegisterScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="newPassword"
+          component={NewPassword}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -129,8 +141,9 @@ export default function App() {
           name="login"
           component={Login}
           options={{ headerShown: false }}
-        /></>
-          }
+        />        
+        </>
+      }
 
          
         

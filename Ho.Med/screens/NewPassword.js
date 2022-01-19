@@ -23,7 +23,7 @@ import { TransitionPresets } from "react-navigation-stack";
 import axios from 'axios'
 
 
-class ResetPassword extends Component {
+class NewPassword extends Component {
   componentDidMount() {
     BackHandler.addEventListener(
       "hardwareBackPress",
@@ -44,8 +44,8 @@ class ResetPassword extends Component {
   };
 
   state = {
-   username : "" ,
-   user : {}
+      newPassword : "",
+      user : {}
   };
   
   render() {
@@ -62,6 +62,18 @@ class ResetPassword extends Component {
         </View>
       </SafeAreaView>
     );
+  }
+
+   UpdateUser = async () => {
+    const id = user._id
+    const password = this.state.password
+    try {
+      console.log("user updating...")
+      let result = await axios.put("http://192.168.1.113:5000/user/" + id , {password})
+    }
+    catch (err) {
+      console.log(err)
+    }
   }
 
   backArrow() {
@@ -84,9 +96,9 @@ class ResetPassword extends Component {
   usernameAddressTextField() {
     return (
       <TextInput
-        placeholder="userName"
-        value={this.state.username}
-        onChangeText={(text) => this.setState({ username: text })}
+        placeholder="new password"
+        value={this.state.userPassword}
+        onChangeText={(text) => this.setState({ userPassword: text })}
         selectionColor={Colors.primaryColor}
         style={styles.textFieldStyle}
       />
@@ -104,7 +116,7 @@ class ResetPassword extends Component {
           textAlign: "center",
         }}
       >
-        Verification
+        Confirm
       </Text>
     );
   }
@@ -115,13 +127,11 @@ class ResetPassword extends Component {
 
       <MsgBox type={this.state.typemsg}>{this.state.message}</MsgBox>
       <TouchableOpacity
-      onPress={()=> {this.props.navigation.push("forgotPasswordVerification",{user : this.state.user})
-      this.getUser()
-    }}
+      onPress={()=>this.props.navigation.push("login")}
       activeOpacity={0.9}
       style={styles.continueButtonStyle}
       >
-        <Text style={{ ...Fonts.whiteColor19Medium }}>Verification</Text>
+        <Text style={{ ...Fonts.whiteColor19Medium }}>Confirm</Text>
       </TouchableOpacity>
       </View>
     );
@@ -192,11 +202,11 @@ const styles = StyleSheet.create({
   },
 });
 
-ResetPassword.navigationOptions = () => {
+NewPassword.navigationOptions = () => {
   return {
     header: () => null,
     ...TransitionPresets.SlideFromRightIOS,
   };
 };
 
-export default withNavigation(ResetPassword);
+export default withNavigation(NewPassword);

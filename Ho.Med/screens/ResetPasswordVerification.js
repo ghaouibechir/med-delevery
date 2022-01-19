@@ -18,6 +18,7 @@ import Dialog from "react-native-dialog";
 import { CircleFade } from 'react-native-animated-spinkit';
 import { TransitionPresets } from "react-navigation-stack";
 import { CredentialsContext } from "./CredentialsContext";
+import axios from "axios";
 // this.context.setStored(credentials)
 class ResetPasswordVerification extends Component {
     static contextType = CredentialsContext
@@ -29,6 +30,10 @@ class ResetPasswordVerification extends Component {
             secondDigit: '',
             thirdDigit: '',
             forthDigit: '',
+            verifNum1 : '',
+            verifNum2 : '',
+            verifNum3 : '',
+            verifNum4 : '',
         }
     }
     componentDidMount() {
@@ -47,6 +52,24 @@ class ResetPasswordVerification extends Component {
         return true;
     };
 
+    componentDidMount() {
+        this.getVerificationNumber()
+    }
+
+
+    getVerificationNumber = async () => {
+        try {
+          let response = await axios.get("http://192.168.1.113:5000/resetPassword");
+          this.setState({verifNum1 :response.data.num1});
+          this.setState({verifNum2 :response.data.num2});
+          this.setState({verifNum3 :response.data.num3});
+          this.setState({verifNum4 :response.data.num4});
+          console.log(this.state)
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    
 
     render() {
         return (
@@ -97,11 +120,10 @@ class ResetPasswordVerification extends Component {
                 onPress={() => {
                     this.setState({ isLoading: true })
                     setTimeout(() => {
-                        var v=this.props.route.params
                         this.setState({ isLoading: false })
-                        if(this.state.firstDigit == v.num1 && this.state.secondDigit == v.num2 && this.state.thirdDigit == v.num3 && this.state.forthDigit == v.num4) {
-                        this.context.setStored(this.props.route.params.credentials)   
-                        this.props.navigation.navigate('navbar');
+                        if(this.state.firstDigit == this.state.verifNum1 && this.state.secondDigit == this.state.verifNum2 && this.state.thirdDigit == this.state.verifNum3 && this.state.forthDigit == this.state.verifNum4) {
+   
+                        this.props.navigation.navigate('newPassword',{user : this.props.route.params.user});
                         }
                         else(console.log('err'))
                     }, 2000);
@@ -185,9 +207,9 @@ class ResetPasswordVerification extends Component {
                             setTimeout(() => {
                                 var v=this.props.route.params
                                 this.setState({ isLoading: false })
-                                if(this.state.firstDigit == v.num1 && this.state.secondDigit == v.num2 && this.state.thirdDigit == v.num3 && this.state.forthDigit == v.num4) {
-                                    this.context.setStored(this.props.route.params.credentials)
-                                    this.props.navigation.navigate('navbar');
+                                if(this.state.firstDigit == this.state.verifNum1 && this.state.secondDigit == this.state.verifNum2 && this.state.thirdDigit == this.state.verifNum3 && this.state.forthDigit == this.state.verifNum4) {
+            
+                                    this.props.navigation.navigate('newPassword',{user : this.props.route.params.user});
                                     }
                                     else (console.log('err'))
                             }, 2000);

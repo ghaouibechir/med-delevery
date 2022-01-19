@@ -33,9 +33,10 @@ class Navbar extends Component {
     super(props);
     this.state = {
       medecine: [],
+      medecines: [],
       orderId: "",
       value: 0,
-
+      spesificMed : "" ,
 
     };
   }
@@ -47,6 +48,7 @@ class Navbar extends Component {
     try {
       let response = await axios.get("http://192.168.1.113:5000/medecine");
       this.setState({medecine:response.data});
+      this.setState({medecines:response.data});
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -59,7 +61,7 @@ class Navbar extends Component {
     console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyy", id)
      this.incrementValue() 
    
-    axios.put(`http://192.168.11.58:5000/OrderId/${'bechir'}`, { id })
+    axios.put(`http://192.168.1.113:5000/OrderId/${'bechir'}`, { id })
       .then((res) => {
         console.log(res)
       })
@@ -82,6 +84,21 @@ class Navbar extends Component {
 
     })
     console.log("value+" + (this.state.value + 1))
+  }
+
+  searshForMedicines (medName) {
+    var res = []
+    var meds = this.state.medecine
+    if(medName == "") {
+      this.setState({medecine: this.state.medecines})
+      return;
+    }
+    for(var i = 0 ; i < meds.length; i++) {
+      if(meds[i].name.split(medName).length > 1) {
+        res.push(meds[i])
+      }
+    }
+    this.setState({medecine : res})
   }
 
 
@@ -133,8 +150,13 @@ class Navbar extends Component {
               name="search"
               size={22}
               color={Colors.primaryColor}
+              onPress={() => this.searshForMedicines(this.state.spesificMed)}
             />
             <TextInput
+              onChangeText={(text) => {
+              this.setState({ spesificMed: text })
+              this.searshForMedicines(this.state.spesificMed)
+              }}
               numberOfLines={1}
               selectionColor={Colors.primaryColor}
               style={{

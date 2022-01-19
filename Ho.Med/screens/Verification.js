@@ -11,7 +11,6 @@ import {
     Dimensions,
     BackHandler,
 } from "react-native";
-
 import { withNavigation } from "react-navigation";
 import { Colors, Sizes, Fonts } from "../constant/styles";
 import Dialog from "react-native-dialog";
