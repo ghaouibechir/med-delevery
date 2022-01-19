@@ -19,21 +19,26 @@ import TablesTableRow from "components/Tables/TablesTableRow";
 import { tablesProjectData, tablesTableData } from "variables/general";
 import axios from "axios"
 import moment from "moment"
-import online from "./online.jpg"
+
 
 function Tables() {
   const textColor = useColorModeValue("gray.700", "white");
-  
-  const [tableData, setTableData] = useState([]);
+  const [pharmacietable, setPharmacietable] = useState([]);
+  const [userstable, setUserstable] = useState([]);
+
+
   useEffect(() => {
     axios.get('http://localhost:5000/admin/getPharmacies')
     .then(({data}) =>{
+      console.log(data.users);
      
-      setTableData(data)
-     
-    }
-    ) 
+      setPharmacietable(data.pharmacies)
+      setUserstable(data.users)
+    }) 
   },[])
+  
+ 
+
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
       <Card overflowX={{ sm: "scroll", xl: "hidden" }}>
@@ -58,27 +63,70 @@ function Tables() {
             <Tbody>
              
               {
-              tableData.map((row) => {
+              pharmacietable.map((row) => {
                 return (
                   <TablesTableRow
                     name={row.username}
-                    // logo={row.logo}
+                    logo={row.logo}
                      email={row.email}
                     
                     domain={row.location}
                     status={row.connected}
                     date={moment(row.createdAt).format("MMM Do YY")}
                     
-                  />
+                    />  
+                );
+              })}
+
+              
+            </Tbody>
+          </Table>
+        </CardBody>
+      </Card>
+      <Card
+        my="22px"
+        overflowX={{ sm: "scroll", xl: "hidden" }}
+      >
+        <CardHeader p="6px 0px 22px 0px">
+          <Flex direction="column">
+            <Text fontSize="lg" color={textColor} fontWeight="bold" pb=".5rem">
+              Users's Table
+            </Text>
+          </Flex>
+        </CardHeader>
+        <CardBody>
+          <Table variant="simple" color={textColor}>
+            <Thead>
+              <Tr my=".8rem" pl="0px">
+                <Th pl="0px" color="gray.400">
+                  Users
+                </Th>
+                <Th color="gray.400">Phone Number</Th>
+                <Th color="gray.400">Status</Th>
+                
+                <Th></Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {userstable.map((row) => {
+                return (
+                  <TablesProjectRow
+                    name={row.name}
+                    logo={row.logo}
+                    email={row.email}
+                    status={row.vip}
+                    budget={row.phoneNumber}
+                  
+                    _id={row._id}/>
                 );
               })}
             </Tbody>
           </Table>
         </CardBody>
       </Card>
-      
     </Flex>
+    
   );
 }
-
+// // ban={ban(id => ban(_id) )}
 export default Tables;

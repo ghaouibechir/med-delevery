@@ -7,26 +7,48 @@ import {
   Progress,
   Icon,
   Button,
+  Avatar,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { FaEllipsisV } from "react-icons/fa";
+import axios from "axios"
+
 
 function DashboardTableRow(props) {
-  const { logo, name, status, budget, progression } = props;
+  const { logo, name, email ,vip, budget , _id } = props;
   const textColor = useColorModeValue("gray.700", "white");
+
+  const ban = (_id) =>{
+    setTimeout(() =>{
+    console.log(_id)
+  
+  axios.put(`http://localhost:5000/admin/ban/${_id}`)
+   .then(({data}) => console.log(data))
+
+        },3000)
+      }
+    
+    
+  
+
   return (
     <Tr>
       <Td minWidth={{ sm: "250px" }} pl="0px">
-        <Flex alignItems="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
-          <Icon as={logo} h={"24px"} w={"24px"} me="18px" />
-          <Text
-            fontSize="md"
-            color={textColor}
-            fontWeight="bold"
-            minWidth="100%"
-          >
-            {name}
-          </Text>
+        <Flex align="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
+          <Avatar src={logo} w="50px" borderRadius="12px" me="18px" />
+          <Flex direction="column">
+            <Text
+              fontSize="md"
+              color={textColor}
+              fontWeight="bold"
+              minWidth="100%"
+            >
+              {name}
+            </Text>
+            <Text fontSize="sm" color="gray.400" fontWeight="normal">
+              {email}
+            </Text>
+          </Flex>
         </Flex>
       </Td>
       <Td>
@@ -36,32 +58,25 @@ function DashboardTableRow(props) {
       </Td>
       <Td>
         <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
-          {status}
+          {vip}
         </Text>
       </Td>
+      
       <Td>
-        <Flex direction="column">
+      <Button p="0px" bg="transparent" variant="no-hover" onClick={ ()=>{ban(_id)}} >
           <Text
             fontSize="md"
-            color="teal.300"
+            color="gray.400"
             fontWeight="bold"
-            pb=".2rem"
-          >{`${progression}%`}</Text>
-          <Progress
-            colorScheme={progression === 100 ? "teal" : "cyan"}
-            size="xs"
-            value={progression}
-            borderRadius="15px"
-          />
-        </Flex>
-      </Td>
-      <Td>
-        <Button p="0px" bg="transparent">
-          <Icon as={FaEllipsisV} color="gray.400" cursor="pointer" />
+            cursor="pointer"
+          >
+            ban
+          </Text>
         </Button>
       </Td>
     </Tr>
   );
-}
+  }
+
 
 export default DashboardTableRow;

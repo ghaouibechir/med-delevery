@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const Admin = require("../models/admin");
 const config = require("../config/database");
-const { admin , pharmacy } = require("../database-mongodb/schemas");
+const { admin , pharmacy, user } = require("../database-mongodb/schemas");
 const passport = require("passport");
 
 router.post("/register", (req, res, next) => {
@@ -55,18 +55,28 @@ router.post("/authenticate", (req, res, next) => {
 
 router.get('/getPharmacies', async (req, res)=>{
   console.log("work");
-  // pharmacy.find({}, (err, data) => {
-  //   if (err) {
-  //     res.send(err);
-  //   } else {
-  //     res.send(data);
-  //   }
-  // });
-
   var pharmacies = await pharmacy.find({});
-  console.log('found',pharmacies);
+  var users = await user.find({});
 
-  res.send(pharmacies);
+  console.log('found',pharmacies);
+  console.log('found users',users);
+
+
+  res.send({pharmacies , users});
 
 })
+
+
+router.put('/ban/:_id', async(req, res)=>{
+  console.log("bannnn");
+  console.log(req.params._id)
+  var ban = await user.findByIdAndUpdate({_id:req.params._id},{banned:true})
+    
+      console.log(ban.banned)
+      res.send("done")
+    }
+  )
+
+
+
 module.exports = router;
