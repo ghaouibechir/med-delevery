@@ -9,11 +9,10 @@ router.route("/users")
 
 router.route("/service").get(UsersController.find)
 
-router.route("/hh").get(UsersController.find)
 
 router.route("/:userId")
   .get(UsersController.find_One) 
   .put(UsersController.update_One) 
-  .delete(UsersController.remove_One)  
+  .delete(UsersController.remove_One) 
 
 module.exports = router;

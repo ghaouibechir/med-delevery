@@ -11,9 +11,9 @@ import {
 } from "react-native";
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import  AsyncStorage  from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "./CredentialsContext";
 import Footer from "./Footer";
 import axios from "axios";
@@ -24,7 +24,7 @@ import axios from "axios";
 export default function ProfileScreen({ navigation }) {
 
   const [user , setUser] = useState({})
-  const [userId , setUserId] = useState("")
+  const [userId , setUserId] = useState(null)
 
   useEffect(() => {
     AsyncStorage.getItem('key').then((d)=>{setUserId(JSON.parse(d).id)})
@@ -40,7 +40,7 @@ export default function ProfileScreen({ navigation }) {
   const getUser = async () => {
     const id = userId
     try {
-      let response = await axios.get("http://192.168.1.113:5000/user/" + id)
+      let response = await axios.get("http://192.168.43.23:5000/user/" + id)
       setUser(response.data)
     }
     catch (err) {
@@ -53,7 +53,7 @@ export default function ProfileScreen({ navigation }) {
   const clearLogin =()=>{
     AsyncStorage.removeItem('key').then(()=>{
       setStored(null)
-    }).catch(err=>console.log(err))
+    }).catch(err => console.log(err))
   }
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
@@ -69,12 +69,12 @@ export default function ProfileScreen({ navigation }) {
             <Text style={{ ...Fonts.whiteColor20Medium }}>Ho-Med</Text>
           </View>
           <View style={{ flexDirection: "row" }}>
-          <AntDesign
-             name="edit" 
-             size={27} 
-             color={Colors.whiteColor}
-             onPress={() => navigation.navigate("editProfile")}
-             />
+            <AntDesign
+              name="edit"
+              size={27}
+              color={Colors.whiteColor}
+              onPress={() => navigation.navigate("editProfile")}
+            />
             <TouchableOpacity>
               <MaterialIcons
                 name="shopping-cart"
@@ -96,7 +96,7 @@ export default function ProfileScreen({ navigation }) {
           style={styles.avatar}
           source={{ uri: "https://bootdey.com/img/Content/avatar/avatar6.png" }}
         />
-        
+
         <View style={styles.body}>
           <View style={styles.bodyContent}>
             <Text style={styles.name}>John Doe</Text>
@@ -132,7 +132,7 @@ export default function ProfileScreen({ navigation }) {
           </View>
         </View>
       </View>
-      <View style={{ marginTop: 650 }}>
+      <View style={{ marginTop: 410 }}>
         <Footer />
       </View>
     </SafeAreaView>

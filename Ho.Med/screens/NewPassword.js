@@ -44,8 +44,7 @@ class NewPassword extends Component {
   };
 
   state = {
-      newPassword : "",
-      user : {}
+    userPassword : "",
   };
   
   render() {
@@ -64,12 +63,12 @@ class NewPassword extends Component {
     );
   }
 
-   UpdateUser = async () => {
-    const id = user._id
-    const password = this.state.password
+   UpdateUserPassword = async () => {
+    const id = this.props.route.params.user._id
+    const password = this.state.userPassword
     try {
       console.log("user updating...")
-      let result = await axios.put("http://192.168.1.113:5000/user/" + id , {password})
+      let result = await axios.post("http://192.168.43.23:5000/users/password"  , {password : password , id : id})
     }
     catch (err) {
       console.log(err)
@@ -127,7 +126,9 @@ class NewPassword extends Component {
 
       <MsgBox type={this.state.typemsg}>{this.state.message}</MsgBox>
       <TouchableOpacity
-      onPress={()=>this.props.navigation.push("login")}
+      onPress={()=> {
+        this.UpdateUserPassword()
+        this.props.navigation.push("login")}}
       activeOpacity={0.9}
       style={styles.continueButtonStyle}
       >

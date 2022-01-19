@@ -54,12 +54,13 @@ class ResetPasswordVerification extends Component {
 
     componentDidMount() {
         this.getVerificationNumber()
+        console.log("dffddddfdfsdfdfdfdfdfdf" ,this.props.route.params.user)
     }
 
 
     getVerificationNumber = async () => {
         try {
-          let response = await axios.get("http://192.168.1.113:5000/resetPassword");
+          let response = await axios.get("http://192.168.43.23:5000/resetPassword");
           this.setState({verifNum1 :response.data.num1});
           this.setState({verifNum2 :response.data.num2});
           this.setState({verifNum3 :response.data.num3});

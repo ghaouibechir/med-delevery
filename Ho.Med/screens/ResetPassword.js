@@ -38,6 +38,7 @@ class ResetPassword extends Component {
     );
   }
 
+
   handleBackButton = () => {
     this.props.navigation.pop();
     return true;
@@ -63,6 +64,17 @@ class ResetPassword extends Component {
       </SafeAreaView>
     );
   }
+
+  getUserByUsername = async () => {
+    var username = this.state.username;
+    console.log('kkkkkkkkkkkkkkk', username);
+    try {
+      let response = await axios.post("http://192.168.43.23:5000/users/username",{username: username});
+          this.setState({user : response.data})
+    } catch (error) {
+      console.log('my errrrrrrrrrrrr',error);
+    }
+  };
 
   backArrow() {
     return (
@@ -115,8 +127,9 @@ class ResetPassword extends Component {
 
       <MsgBox type={this.state.typemsg}>{this.state.message}</MsgBox>
       <TouchableOpacity
-      onPress={()=> {this.props.navigation.push("forgotPasswordVerification",{user : this.state.user})
-      this.getUser()
+      onPress={()=> {
+        this.getUserByUsername()
+        this.props.navigation.push("forgotPasswordVerification",{user : this.state.user})
     }}
       activeOpacity={0.9}
       style={styles.continueButtonStyle}

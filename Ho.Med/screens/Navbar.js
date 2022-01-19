@@ -9,12 +9,9 @@ import {
   Button,
   ScrollView,
   FlatList,
-  SafeAreaView,
-  StatusBar,
+
   TextInput,
-  Animated,
-  BackHandler,
-  Dimensions,
+
 } from "react-native";
 import { withNavigation } from "react-navigation";
 import { Colors, Fonts, Sizes } from "../constant/styles";
@@ -23,7 +20,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Footer from "./Footer";
 import axios from "axios";
 import data from "react-native-ico/src/data";
-import  AsyncStorage  from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "./CredentialsContext";
 
 
@@ -40,48 +37,38 @@ class Navbar extends Component {
 
     };
   }
+
   componentDidMount() {
     this.fetchdata();
-   AsyncStorage.getItem('key').then((d)=>{console.log('qqqqqqqqqqqqqqq',d);})
+    AsyncStorage.getItem('key').then((d) => { console.log('qqqqqqqqqqqqqqq', d); })
   }
+
   fetchdata = async () => {
     try {
-      let response = await axios.get("http://192.168.1.113:5000/medecine");
+      let response = await axios.get("http://192.168.43.23:5000/medecine");
       this.setState({medecine:response.data});
       this.setState({medecines:response.data});
-      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
   };
 
 
-  
   myCart(id) {
     console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyy", id)
      this.incrementValue() 
    
-    axios.put(`http://192.168.1.113:5000/OrderId/${'bechir'}`, { id })
+    axios.put(`http://192.168.43.23:5000/OrderId/${'bechir'}`, { id })
       .then((res) => {
         console.log(res)
       })
       .catch((err) => { console.log(err) });
-
-
-
-
-    // axios.post("http://  192.168.11.55:5000/ordre", { medecines: this.state.orderId })
-    // .then((res) => {
-    //   console.log(res)
-    // })
-    // .catch((err) => { console.log(err) });
-
-    // this.props.navigation.push("cart")
   }
+
+
   incrementValue() {
     this.setState({
       value: this.state.value + 1
-
     })
     console.log("value+" + (this.state.value + 1))
   }
@@ -101,14 +88,6 @@ class Navbar extends Component {
     this.setState({medecine : res})
   }
 
-
-
-
-  // addProductToCart = (e) => {
-  //   Alert.alert("Success", "The product has been added to your cart");
-  //   this.props.navigation.push("cart",{ cartItems:e })
-  //   console.log("aaaaaaaaaaaaaaa",e);
-  // };
 
   render() {
     return (
@@ -170,13 +149,10 @@ class Navbar extends Component {
           </TouchableOpacity>
         </View>
         <View>
-
           <Button style={styles.bat} title="Prescription"
             onPress={() => this.props.navigation.navigate("Camera")}
-
           />
         </View>
-
         <FlatList
           style={styles.list}
           contentContainerStyle={styles.listContainer}
@@ -208,23 +184,14 @@ class Navbar extends Component {
                       <TouchableOpacity
                         activeOpacity={0.9}
                         style={styles.socialBarButton}
-                        // onPress={() => {this.addProductToCart(item._id ) } }
-                        // onPress={() => navigation.navigate('cart',{name:"bechir",age:"45"}) }
-
-                        onPress={() => { this.myCart(item._id)  }}
-                        // onPress={() => { this.incrementValue() }}
-
-
-
-
-                      >
+                        onPress={() => { this.myCart(item._id) }}>
                         <Image
                           style={styles.icon}
                           source={{
                             uri: "https://img.icons8.com/nolan/96/3498db/add-shopping-cart.png",
                           }}
                         />
-                        <Text  style={[styles.socialBarLabel, styles.buyNow]}>
+                        <Text style={[styles.socialBarLabel, styles.buyNow]}>
                           Buy Now
                         </Text>
                       </TouchableOpacity>
@@ -240,6 +207,7 @@ class Navbar extends Component {
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   headerInfoWrapStyle: {

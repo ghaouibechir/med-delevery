@@ -1,5 +1,5 @@
 const User = require("../database-mongodb/schemas");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 
 module.exports = {
@@ -30,6 +30,7 @@ module.exports = {
     update_One: async (req, res, next) => {
          try {
               console.log("\nRequesting the server to update a specific user into the database ...\n");
+              
               // the server will try the following
               const user = await User.user.findByIdAndUpdate(req.params.userId, req.body, { new: true });
               const users = await User.user.find({});
@@ -63,17 +64,6 @@ module.exports = {
            res.status(200).json(user);
        } catch (error) {
            next(error);
-       }
-   },
-   find_all_service_providers: async (req, res) => {
-       try {
-           console.log("hhhhhhhhhhhhhhhh");
-           let providers = await User.user.find({
-               category: "provider",
-           });
-           res.send(providers);
-       } catch (error) {
-           res.send(error);
        }
    },
 };
