@@ -55,6 +55,7 @@ const pharmacySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  createdAt: {type: Date, immutable: true,  default: () => Date.now() },
   location: { type: String },
   connected: { type: Boolean, default: false },
   banned: { type: Boolean, default: false }

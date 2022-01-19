@@ -20,6 +20,8 @@ var num3 = 0
 var num4 = 0
 const pharmacy = require("./routes/pharmacy");
 const orders = require("./routes/orders");
+const admin = require("./routes/admin");
+
 //const pubKey="pk_test_51KAJlaHCkVRXX2YEoKKBzheHwz5wxxcDYyhXdmcFlGJgSQIkAn9OPSeHBQQNgUSlsU2hOG8HKRDzdy4L0lkAqBez00aqJr5abu"
 //const secKey="sk_test_51KAJlaHCkVRXX2YEVvHwfwoQVbx8kEgmLV3XsQeycxAYY63EPXDmWtdTFeveMCjq8pSlRnB0vUhSNAmPLYMRXbXC00w89ZKzOa"
 
@@ -163,6 +165,8 @@ app.get("/medecine/cart/:id", async (req, res) => {
 app.use("/users", users);
 app.use("/pharmacies", pharmacy);
 app.use("/orders", orders);
+app.use("/admin", admin);
+
 
 app.listen(process.env.PORT || port, () => {
   console.log(`Express server listening on  ${port}`);
