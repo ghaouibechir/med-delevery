@@ -280,6 +280,22 @@ class CameraScreen extends Component {
       this.setState({ prescriptionsList: newDataImg });
     }
   };
+  
+  pickImageFromGallery = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    })
+
+    if (!result.cancelled) {
+        let newDataImg = this.state.prescriptionsList;
+        let item = {
+            id: Date.now(),
+            url: result.uri,
+        };
+        newDataImg.push(item);
+        this.setState({ prescriptionsList: newDataImg });
+    }
+}
 
   chooseFromCameraOrGalleryBox() {
     return (

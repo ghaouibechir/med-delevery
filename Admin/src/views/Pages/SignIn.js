@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // Chakra imports
 import {
   Box,
@@ -13,14 +13,37 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+
+import { useHistory } from 'react-router-dom'
 // Assets
 import signInImage from "assets/img/signInImage.png";
-
+import axios from "axios"
 function SignIn() {
   // Chakra color mode
   const titleColor = useColorModeValue("teal.300", "teal.200");
   const textColor = useColorModeValue("gray.400", "white");
-
+  
+//navigataTo("/admin/dashboard")
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const history = useHistory();
+  const signin = ()=> {
+    const data = {
+     "password" :password,
+     "username":username
+    }
+    axios.post('http://localhost:5000/admin/authenticate',data)
+    .then(({data}) =>{
+      console.log(data)
+      history.push('/admin/dashboard')
+      let session ={ 
+         id:data.admin.id
+      }
+      localStorage.setItem('session', JSON.stringify(session));
+      console.log(localStorage.getItem("session"));
+    })
+  }
+  //localStorage.clear();
   return (
     <Flex position="relative" mb="40px">
       <Flex
@@ -55,19 +78,21 @@ function SignIn() {
               fontWeight="bold"
               fontSize="14px"
             >
-              Enter your email and password to sign in
+              Enter your username and password to sign in
             </Text>
             <FormControl>
               <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
-                Email
+                Username
               </FormLabel>
               <Input
                 borderRadius="15px"
                 mb="24px"
                 fontSize="sm"
                 type="text"
-                placeholder="Your email adress"
+                placeholder="Your username"
                 size="lg"
+                onChange={event => setUsername(event.target.value)}
+
               />
               <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
                 Password
@@ -79,6 +104,7 @@ function SignIn() {
                 type="password"
                 placeholder="Your password"
                 size="lg"
+                onChange={event => setPassword(event.target.value)}
               />
               <FormControl display="flex" alignItems="center">
                 <Switch id="remember-login" colorScheme="teal" me="10px" />
@@ -106,7 +132,7 @@ function SignIn() {
                 _active={{
                   bg: "teal.400",
                 }}
-                onClick={() => navigataTo("/admin/dashboard")}
+                onClick={signin}
               >
                 SIGN IN
               </Button>

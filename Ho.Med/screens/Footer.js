@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   NavBar: {
     flexDirection: "row",
     backgroundColor: "#eee",
-    
+
 
     justifyContent: "space-evenly",
   },

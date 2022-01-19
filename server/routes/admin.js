@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const Admin = require("../models/admin");
 const config = require("../config/database");
-const { admin } = require("../database-mongodb/schemas");
+const { admin , pharmacy } = require("../database-mongodb/schemas");
 const passport = require("passport");
 
 router.post("/register", (req, res, next) => {
@@ -25,6 +25,7 @@ router.post("/register", (req, res, next) => {
 router.post("/authenticate", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
+  console.log(req.body);
   Admin.getAdminByUsername(username, (err, admin) => {
     if (err) throw err;
     if (!admin) {
@@ -52,4 +53,20 @@ router.post("/authenticate", (req, res, next) => {
   });
 });
 
+router.get('/getPharmacies', async (req, res)=>{
+  console.log("work");
+  // pharmacy.find({}, (err, data) => {
+  //   if (err) {
+  //     res.send(err);
+  //   } else {
+  //     res.send(data);
+  //   }
+  // });
+
+  var pharmacies = await pharmacy.find({});
+  console.log('found',pharmacies);
+
+  res.send(pharmacies);
+
+})
 module.exports = router;

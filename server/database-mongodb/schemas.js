@@ -3,15 +3,15 @@ const mongoose = require('mongoose');
 const db = require('./index.js');
 mongoose.Promise = global.Promise;
 const AutoIncrement = require('mongoose-sequence')(mongoose);
-const { isEmail } = require("validator");
+
 
 const userSchema = new mongoose.Schema({
   id: { type: Number },
   name: {
     type: String,
   },
-  phoneNumber:{
-    type:String
+  phoneNumber: {
+    type: String
   },
   email: {
     type: String,
@@ -34,6 +34,7 @@ const userSchema = new mongoose.Schema({
   banned: { type: Boolean, default: false }
 
 });
+
 userSchema.plugin(AutoIncrement, { id: 'id_seq', inc_field: 'id' });
 const pharmacySchema = new mongoose.Schema({
   username: {
@@ -54,6 +55,7 @@ const pharmacySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  createdAt: {type: Date, immutable: true,  default: () => Date.now() },
   location: { type: String },
   connected: { type: Boolean, default: false },
   banned: { type: Boolean, default: false }
