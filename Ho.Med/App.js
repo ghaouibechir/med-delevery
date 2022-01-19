@@ -22,6 +22,10 @@ import { CredentialsContext } from "./screens/CredentialsContext";
 import EditProfile from './screens/editProfile';
 import CameraScreen from './screens/camera'
 const Stack = createNativeStackNavigator();
+
+
+
+
 export default function App() {
   const [appReady, setAppReady] = useState(false);
   const [stored, setStored] = useState('');
@@ -77,7 +81,7 @@ export default function App() {
                     <Stack.Screen
                       name="Reminder"
                       component={ReminderScreen}
-                      options={{ headerShown: false }}
+                      options={{ headerShown: true }}
                     />
                     <Stack.Screen
                       name="About"

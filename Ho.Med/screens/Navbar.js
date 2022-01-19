@@ -32,26 +32,23 @@ class Navbar extends Component {
       medecine: [],
       orderId: "",
       value: 0,
-
-
     };
   }
+
   componentDidMount() {
     this.fetchdata();
-   AsyncStorage.getItem('key').then((d)=>{console.log('qqqqqqqqqqqqqqq',d);})
-  
+    AsyncStorage.getItem('key').then((d) => { console.log('qqqqqqqqqqqqqqq', d); })
   }
+
   fetchdata = async () => {
     try {
-
       let response = await axios.get("http://192.168.43.216:5000/medecine");
       this.setState({ medecine: response.data });
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.log(error);
     }
   };
-
 
 
   myCart(id) {
@@ -63,35 +60,16 @@ class Navbar extends Component {
         console.log(res)
       })
       .catch((err) => { console.log(err) });
-
-
-
-
-    // axios.post("http://  192.168.11.55:5000/ordre", { medecines: this.state.orderId })
-    // .then((res) => {
-    //   console.log(res)
-    // })
-    // .catch((err) => { console.log(err) });
-
-    // this.props.navigation.push("cart")
   }
+
+
   incrementValue() {
-    
     this.setState({
       value: this.state.value + 1
-
     })
     console.log("value+" + (this.state.value + 1))
   }
 
-
-
-
-  // addProductToCart = (e) => {
-  //   Alert.alert("Success", "The product has been added to your cart");
-  //   this.props.navigation.push("cart",{ cartItems:e })
-  //   console.log("aaaaaaaaaaaaaaa",e);
-  // };
 
   render() {
     return (
@@ -148,13 +126,10 @@ class Navbar extends Component {
           </TouchableOpacity>
         </View>
         <View>
-
           <Button style={styles.bat} title="Prescription"
             onPress={() => this.props.navigation.navigate("Camera")}
-
           />
         </View>
-
         <FlatList
           style={styles.list}
           contentContainerStyle={styles.listContainer}
@@ -186,16 +161,7 @@ class Navbar extends Component {
                       <TouchableOpacity
                         activeOpacity={0.9}
                         style={styles.socialBarButton}
-                        // onPress={() => {this.addProductToCart(item._id ) } }
-                        // onPress={() => navigation.navigate('cart',{name:"bechir",age:"45"}) }
-
-                        onPress={() => { this.myCart(item._id) }}
-                      // onPress={() => { this.incrementValue() }}
-
-
-
-
-                      >
+                        onPress={() => { this.myCart(item._id) }}>
                         <Image
                           style={styles.icon}
                           source={{
@@ -218,6 +184,7 @@ class Navbar extends Component {
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   headerInfoWrapStyle: {
