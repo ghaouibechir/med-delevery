@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const Admin = require("../models/admin");
 const config = require("../config/database");
-const { admin , pharmacy } = require("../database-mongodb/schemas");
+const { admin, pharmacy, feedback } = require("../database-mongodb/schemas");
 const passport = require("passport");
 
 router.post("/register", (req, res, next) => {
@@ -53,7 +53,14 @@ router.post("/authenticate", (req, res, next) => {
   });
 });
 
-router.get('/getPharmacies', async (req, res)=>{
+// get feedbacks
+router.get("/getfeedbacks", async (req, res) => {
+  var feedbacks = await feedback.find({});
+  console.log("this is the feedbacks", feedbacks);
+  res.send(feedbacks);
+});
+
+router.get("/getPharmacies", async (req, res) => {
   console.log("work");
   // pharmacy.find({}, (err, data) => {
   //   if (err) {
@@ -64,9 +71,9 @@ router.get('/getPharmacies', async (req, res)=>{
   // });
 
   var pharmacies = await pharmacy.find({});
-  console.log('found',pharmacies);
+  console.log("found", pharmacies);
 
   res.send(pharmacies);
+});
 
-})
 module.exports = router;
