@@ -25,6 +25,7 @@ router.post("/register", (req, res, next) => {
 router.post("/authenticate", (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
+  console.log(req.body);
   Admin.getAdminByUsername(username, (err, admin) => {
     if (err) throw err;
     if (!admin) {

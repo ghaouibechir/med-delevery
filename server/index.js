@@ -16,6 +16,8 @@ var num3 = 0
 var num4 = 0
 const pharmacy = require("./routes/pharmacy");
 const orders = require("./routes/orders");
+const admin = require("./routes/admin");
+
 
 require("./config/passport")(passport);
 
@@ -136,6 +138,8 @@ app.get("/medecine/cart/:id", async (req, res) => {
 app.use("/users", users);
 app.use("/pharmacies", pharmacy);
 app.use("/orders", orders);
+app.use("/admin", admin);
+
 
 app.listen(process.env.PORT || port, () => {
   console.log(`Express server listening on  ${port}`);
