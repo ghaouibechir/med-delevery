@@ -78,7 +78,7 @@ export default function ReminderScreen() {
       },
       body: JSON.stringify({
         to: token,
-        title: 'Bechir',
+        title: 'Ho-Med',
         body: 'The Best project in cohort 17 is Ho-Med',
         data: { data: 'BK201' },
         _displayInForeground: true,
