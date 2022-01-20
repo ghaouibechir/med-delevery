@@ -3,6 +3,8 @@ import { StatusBar } from "expo-status-bar";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import Icon from "react-native-ico";
 import { useNavigation } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 export default function Footer() {
   const navigation = useNavigation();
   return (
@@ -35,7 +37,9 @@ export default function Footer() {
           </Pressable>
 
           <Pressable
-            style={styles.IconBehave}
+            style={{
+              left:30
+            }}
             // onPress={() => console.log("Reminder")}
             onPress={() => {
               navigation.navigate("Reminder");
@@ -60,7 +64,9 @@ export default function Footer() {
           </Pressable>
 
           <Pressable
-            style={styles.IconBehave}
+            style={{
+              left: 60,
+            }}
             onPress={() => navigation.navigate("Notification")}
             android_ripple={{ borderless: true, radius: 50 }}
           >
@@ -73,14 +79,36 @@ export default function Footer() {
             />
             <Text
               style={{
+                marginRight: 40,
                 alignItems: "center",
-                right: 15,
+                right: 20,
               }}
             >
               Notification
             </Text>
           </Pressable>
-
+          <Pressable
+            style={{
+              left:30
+            }}
+            android_ripple={{ borderless: true, radius: 50 }}
+            onPress={() => navigation.navigate("localisation")}
+          >
+            <MaterialCommunityIcons
+              name="map-marker-outline"
+              size={40}
+              color="#10857F"
+            />
+            <Text
+              style={{
+                marginRight: 40,
+                alignItems: "center",
+                right: 7,
+              }}
+            >
+              Location
+            </Text>
+          </Pressable>
           <Pressable
             onPress={() => {
               navigation.navigate("Profile");

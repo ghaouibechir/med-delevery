@@ -5,6 +5,7 @@ const jwt = require ("jsonwebtoken");
 const User = require("../models/user");
 const config = require("../config/database");
 const {user}=require('../database-mongodb/schemas')
+const bcrypt = require("bcryptjs");
 
 
 router.post("/register", (req, res, next) => {
@@ -66,10 +67,48 @@ router.post("/authenticate", (req, res, next)=>{
     });
 });
 
+
+router.post("/username" , (req, res) => {
+    User.getUserByUsername(req.body.username , (err, data) => {
+        if(err) throw err;
+        else{
+            res.send(data);
+        }
+    })
+})
+
+
+
 router.get("/profile", passport.authenticate("jwt", {session: false}), (req, res, next)=>{
     res.json({
         user: req.user
     });
 });
+
+
+
+router.post('/password', async(req,res)=>{
+    var { password, id }=req.body
+
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(password, salt, (err, hash) => {
+          if (err){throw err;} 
+         else{password = hash;
+        } 
+        });
+      });
+   setTimeout(()=>{
+   console.log(password)
+   user.findOneAndUpdate( {_id:id},{ password: password},(erreur,data)=>{
+     if(erreur){
+       res.send(erreur)
+     }else{
+       res.send(data)
+     }
+   })
+   },1000)
+
+
+})
 
 module.exports = router;

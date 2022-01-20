@@ -2,12 +2,14 @@ const { event, user, medecine, order } = require("./database-mongodb/schemas");
 
 
 var express = require("express");
-const client = require('twilio')('ACed2feeec7ef469a1086ff226bb48ec63', '431afc206c1c8b699bc9bf9162e5742b');
+const client = require('twilio')('ACef3a21de70771e1ddc68a842568cda00', '72370b563d7bc333bd230ebd9e90a0d3');
 var app = express();
 const passport = require("passport");
 var port = process.env.PORT || 5000;
 var cors = require("cors");
 const users = require("./routes/users");
+const myUsers = require("./routes/myUser");
+const paras = require("./routes/paras");
 // import {Stripe} from "stripe";
 
 
@@ -32,6 +34,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use("/user", myUsers);
+app.use("/para" , paras)
 /*==================================={Stripe }=========================================================== */
 // const stripe = Stripe(secKey , { apiVersion: "2020-08-27" });
 app.post("/create-payment-intent", async (req, res) => {
@@ -186,7 +190,7 @@ function sendTextMessage(num) {
   client.messages.create({
     body: 'your verification code is ' + firstNum + '' + secondNum + '' + thirdNum + '' + fourthNum,
     to: '+216'+num,
-    from: '+18507532868'
+    from: '+19148098893'
  }).then(message => console.log(message))
    .catch(error => console.log(error))
 }
@@ -203,7 +207,7 @@ function resetPassword() {
   client.messages.create({
     body: 'your reset password code is ' + firstNum + '' + secondNum + '' + thirdNum + '' + fourthNum,
     to: '+21658769219',
-    from: '+18507532868'
+    from: '+19148098893'
  }).then(message => console.log(message))
    .catch(error => console.log(error))
 }
