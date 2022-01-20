@@ -44,11 +44,12 @@ import {
 } from "components/Icons/Icons.js";
 import DashboardTableRow from "components/Tables/DashboardTableRow";
 import TimelineRow from "components/Tables/TimelineRow";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // react icons
 import { BsArrowRight } from "react-icons/bs";
 import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 import { dashboardTableData, timelineData } from "variables/general";
+import axios from "axios";
 
 export default function Dashboard() {
   const value = "$100.000";
@@ -60,17 +61,30 @@ export default function Dashboard() {
   const [series, setSeries] = useState([
     {
       type: "area",
-      name: "Mobile apps",
+      name: "Mobile app",
       data: [190, 220, 205, 350, 370, 450, 400, 360, 210, 250, 292, 150],
     },
     {
       type: "area",
-      name: "Websites",
+      name: "pharmacy side",
       data: [400, 291, 121, 117, 25, 133, 121, 211, 147, 25, 201, 203],
     },
   ]);
   const overlayRef = React.useRef();
+  const [tableData, setTableData] = useState([]);
+  const [names, setNames] = useState([]);
 
+  useEffect(() => {
+    axios.get("http://localhost:5000/admin/getfeedbacks").then(({ data }) => {
+      console.log(data);
+      setTableData(data.feedbacks);
+      setNames(data.result)
+
+      console.log(tableData);
+      console.log(names);
+
+    });
+  }, []);
   return (
     <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing="24px">
@@ -446,46 +460,24 @@ export default function Dashboard() {
                 fontWeight="bold"
                 pb=".5rem"
               >
-                Projects
+                Feedbacks
               </Text>
-              <Flex align="center">
-                <Icon
-                  as={IoCheckmarkDoneCircleSharp}
-                  color="teal.300"
-                  w={4}
-                  h={4}
-                  pe="3px"
-                />
-                <Text fontSize="sm" color="gray.400" fontWeight="normal">
-                  <Text fontWeight="bold" as="span">
-                    30 done
-                  </Text>{" "}
-                  this month.
-                </Text>
-              </Flex>
             </Flex>
           </CardHeader>
           <Table variant="simple" color={textColor}>
             <Thead>
               <Tr my=".8rem" ps="0px">
                 <Th ps="0px" color="gray.400">
-                  Companies
+                  Users
                 </Th>
-                <Th color="gray.400">Members</Th>
-                <Th color="gray.400">Budget</Th>
-                <Th color="gray.400">Completion</Th>
+
+                <Th color="gray.400">Feedbacks</Th>
               </Tr>
             </Thead>
             <Tbody>
-              {dashboardTableData.map((row) => {
+              {tableData.map((row,i) => {
                 return (
-                  <DashboardTableRow
-                    name={row.name}
-                    logo={row.logo}
-                    members={row.members}
-                    budget={row.budget}
-                    progression={row.progression}
-                  />
+                  <DashboardTableRow  content={row.content} name={names[i]} />
                 );
               })}
             </Tbody>

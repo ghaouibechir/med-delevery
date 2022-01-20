@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const Admin = require("../models/admin");
 const config = require("../config/database");
-const { admin , pharmacy, user } = require("../database-mongodb/schemas");
+const { admin, pharmacy, feedback , user} = require("../database-mongodb/schemas");
 const passport = require("passport");
 
 router.post("/register", (req, res, next) => {
@@ -66,45 +66,66 @@ router.get('/getPharmacies', async (req, res)=>{
 
 })
 
-
+//ban pharmacy
 router.put('/ban/:_id', async(req, res)=>{
-  console.log("bannnn");
+  
   console.log(req.params._id)
   var ban = await user.findByIdAndUpdate({_id:req.params._id},{banned:true})
     
       console.log(ban.banned)
       res.send("done")
     }
-  )
-  router.put('/unban/:_id', async(req, res)=>{
-    console.log("bannnn");
+)
+  //unban pharmacy
+router.put('/unban/:_id', async(req, res)=>{
+    
     console.log(req.params._id)
     var ban = await user.findByIdAndUpdate({_id:req.params._id},{banned:false})
       
         console.log(ban.banned)
         res.send("done")
       }
-    )
-
-  router.put('/banUser/:_id', async(req, res)=>{
-    console.log("bannnU");
-    console.log(req.params._id)
-    var ban = await pharmacy.findByIdAndUpdate({_id:req.params._id},{banned:true})
-      
+)
+//ban user
+router.put('/banUser/:_id', async(req, res)=>{ 
+  console.log(req.params._id)
+  var ban = await pharmacy.findByIdAndUpdate({_id:req.params._id},{banned:true})
+    console.log(ban.banned)
+    res.send("done")
+  }
+)
+//unban user
+router.put('/unbanUser/:_id', async(req, res)=>{
+  
+  console.log(req.params._id)
+      var ban = await pharmacy.findByIdAndUpdate({_id:req.params._id},{banned:false})
         console.log(ban.banned)
         res.send("done")
-      }
-    )
-
-    router.put('/unbanUser/:_id', async(req, res)=>{
-      console.log("bannnU");
-      console.log(req.params._id)
-      var ban = await pharmacy.findByIdAndUpdate({_id:req.params._id},{banned:false})
-        
-          console.log(ban.banned)
-          res.send("done")
-        }
-      )
+  }
+)
   
+
+// get feedbacks
+router.get("/getfeedbacks", async (req, res) => {
+  var feedbacks = await feedback.find({});
+    console.log("this is the feedbacks", feedbacks);
+  
+  var result=[]
+  for (var i=0; i<feedbacks.length; i++){
+    var us= await user.find({ '_id': feedbacks[i].userId })
+    result.push(us[0].username)
+  }
+  console.log(result);
+  //usersId.push(feedbacks[i].userId)
+  // console.log(feedbacks);
+  res.send({feedbacks,result} );
+});
+
+router.get("/getPharmacies", async (req, res) => {
+  console.log("work");
+  var pharmacies = await pharmacy.find({});
+  console.log("found", pharmacies);
+  res.send(pharmacies);
+});
 
 module.exports = router;

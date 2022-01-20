@@ -16,7 +16,11 @@ import axios from "axios"
 
 function DashboardTableRow(props) {
   const { logo, name, email ,vip, budget , _id , banned } = props;
+  const textColorG = useColorModeValue("green.700", "white");
   const textColor = useColorModeValue("gray.700", "white");
+
+  const bgStatus = useColorModeValue("green.400", "#1a202c");
+
   const [toggleban, setToggleban] = useState(banned);
 
 
@@ -26,7 +30,7 @@ function DashboardTableRow(props) {
  }
 
   const ban = (_id) =>{
-    setTimeout(() =>{
+    
     console.log(_id)
   
   axios.put(`http://localhost:5000/admin/ban/${_id}`)
@@ -36,7 +40,7 @@ function DashboardTableRow(props) {
         
    )
 
-        },3000)
+        
       }
 
   const unban = (_id) =>{
@@ -44,7 +48,7 @@ function DashboardTableRow(props) {
       console.log(_id)
       
     axios.put(`http://localhost:5000/admin/unban/${_id}`)
-       then(({data}) => console.log(data) ,
+       .then(({data}) => console.log(data) ,
        toggle(),
    console.log(toggleban),
            
@@ -80,16 +84,19 @@ function DashboardTableRow(props) {
         </Text>
       </Td>
       <Td>
-        <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
+        { vip ? <Text fontSize="md" color={textColorG} fontWeight="bold" pb=".5rem">
           {vip}
-        </Text>
+        </Text> : <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
+          {vip}
+        </Text>  }
+        
       </Td>
       
       <Td>
         {banned ? <Button p="0px" bg="transparent" variant="no-hover" onClick={ ()=>{unban(_id)}} >
           <Text
             fontSize="md"
-            color="gray.400"
+            color="green.400"
             fontWeight="bold"
             cursor="pointer"
           >
@@ -98,7 +105,7 @@ function DashboardTableRow(props) {
         </Button> : <Button p="0px" bg="transparent" variant="no-hover" onClick={ ()=>{ban(_id)}} >
           <Text
             fontSize="md"
-            color="gray.400"
+            color="red.400"
             fontWeight="bold"
             cursor="pointer"
           >

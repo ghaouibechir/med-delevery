@@ -114,7 +114,7 @@ function Tables() {
                     name={row.name}
                     logo={row.logo}
                     email={row.email}
-                    status={row.vip}
+                    vip={row.vip}
                     budget={row.phoneNumber}
                   
                     _id={row._id}

@@ -13,7 +13,7 @@ import axios from "axios"
 function TablesTableRow(props) {
   const { logo, name, email, subdomain, domain, connected, date ,_id ,banned } = props;
   const textColor = useColorModeValue("gray.700", "white");
-  const bgStatus = useColorModeValue("gray.400", "#1a202c");
+  const bgStatus = useColorModeValue("green.400", "#1a202c");
   const colorStatus = useColorModeValue("white", "gray.400");
   const [toggleban, setToggleban] = useState(banned);
 
@@ -25,13 +25,13 @@ function TablesTableRow(props) {
   }
   
   const ban = (_id) =>{
-    setTimeout(() =>{
+    
     console.log(_id)
   
      axios.put(`http://localhost:5000/admin/banUser/${_id}`)
        .then(({data}) => console.log(data) ,
       toggle())
-        },3000)
+        
       }
   const unban = (_id) =>{
     setTimeout(() =>{
@@ -76,7 +76,7 @@ function TablesTableRow(props) {
       <Td>
         <Badge
           bg={connected === "true" ? "green.400" : bgStatus}
-          color={connected === "true" ? "white" : colorStatus}
+          color={connected === "!true" ? "white" : colorStatus}
           fontSize="16px"
           p="3px 10px"
           borderRadius="8px"
@@ -93,7 +93,7 @@ function TablesTableRow(props) {
       {banned ? <Button p="0px" bg="transparent" variant="no-hover" onClick={ ()=>{unban(_id)}} >
           <Text
             fontSize="md"
-            color="gray.400"
+            color="green.400"
             fontWeight="bold"
             cursor="pointer"
           >
@@ -102,7 +102,7 @@ function TablesTableRow(props) {
         </Button> : <Button p="0px" bg="transparent" variant="no-hover" onClick={ ()=>{ban(_id)}} >
           <Text
             fontSize="md"
-            color="gray.400"
+            color="red.400"
             fontWeight="bold"
             cursor="pointer"
           >
