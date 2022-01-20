@@ -24,6 +24,7 @@ import CameraScreen from './screens/camera';
 import ResetPassword from './screens/ResetPassword';
 import ResetPasswordVerification from './screens/ResetPasswordVerification';
 import NewPassword from "./screens/NewPassword";
+import Feedback from "./screens/Feedback";
 import Paiment from "./screens/Paiment";
 const Stack = createNativeStackNavigator();
 
@@ -95,6 +96,11 @@ export default function App() {
                     <Stack.Screen
                       name="Profile"
                       component={ProfileScreen}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name="feedback"
+                      component={Feedback}
                       options={{ headerShown: false }}
                     />
                     <Stack.Screen
