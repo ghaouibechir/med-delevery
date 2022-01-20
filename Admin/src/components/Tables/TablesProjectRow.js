@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{ useState}from "react";
 import {
   Tr,
   Td,
@@ -15,19 +15,42 @@ import axios from "axios"
 
 
 function DashboardTableRow(props) {
-  const { logo, name, email ,vip, budget , _id } = props;
+  const { logo, name, email ,vip, budget , _id , banned } = props;
   const textColor = useColorModeValue("gray.700", "white");
+  const [toggleban, setToggleban] = useState(banned);
+
+
+ const toggle = ()=>{
+
+  setToggleban(!toggleban)
+ }
 
   const ban = (_id) =>{
     setTimeout(() =>{
     console.log(_id)
   
   axios.put(`http://localhost:5000/admin/ban/${_id}`)
-   .then(({data}) => console.log(data))
+   .then(({data}) => console.log(data) ,
+   toggle(),
+   console.log(toggleban),
+        
+   )
 
         },3000)
       }
+
+  const unban = (_id) =>{
+      setTimeout(() =>{
+      console.log(_id)
+      
+    axios.put(`http://localhost:5000/admin/unban/${_id}`)
+       then(({data}) => console.log(data) ,
+       toggle(),
+   console.log(toggleban),
+           
+       )
     
+       },3000)}
     
   
 
@@ -63,7 +86,16 @@ function DashboardTableRow(props) {
       </Td>
       
       <Td>
-      <Button p="0px" bg="transparent" variant="no-hover" onClick={ ()=>{ban(_id)}} >
+        {banned ? <Button p="0px" bg="transparent" variant="no-hover" onClick={ ()=>{unban(_id)}} >
+          <Text
+            fontSize="md"
+            color="gray.400"
+            fontWeight="bold"
+            cursor="pointer"
+          >
+            unban
+          </Text>
+        </Button> : <Button p="0px" bg="transparent" variant="no-hover" onClick={ ()=>{ban(_id)}} >
           <Text
             fontSize="md"
             color="gray.400"
@@ -72,7 +104,8 @@ function DashboardTableRow(props) {
           >
             ban
           </Text>
-        </Button>
+        </Button>}
+      
       </Td>
     </Tr>
   );

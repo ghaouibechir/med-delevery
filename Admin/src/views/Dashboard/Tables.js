@@ -30,7 +30,7 @@ function Tables() {
   useEffect(() => {
     axios.get('http://localhost:5000/admin/getPharmacies')
     .then(({data}) =>{
-      console.log(data.users);
+      console.log(data);
      
       setPharmacietable(data.pharmacies)
       setUserstable(data.users)
@@ -68,13 +68,13 @@ function Tables() {
                   <TablesTableRow
                     name={row.username}
                     logo={row.logo}
-                     email={row.email}
-                    
+                    email={row.email}
                     domain={row.location}
                     status={row.connected}
                     date={moment(row.createdAt).format("MMM Do YY")}
                     
-                    _id={row._id} />  
+                    _id={row._id}
+                    banned={row.banned} />  
                 );
               })}
 
@@ -117,7 +117,8 @@ function Tables() {
                     status={row.vip}
                     budget={row.phoneNumber}
                   
-                    _id={row._id}/>
+                    _id={row._id}
+                    banned={row.banned}/>
                 );
               })}
             </Tbody>

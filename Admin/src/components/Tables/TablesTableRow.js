@@ -8,22 +8,40 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React from "react";
+import React ,{ useState, useEffect } from "react";
 import axios from "axios"
 function TablesTableRow(props) {
-  const { logo, name, email, subdomain, domain, connected, date ,_id } = props;
+  const { logo, name, email, subdomain, domain, connected, date ,_id ,banned } = props;
   const textColor = useColorModeValue("gray.700", "white");
   const bgStatus = useColorModeValue("gray.400", "#1a202c");
   const colorStatus = useColorModeValue("white", "gray.400");
+  const [toggleban, setToggleban] = useState(banned);
+
+ 
+  const toggle = ()=>{
+    
+  
+   setToggleban(!toggleban)
+  }
+  
   const ban = (_id) =>{
     setTimeout(() =>{
     console.log(_id)
   
-  axios.put(`http://localhost:5000/admin/banUser/${_id}`)
-   .then(({data}) => console.log(data))
-
+     axios.put(`http://localhost:5000/admin/banUser/${_id}`)
+       .then(({data}) => console.log(data) ,
+      toggle())
         },3000)
       }
+  const unban = (_id) =>{
+    setTimeout(() =>{
+    console.log(_id)
+      
+      axios.put(`http://localhost:5000/admin/banUser/${_id}`)
+       .then(({data}) => console.log(data) ,
+          toggle())
+            },3000)
+          }
   return (
     <Tr>
       <Td minWidth={{ sm: "250px" }} pl="0px">
@@ -72,7 +90,16 @@ function TablesTableRow(props) {
         </Text>
       </Td>
       <Td>
-        <Button p="0px" bg="transparent" variant="no-hover" onClick={ ()=>{ban(_id)}}>
+      {banned ? <Button p="0px" bg="transparent" variant="no-hover" onClick={ ()=>{unban(_id)}} >
+          <Text
+            fontSize="md"
+            color="gray.400"
+            fontWeight="bold"
+            cursor="pointer"
+          >
+            unban
+          </Text>
+        </Button> : <Button p="0px" bg="transparent" variant="no-hover" onClick={ ()=>{ban(_id)}} >
           <Text
             fontSize="md"
             color="gray.400"
@@ -81,7 +108,8 @@ function TablesTableRow(props) {
           >
             ban
           </Text>
-        </Button>
+        </Button>}
+      
       </Td>
     </Tr>
   );
