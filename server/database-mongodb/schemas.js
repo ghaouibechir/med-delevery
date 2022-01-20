@@ -67,6 +67,7 @@ const orderSchema = new mongoose.Schema({
  userId:{type:String},
  medecineId:{type:Array},
  totalPrice:{type:Number},
+ Governorates:{type:String},
  prescription:{type:String,default:''},
  response:{type:String,default:''},
  confirmation:{type:Boolean,default:false},
