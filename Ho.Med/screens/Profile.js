@@ -40,7 +40,7 @@ export default function ProfileScreen({ navigation }) {
   const getUser = async () => {
     const id = userId
     try {
-      let response = await axios.get("http://192.168.1.113:5000/user/" + id)
+      let response = await axios.get("http://192.168.11.71:5000/user/" + id)
       setUser(response.data)
     }
     catch (err) {
