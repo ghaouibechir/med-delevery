@@ -107,7 +107,7 @@ const restPasswordSchema = mongoose.Schema(
 );
 const feedbackSchema = mongoose.Schema({
   userId: { type: String },
-  text: { type: String },
+  content: { type: String },
   createdAt: { type: Date, immutable: true, default: () => Date.now() },
 });
 
