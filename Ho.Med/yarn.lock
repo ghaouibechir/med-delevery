@@ -1241,13 +1241,13 @@
     "xml2js" "^0.4.23"
 
 "@expo/config-plugins@^4.0.15":
-  "integrity" "sha512-UTyE5JTBatMSwoOZCtX0u2H3zkp/ybMftc1228ARMop35Dbq+sYO11Ym3MrY5RPh8PYPofokDSOvoUq1jjORXw=="
-  "resolved" "https://registry.npmjs.org/@expo/config-plugins/-/config-plugins-4.0.16.tgz"
-  "version" "4.0.16"
+  "integrity" "sha512-QqxVEt2bFu3ZuI1soULRJv7i0Zrg/FMZ0IxNV7Y3AjH7fhtUJH3pPo9f6MURvqNr+PLxhBlkofkWfunrVejSkw=="
+  "resolved" "https://registry.npmjs.org/@expo/config-plugins/-/config-plugins-4.0.15.tgz"
+  "version" "4.0.15"
   dependencies:
     "@expo/config-types" "^43.0.1"
     "@expo/json-file" "8.2.34"
-    "@expo/plist" "0.0.17"
+    "@expo/plist" "0.0.16"
     "@expo/sdk-runtime-versions" "^1.0.0"
     "@react-native/normalize-color" "^2.0.0"
     "chalk" "^4.1.2"
@@ -1484,6 +1484,15 @@
   "integrity" "sha512-LDxiS0KNZAGJu4fIJhbEKczmb+zeftl1NU0LE0tj0mozoMI5HSKdMUchgvnBm35bwBl8ekKkAfJJ0ONxljWQjQ=="
   "resolved" "https://registry.npmjs.org/@expo/plist/-/plist-0.0.15.tgz"
   "version" "0.0.15"
+  dependencies:
+    "@xmldom/xmldom" "~0.7.0"
+    "base64-js" "^1.2.3"
+    "xmlbuilder" "^14.0.0"
+
+"@expo/plist@0.0.16":
+  "integrity" "sha512-yQMt2CTm2VNLiHv2/EqHYrHvfflI2mFJd+DZIQQy569hvpZle0CxMPGH1p2KatbrO8htxJNvwrlR/4TIwhQJ5w=="
+  "resolved" "https://registry.npmjs.org/@expo/plist/-/plist-0.0.16.tgz"
+  "version" "0.0.16"
   dependencies:
     "@xmldom/xmldom" "~0.7.0"
     "base64-js" "^1.2.3"
@@ -8219,9 +8228,9 @@
   "version" "0.0.0"
 
 "twilio@^3.72.0":
-  "integrity" "sha512-8v+bS6MimxFjfW05RWHMJcGCQQXjMIvIQUkur8VQ2frx1TdXiZs9d9HBWt3YtGx8qKzoxN/okJNamODZ65xkUg=="
-  "resolved" "https://registry.npmjs.org/twilio/-/twilio-3.73.0.tgz"
-  "version" "3.73.0"
+  "integrity" "sha512-Nr5mPlPratfWa9ok2OQVSlqCtISncrUbhr1ab5j1P4jf0eRU8Og8EF0pCqn+4MKOHgoIn8yXbDjepVD4lpvctg=="
+  "resolved" "https://registry.npmjs.org/twilio/-/twilio-3.72.0.tgz"
+  "version" "3.72.0"
   dependencies:
     "axios" "^0.21.4"
     "dayjs" "^1.8.29"
