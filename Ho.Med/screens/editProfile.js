@@ -13,8 +13,55 @@ import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import  AsyncStorage  from "@react-native-async-storage/async-storage";
 import Footer from "./Footer";
+import {useState ,useEffect} from "react";
+import axios from "axios";
+
 export default function EditProfile({ navigation }) {
+
+  const [user , setUser] = useState({})
+  const [userNameEdit , setUserNameEdit] = useState(user.username)
+  const [emailEdit , setemailEdit] = useState(user.email)
+  const [phoneNumberEdit , setPhoneNumberEdit] = useState(user.phoneNumber)
+  const [userId , setUserId] = useState("")
+
+  useEffect(() => {
+    AsyncStorage.getItem('key').then((d)=>{setUserId(JSON.parse(d).id)})
+    console.log(userId)
+  },[])
+
+  useEffect(() => {
+    getUser()
+  })
+
+  
+
+  const getUser = async () => {
+    const id = userId
+    try {
+      let response = await axios.get("http://192.168.1.113:5000/user/" + id)
+      setUser(response.data)
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+
+  const UpdateUser = async () => {
+    const id = userId
+    const username = userNameEdit
+    const email = emailEdit
+    const phoneNumber = phoneNumberEdit
+    try {
+      console.log("user updating...")
+      let result = await axios.put("http://192.168.1.113:5000/user/" + id , {username , email , phoneNumber})
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
       <View
@@ -29,17 +76,21 @@ export default function EditProfile({ navigation }) {
             <Text style={{ ...Fonts.whiteColor20Medium }}>Ho-Med</Text>
           </View>
           <View style={{ flexDirection: "row" }}>
-            <AntDesign
-              name="check"
-              size={27}
-              color={Colors.whiteColor}
-              onPress={() => navigation.navigate('Profile')}
-            />
+          <AntDesign
+             name="check" 
+             size={27} 
+             color={Colors.whiteColor}
+             onPress={() => { 
+              UpdateUser()
+              navigation.navigate('Profile')
+              }}
+             />
           </View>
         </View>
       </View>
       <View style={styles.container}>
         <View style={styles.header}></View>
+        
         <Image
           style={styles.avatar}
           source={{ uri: "https://bootdey.com/img/Content/avatar/avatar6.png" }}
@@ -60,23 +111,18 @@ export default function EditProfile({ navigation }) {
 
             <TouchableOpacity style={styles.buttonContainer}>
               <TextInput style={{ fontSize: 26 }}
-                placeholder="User name"
-              ></TextInput>
+              onChangeText={text => setUserNameEdit(text)}
+              >{user.username}</TextInput>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer}>
               <TextInput style={{ fontSize: 26 }}
-                placeholder="Email"
-              ></TextInput>
+              onChangeText={text => setemailEdit(text)}
+              >{user.email}</TextInput>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer}>
               <TextInput style={{ fontSize: 26 }}
-                placeholder="Phone number"
-              ></TextInput>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonContainer}>
-              <TextInput style={{ fontSize: 26 }}
-                placeholder="Adress"
-              ></TextInput>
+              onChangeText={text => setPhoneNumberEdit(text)}
+              >{user.phoneNumber}</TextInput>
             </TouchableOpacity>
           </View>
         </View>

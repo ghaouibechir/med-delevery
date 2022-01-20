@@ -20,7 +20,10 @@ import Apploading from 'expo-app-loading';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "./screens/CredentialsContext";
 import EditProfile from './screens/editProfile';
-import CameraScreen from './screens/camera'
+import CameraScreen from './screens/camera';
+import ResetPassword from './screens/ResetPassword';
+import ResetPasswordVerification from './screens/ResetPasswordVerification';
+import NewPassword from "./screens/NewPassword";
 import Paiment from "./screens/Paiment";
 const Stack = createNativeStackNavigator();
 
@@ -94,6 +97,11 @@ export default function App() {
                       component={ProfileScreen}
                       options={{ headerShown: false }}
                     />
+                    <Stack.Screen
+                      name="editProfile"
+                      component={EditProfile}
+                      options={{ headerShown: false }}
+                    />
                      <Stack.Screen
                       name="Paiment"
                       component={Paiment}
@@ -111,10 +119,25 @@ export default function App() {
                     component={LandingPage}
                     options={{ headerShown: false }}
                   />
+                   <Stack.Screen
+                    name="forgotPasswordVerification"
+                    component={ResetPasswordVerification}
+                     options={{ headerShown: false}}
+                    /> 
                     <Stack.Screen
                       name="registerScreen"
                       component={RegisterScreen}
                       options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name="newPassword"
+                      component={NewPassword}
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name="forgotPassword"
+                      component={ResetPassword}
+                      options={{ headerShown: false}}
                     />
                     <Stack.Screen
                       name="verification"

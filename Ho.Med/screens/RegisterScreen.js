@@ -100,11 +100,11 @@ class RegisterScreen extends Component {
     var num = this.state.PhoneNumber.phoneNumber
     console.log('kkkkkkkkkkkkkkk', num);
     try {
-      let response = await axios.post("http://192.168.43.216:5000/", { number: num });
-      this.setState({ verifNum1: response.data.num1 });
-      this.setState({ verifNum2: response.data.num2 });
-      this.setState({ verifNum3: response.data.num3 });
-      this.setState({ verifNum4: response.data.num4 });
+      let response = await axios.post("http://192.168.1.113:5000/",{number:num});
+      this.setState({verifNum1 :response.data.num1});
+      this.setState({verifNum2 :response.data.num2});
+      this.setState({verifNum3 :response.data.num3});
+      this.setState({verifNum4 :response.data.num4});
     } catch (error) {
       console.log(error);
     }
@@ -218,23 +218,23 @@ class RegisterScreen extends Component {
       </Text>
     );
   }
-  register() {
-    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaa', this.state.message);
-    this.handlemsg('', 'FAILED');
-    if (this.state.username == '' || this.state.password == '' || this.state.fullName == '' ||
-      this.state.address == '' || this.state.PhoneNumber == '' || this.state.emailAddress == '') {
-      this.handlemsg("Please fill all the fields")
-
-    }
-    const url = 'http://192.168.43.216:5000/users/register',
-      data = {
-        username: this.state.username,
-        password: this.state.password,
-        fullName: this.state.fullName,
-        address: this.state.address,
-        PhoneNumber: this.state.PhoneNumber.phoneNumber,
-        emailAddress: this.state.emailAddress,
-        connected: true
+  register(){
+ console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaa',this.state.message);
+      this.handlemsg('','FAILED');
+       if(this.state.username =='' || this.state.password=='' || this.state.fullName=='' || 
+       this.state.address=='' || this.state.PhoneNumber=='' || this.state.emailAddress==''){
+        this.handlemsg("Please fill all the fields")
+       
+      }
+     const url='http://192.168.1.113:5000/users/register',
+     data={
+       username :this.state.username,
+       password:this.state.password,
+       fullName:this.state.fullName,
+       address:this.state.address,
+       PhoneNumber:this.state.PhoneNumber.phoneNumber,
+       emailAddress:this.state.emailAddress,
+       connected:true
       }
 
     console.log('bbbbbbbbbbbbbbbbbbbbbb', this.state.message, 'ccccccccccccccc', data);
@@ -244,7 +244,7 @@ class RegisterScreen extends Component {
         const result = res.data
         const { success, msg } = result
         this.setState({ credentials: result.user })
-        console.log(this.state.credentials);
+        console.log("jjjjjjjjjjjjj",this.state.credentials);
         if (success !== true) {
           if (this.state.message !== 'Please fill all the fields') {
             this.handlemsg(msg)
@@ -254,7 +254,7 @@ class RegisterScreen extends Component {
             this.handlemsg(`Welcome To Our Family ✅`, "SUCCESS")
             this.getVerificationNumber()
             setTimeout(() => {
-              this.props.navigation.push("verification", { num1: this.state.verifNum1, num2: this.state.verifNum2, num3: this.state.verifNum3, num4: this.state.verifNum4 })
+              this.props.navigation.push("verification", { num1: this.state.verifNum1, num2: this.state.verifNum2, num3: this.state.verifNum3, num4: this.state.verifNum4 , credentials: this.state.credentials})
             }, 2000);
           }
         }
