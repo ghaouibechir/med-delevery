@@ -20,7 +20,7 @@
                     <h5 class="dress-name">{{ item.name }}</h5>
                     <div class="d-flex flex-column mb-2">
                       <span class="new-price">{{ item.price }}</span>
-                      <small class="old-price text-right">00TND</small>
+                      <small class="old-price text-right">TND</small>
                     </div>
                     <div
                       class="d-flex justify-content-between align-items-center pt-1"
@@ -46,7 +46,7 @@
                         :placeholder="item.price"
                         v-model="price"
                       />
-                      <small class="old-price text-right">00TND</small>
+                      <small class="old-price text-right">TND</small>
                     </div>
                     <div
                       class="d-flex justify-content-between align-items-center pt-1"
@@ -81,61 +81,61 @@
                   <div class="text-blueGray-400 text-center mb-3 font-bold">
                     <small>Add Paramedical Items From Here</small>
                   </div>
-                  <form>
-                    <div class="relative w-full mb-3">
-                      <label
-                        class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        ProductName
-                      </label>
-                      <input
-                        type="text"
-                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        placeholder="Name"
-                        v-model="name"
-                      />
-                    </div>
 
-                    <div class="relative w-full mb-3">
-                      <label
-                        class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        Image
-                      </label>
-                      <input
-                        type="text"
-                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        placeholder="image"
-                        v-model="img"
-                      />
-                    </div>
-                    <div class="relative w-full mb-3">
-                      <label
-                        class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        Price
-                      </label>
-                      <input
-                        type="text"
-                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        placeholder="Price"
-                        v-model="price"
-                      />
-                    </div>
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                      htmlFor="grid-password"
+                    >
+                      ProductName
+                    </label>
+                    <input
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      placeholder="Name"
+                      v-model="name"
+                    />
+                  </div>
 
-                    <div class="text-center mt-6">
-                      <button
-                        class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                        type="button"
-                        v-on:click="add()"
-                      >
-                        Add
-                      </button>
-                    </div>
-                  </form>
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                      htmlFor="grid-password"
+                    >
+                      Image
+                    </label>
+                    <input
+                      type="file"
+                      class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      placeholder="image"
+                      @change="thumbnailimg"
+                    />
+                  </div>
+
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                      htmlFor="grid-password"
+                    >
+                      Price
+                    </label>
+                    <input
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      placeholder="Price"
+                      v-model="price"
+                    />
+                  </div>
+
+                  <div class="text-center mt-6">
+                    <button
+                      class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                      type="button"
+                      v-on:click="add()"
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -156,24 +156,52 @@ export default {
       img: "",
       view: true,
       currentEdit: "",
+      selectedFile: "",
+      thumbnail:
+        "https://face-pro.net/wp-content/plugins/penci-pennews-portfolio/images/no-thumbnail.jpg",
     };
   },
-  methods: {
-    add: function () {
-      var item = {
-        name: this.name,
-        price: this.price,
-        img: this.img,
-        pharmacyId: localStorage.getItem("id"),
-      };
 
+  methods: {
+    add: async function () {
+      this.upload();
+      setTimeout(() => {
+        console.log(this.thumbnail);
+
+        var item = {
+          name: this.name,
+          price: this.price,
+          img: this.thumbnail,
+          pharmacyId: localStorage.getItem("id"),
+        };
+
+        axios
+          .post("http://localhost:5000/pharmacies/para", item)
+          .then(() => {
+            this.getPara();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }, 1000);
+    },
+    thumbnailimg(event) {
+      this.selectedFile = event.target.files[0];
+    },
+    upload() {
+      const formData = new FormData();
+      formData.append("file", this.selectedFile);
+      formData.append("upload_preset", "lsom30en");
+      console.log(formData);
       axios
-        .post("http://localhost:5000/pharmacies/para", item)
-        .then(() => {
-          this.getPara();
-        })
-        .catch((err) => {
-          console.log(err);
+        .post(
+          "https://api.cloudinary.com/v1_1/ben-arous/image/upload",
+          formData
+        )
+        .then((response) => {
+          console.log(response.data.url);
+          this.thumbnail = response.data.url;
+          console.log("test", this.thumbnail);
         });
     },
     getPara: function () {
@@ -183,7 +211,7 @@ export default {
         .get(`http://localhost:5000/pharmacies/para/${id}`)
         .then(({ data }) => {
           this.items = data;
-          console.log("aaaaaaaaaaaa", this.items);
+          console.log(this.items);
         })
         .catch((err) => {
           console.log(err);
@@ -202,11 +230,11 @@ export default {
     changeView: function (id) {
       this.currentEdit = id;
     },
+
     update: function (id) {
       var itemData = {
         name: this.name,
         price: this.price,
-        img: this.img,
       };
       axios
         .put(`http://localhost:5000/pharmacies/updatePara/${id}`, itemData)

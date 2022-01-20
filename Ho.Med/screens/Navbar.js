@@ -6,14 +6,12 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  Button,
   ScrollView,
   FlatList,
-  SafeAreaView,
-  StatusBar,
+  Icon,
   TextInput,
-  Animated,
-  BackHandler,
-  Dimensions,
+  I18nManager,
 } from "react-native";
 import { withNavigation } from "react-navigation";
 import { Colors, Fonts, Sizes } from "../constant/styles";
@@ -22,33 +20,156 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Footer from "./Footer";
 import axios from "axios";
 import data from "react-native-ico/src/data";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { CredentialsContext } from "./CredentialsContext";
 
 
 class Navbar extends Component {
+  static contextType = CredentialsContext
   constructor(props) {
     super(props);
     this.state = {
       medecine: [],
+      medecines: [],
+      orderId: "",
+      value: 0,
+      spesificMed : "" ,
+
     };
   }
+
   componentDidMount() {
     this.fetchdata();
+    AsyncStorage.getItem('key').then((d) => { console.log('qqqqqqqqqqqqqqq', d); })
   }
+
   fetchdata = async () => {
     try {
-      let response = await axios.get("http://192.168.11.10:5000/medecine");
+      let response = await axios.get("http://192.168.1.113:5000/medecine");
       this.setState({medecine:response.data});
-      console.log(response.data);
+      this.setState({medecines:response.data});
     } catch (error) {
       console.log(error);
     }
   };
-  addProductToCart = (e) => {
-    Alert.alert("Success", "The product has been added to your cart");
-    console.log(e);
+
+  fetchParasData = async () => {
+    try {
+      let response = await axios.get("http://192.168.1.113:5000/para/paras");
+      this.setState({medecine:response.data});
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+
+  myCart(id) {
+    console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyy", id)
+     this.incrementValue() 
+   
+    axios.put(`http://192.168.1.113:5000/OrderId/${'bechir'}`, { id })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => { console.log(err) });
+  }
+
+
+  incrementValue() {
+    this.setState({
+      value: this.state.value + 1
+    })
+    console.log("value+" + (this.state.value + 1))
+  }
+
+  searshForMedicines (medName) {
+    var res = []
+    var meds = this.state.medecine
+    if(medName == "") {
+      this.setState({medecine: this.state.medecines})
+      return;
+    }
+    for(var i = 0 ; i < meds.length; i++) {
+      if(meds[i].name.split(medName).length > 1) {
+        res.push(meds[i])
+      }
+    }
+    this.setState({medecine : res})
+  }
+
+  allMeds () {
+    this.setState({medecine: this.state.medecines})
+  }
+
+  covidMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "COVID CARE AND PROTECTION") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
+  }
+
+  teethMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "Teeth") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
+  }
+
+  cardiohMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "Cardio") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
+  }
+
+  noseMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "Nose") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
+  }
+
+  eyesMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "Eyes") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
+  }
+
+  headMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "Head") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
+  }
+  scrollListToStart(contentWidth, contentHeight) {
+    if (I18nManager.isRTL) {
+        this.scrollView.scrollTo({x: contentWidth});
+    }
+}
+
+
+
   render() {
+    let containerStyle = I18nManager.isRTL ? styles.RTLContainer : styles.LTRContainer;
     return (
       <View style={styles.container}>
         <View
@@ -78,7 +199,7 @@ class Navbar extends Component {
                   onPress={() => this.props.navigation.push("cart")}
                 />
                 <View style={styles.cartItemCountWrapStyle}>
-                  <Text style={{ ...Fonts.whiteColor15Regular }}></Text>
+                  <Text>{this.state.value}</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -88,8 +209,13 @@ class Navbar extends Component {
               name="search"
               size={22}
               color={Colors.primaryColor}
+              onPress={() => this.searshForMedicines(this.state.spesificMed)}
             />
             <TextInput
+              onChangeText={(text) => {
+                this.setState({ spesificMed: text });
+                this.searshForMedicines(this.state.spesificMed);
+              }}
               numberOfLines={1}
               selectionColor={Colors.primaryColor}
               style={{
@@ -102,7 +228,154 @@ class Navbar extends Component {
             />
           </TouchableOpacity>
         </View>
-
+        <View>
+          <Button
+            style={styles.bat}
+            title="Prescription"
+            onPress={() => this.props.navigation.navigate("Camera")}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
+        >
+           <ScrollView
+            ref={ref => this.scrollView = ref}
+            onContentSizeChange={this.scrollListToStart.bind(this)}
+            horizontal={true}
+            style={[styles.buttonsContainer, containerStyle]}>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "#10857F",
+              borderRadius: 50,
+            }}
+            onPress={() => this.allMeds()}
+          >
+            <Text>ALL</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "#10857F",
+              borderRadius: 50,
+            }}
+            onPress={() => this.covidMeds()}
+          >
+            <Text>COVID</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "#10857F",
+              borderRadius: 50,
+            }}
+            onPress={() => this.teethMeds()}
+          >
+            <Text>TEETH</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "#10857F",
+              borderRadius: 50,
+            }}
+            onPress={() => this.cardiohMeds()}
+          >
+            <Text>CARDIO</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "#10857F",
+              borderRadius: 50,
+            }}
+            onPress={() => this.noseMeds()}
+          >
+            <Text>NOSE</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "#10857F",
+              borderRadius: 50,
+            }}
+            onPress={() => this.eyesMeds()}
+          >
+            <Text>EYES</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "#10857F",
+              borderRadius: 50,
+            }}
+            onPress={() => this.headMeds()}
+          >
+            <Text>HEAD</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "#10857F",
+              borderRadius: 50,
+            }}
+            onPress={() => this.fetchParasData()}
+          >
+            <Text>PARAS</Text>
+          </TouchableOpacity>
+          </ScrollView>
+        </View>
         <FlatList
           style={styles.list}
           contentContainerStyle={styles.listContainer}
@@ -122,7 +395,7 @@ class Navbar extends Component {
                 <View style={styles.cardHeader}>
                   <View>
                     <Text style={styles.title}>{item.name}</Text>
-                    <Text style={styles.price}>{item.price}00TND</Text>
+                    <Text style={styles.price}>{item.price} TND</Text>
                   </View>
                 </View>
 
@@ -132,8 +405,11 @@ class Navbar extends Component {
                   <View style={styles.socialBarContainer}>
                     <View style={styles.socialBarSection}>
                       <TouchableOpacity
+                        activeOpacity={0.9}
                         style={styles.socialBarButton}
-                        onPress={() => this.addProductToCart(item._id)}
+                        onPress={() => {
+                          this.myCart(item._id);
+                        }}
                       >
                         <Image
                           style={styles.icon}
@@ -158,7 +434,8 @@ class Navbar extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+
+const styles = StyleSheet.create({ 
   headerInfoWrapStyle: {
     flexDirection: "row",
     paddingLeft: Sizes.fixPadding,
@@ -277,6 +554,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+    RTLContainer: {
+        flexDirection: 'row-reverse'
+    },
+
+    LTRContainer: {
+        flexDirection: 'row'
+    },
 });
 Navbar.navigationOptions = () => {
   return {
