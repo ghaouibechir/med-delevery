@@ -25,12 +25,13 @@ export default class Cart extends Component {
     super(props);
     this.state = {
       data: [],
-      Valuue:[],
+      Valuue: [],
       value: 1,
       totalPrice: 0,
 
     };
   }
+  
   incrementValue() {
     this.setState({
       value: this.state.value + 1
@@ -45,42 +46,33 @@ export default class Cart extends Component {
   //   console.log("value+" + (this.state.value - 1))
   // }
   decrementValue() {
-    if(this.state.value===0){
+    if (this.state.value === 0) {
       this.setState({
         value: 0
-    })
-    
-    }else {
+      })
+
+    } else {
       this.setState({
         value: this.state.value - 1
-    })
-    console.log("value+" + (this.state.value - 1))
-  }}
+      })
+      console.log("value+" + (this.state.value - 1))
+    }
+  }
   componentDidMount() {
     this.fetchdata();
   }
   confirm() {
-    axios.put(`http://192.168.11.58:5000/ListOrderById/${'bechir'}`, {})
+    axios.put(`http://192.168.43.216:5000/ListOrderById/${'bechir'}`, {})
       .then((res) => {
         console.log(res)
       })
       .catch((err) => { console.log(err) });
   }
-  // fetchdata = async () => {
-  //   try {
-  //     let response = await axios.get("http://192.168.11.55:5000/ordre/cart");
-  //     this.setState({ order: response.data });
-  //     console.log("AAAAAAAAAAAAAAAA",order)
-
-
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+ 
   fetchdata() {
-    axios.get(`http://192.168.11.58:5000/medecine/cart/${'bechir'}`).then(({ data }) => {
+    axios.get(`http://192.168.43.216:5000/medecine/cart/${'bechir'}`).then(({ data }) => {
       this.setState({ data: data })
-      console.log("12121212121212121212121", this.state.data)
+      // console.log("12121212121212121212121", this.state.data)
     })
 
   }
@@ -128,11 +120,11 @@ export default class Cart extends Component {
                     <Text style={[styles.description, this.__getDescriptionStyle(item)]}>{item.name}</Text>
                     <Text size={29}>Price :{item.price}DT</Text>
                     <Text>    </Text>
-                    <View style={{ flexDirection: "column"}}>
+                    <View style={{ flexDirection: "column" }}>
                       <MaterialCommunityIcons
                         name="plus"
                         size={29}
-                        onPress={() =>this.incrementValue() }
+                        onPress={() => this.incrementValue()}
                       />
                       <Text>    </Text>
                       <View style={{ fontSize: 900 }}><Text>Quantity : {this.state.value}</Text></View>
@@ -155,8 +147,17 @@ export default class Cart extends Component {
             )
           }} />
         <View>
+        <Button
+           
+            onPress={() => this.props.navigation.push("Paiment")}
+            title="Stripe"
+            color="#10857F"
+            accessibilityLabel="Learn more about this purple button"
+          />
+
           <Button
             onPress={() => this.confirm()}
+           
             title="Confirm"
             color="#10857F"
             accessibilityLabel="Learn more about this purple button"
