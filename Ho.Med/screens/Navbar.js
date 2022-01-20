@@ -9,9 +9,9 @@ import {
   Button,
   ScrollView,
   FlatList,
-
+  Icon,
   TextInput,
-
+  I18nManager,
 } from "react-native";
 import { withNavigation } from "react-navigation";
 import { Colors, Fonts, Sizes } from "../constant/styles";
@@ -160,9 +160,16 @@ class Navbar extends Component {
     }
     this.setState({medecine: res})
   }
+  scrollListToStart(contentWidth, contentHeight) {
+    if (I18nManager.isRTL) {
+        this.scrollView.scrollTo({x: contentWidth});
+    }
+}
+
 
 
   render() {
+    let containerStyle = I18nManager.isRTL ? styles.RTLContainer : styles.LTRContainer;
     return (
       <View style={styles.container}>
         <View
@@ -192,7 +199,7 @@ class Navbar extends Component {
                   onPress={() => this.props.navigation.push("cart")}
                 />
                 <View style={styles.cartItemCountWrapStyle}>
-                  <Text >{this.state.value}</Text>
+                  <Text>{this.state.value}</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -206,8 +213,8 @@ class Navbar extends Component {
             />
             <TextInput
               onChangeText={(text) => {
-              this.setState({ spesificMed: text })
-              this.searshForMedicines(this.state.spesificMed)
+                this.setState({ spesificMed: text });
+                this.searshForMedicines(this.state.spesificMed);
               }}
               numberOfLines={1}
               selectionColor={Colors.primaryColor}
@@ -222,35 +229,152 @@ class Navbar extends Component {
           </TouchableOpacity>
         </View>
         <View>
-          <Button style={styles.bat} title="Prescription"
+          <Button
+            style={styles.bat}
+            title="Prescription"
             onPress={() => this.props.navigation.navigate("Camera")}
           />
         </View>
-        <View>
-        <Button  title="ALL" 
-        onPress={() => this.allMeds()}
-        />
-        <Button  title="COVID"
-        onPress={() => this.covidMeds()}
-        />
-        <Button  title="TEETH"
-        onPress={() => this.teethMeds()}
-        />
-        <Button  title="CARDIO"
-        onPress={() => this.cardiohMeds()}
-        />
-        <Button  title="NOSE"
-        onPress={() => this.noseMeds()}
-        />
-        <Button  title="EYES"
-        onPress={() => this.eyesMeds()}
-        />
-        <Button  title="HEAD"
-        onPress={() => this.headMeds()}
-        />
-        <Button  title="PARAS"
-        onPress={() => this.fetchParasData()}
-        />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
+        >
+           <ScrollView
+            ref={ref => this.scrollView = ref}
+            onContentSizeChange={this.scrollListToStart.bind(this)}
+            horizontal={true}
+            style={[styles.buttonsContainer, containerStyle]}>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "#10857F",
+              borderRadius: 50,
+            }}
+            onPress={() => this.allMeds()}
+          >
+            <Text>ALL</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "#10857F",
+              borderRadius: 50,
+            }}
+            onPress={() => this.covidMeds()}
+          >
+            <Text>COVID</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "#10857F",
+              borderRadius: 50,
+            }}
+            onPress={() => this.teethMeds()}
+          >
+            <Text>TEETH</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "#10857F",
+              borderRadius: 50,
+            }}
+            onPress={() => this.cardiohMeds()}
+          >
+            <Text>CARDIO</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "#10857F",
+              borderRadius: 50,
+            }}
+            onPress={() => this.noseMeds()}
+          >
+            <Text>NOSE</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "#10857F",
+              borderRadius: 50,
+            }}
+            onPress={() => this.eyesMeds()}
+          >
+            <Text>EYES</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "#10857F",
+              borderRadius: 50,
+            }}
+            onPress={() => this.headMeds()}
+          >
+            <Text>HEAD</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "#10857F",
+              borderRadius: 50,
+            }}
+            onPress={() => this.fetchParasData()}
+          >
+            <Text>PARAS</Text>
+          </TouchableOpacity>
+          </ScrollView>
         </View>
         <FlatList
           style={styles.list}
@@ -283,7 +407,10 @@ class Navbar extends Component {
                       <TouchableOpacity
                         activeOpacity={0.9}
                         style={styles.socialBarButton}
-                        onPress={() => { this.myCart(item._id) }}>
+                        onPress={() => {
+                          this.myCart(item._id);
+                        }}
+                      >
                         <Image
                           style={styles.icon}
                           source={{
@@ -308,7 +435,7 @@ class Navbar extends Component {
 }
 
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create({ 
   headerInfoWrapStyle: {
     flexDirection: "row",
     paddingLeft: Sizes.fixPadding,
@@ -427,6 +554,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+    RTLContainer: {
+        flexDirection: 'row-reverse'
+    },
+
+    LTRContainer: {
+        flexDirection: 'row'
+    },
 });
 Navbar.navigationOptions = () => {
   return {
