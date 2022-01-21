@@ -63,10 +63,11 @@ const orderSchema = new mongoose.Schema({
  userId:{type:String},
  medecineId:{type:Array},
  totalPrice:{type:Number},
- Governorates:{type:String},
+ state:{type:String,default:''},
  prescription:{type:String,default:''},
  response:{type:String,default:''},
- confirmation:{type:Boolean,default:false},
+ userConfirmation:{type:Boolean,default:false},
+ pharmacyConfirmation:{type:Boolean,default:false}, 
  createdAt: {type: Date, immutable: true,  default: () => Date.now() },
  updatedAt: { type: Date, default: () => Date.now() }
 });
