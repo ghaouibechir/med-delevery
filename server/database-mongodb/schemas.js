@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const db = require("./index.js");
 mongoose.Promise = global.Promise;
-const AutoIncrement = require('mongoose-sequence')(mongoose);
+const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 const userSchema = new mongoose.Schema({
   id: { type: Number },
@@ -59,17 +59,18 @@ const pharmacySchema = new mongoose.Schema({
 });
 
 const orderSchema = new mongoose.Schema({
- pharmacyId:{type:String },
- userId:{type:String},
- medecineId:{type:Array},
- totalPrice:{type:Number},
- state:{type:String,default:''},
- prescription:{type:String,default:''},
- response:{type:String,default:''},
- userConfirmation:{type:Boolean,default:false},
- pharmacyConfirmation:{type:Boolean,default:false}, 
- createdAt: {type: Date, immutable: true,  default: () => Date.now() },
- updatedAt: { type: Date, default: () => Date.now() }
+  pharmacyId: { type: String, default: "" },
+  userId: { type: String },
+  medecineId: { type: Array },
+  totalPrice: { type: Number },
+  state: { type: String, default: "" },
+  prescription: { type: String, default: "" },
+  response: { type: Array },
+  pharmacyNumber: { type: Number, default: 0 },
+  userConfirmation: { type: Boolean, default: false },
+  pharmacyConfirmation: { type: Boolean, default: false },
+  createdAt: { type: Date, immutable: true, default: () => Date.now() },
+  updatedAt: { type: Date, default: () => Date.now() },
 });
 
 const medecineSchema = new mongoose.Schema({
