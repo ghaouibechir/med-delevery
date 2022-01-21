@@ -38,7 +38,10 @@ router.post("/authenticate", (req, res, next) => {
   Pharmacy.getPharmacyByUsername(username, (err, pharmacy) => {
     if (err) throw err;
     if (!pharmacy) {
-      return res.json({ success: false, msg: "Pharmacy Not found" });
+      return res.json({ success: false, msg: "pharmacy not found" });
+    }
+    if(pharmacy.banned===true){
+      return res.json({ success: false, msg: "Pharmacy banned" });
     }
     Pharmacy.comparePassword(password, pharmacy.password, (err, isMatch) => {
       if (isMatch) {
