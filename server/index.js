@@ -1,12 +1,20 @@
 const { event, user, medecine, order } = require("./database-mongodb/schemas");
 
+
 var express = require("express");
-const client = require('twilio')('ACed2feeec7ef469a1086ff226bb48ec63', '431afc206c1c8b699bc9bf9162e5742b');
+const client = require('twilio')('ACef3a21de70771e1ddc68a842568cda00', '72370b563d7bc333bd230ebd9e90a0d3');
 var app = express();
 const passport = require("passport");
 var port = process.env.PORT || 5000;
 var cors = require("cors");
 const users = require("./routes/users");
+const myUsers = require("./routes/myUser");
+const myFeedback = require("./routes/userFeedback");
+const paras = require("./routes/paras");
+const feedbacks = require("./routes/feedback")
+// import {Stripe} from "stripe";
+
+
 
 
 
@@ -16,6 +24,10 @@ var num3 = 0
 var num4 = 0
 const pharmacy = require("./routes/pharmacy");
 const orders = require("./routes/orders");
+const admin = require("./routes/admin");
+
+//const pubKey="pk_test_51KAJlaHCkVRXX2YEoKKBzheHwz5wxxcDYyhXdmcFlGJgSQIkAn9OPSeHBQQNgUSlsU2hOG8HKRDzdy4L0lkAqBez00aqJr5abu"
+//const secKey="sk_test_51KAJlaHCkVRXX2YEVvHwfwoQVbx8kEgmLV3XsQeycxAYY63EPXDmWtdTFeveMCjq8pSlRnB0vUhSNAmPLYMRXbXC00w89ZKzOa"
 
 require("./config/passport")(passport);
 
@@ -24,6 +36,31 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use("/user", myUsers);
+app.use("/para" , paras);
+app.use("/feedback" , feedbacks);
+app.use("/feed",myFeedback)
+/*==================================={Stripe }=========================================================== */
+// const stripe = Stripe(secKey , { apiVersion: "2020-08-27" });
+app.post("/create-payment-intent", async (req, res) => {
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: 1099, 
+      currency: "usd",
+      payment_method_types: ["card"], 
+    });
+
+    const clientSecret = paymentIntent.client_secret;
+
+    res.json({
+      clientSecret: clientSecret,
+    });
+  } catch (e) {
+    console.log(e.message);
+    res.json({ error: e.message });
+  }
+});
+
 /*======================={Get the all  medecines in side the home page}=========================[Navbar]================================ */
 
 
@@ -139,6 +176,8 @@ app.get("/medecine/cart/:id", async (req, res) => {
 app.use("/users", users);
 app.use("/pharmacies", pharmacy);
 app.use("/orders", orders);
+app.use("/admin", admin);
+
 
 app.listen(process.env.PORT || port, () => {
   console.log(`Express server listening on  ${port}`);
@@ -158,7 +197,7 @@ function sendTextMessage(num) {
   client.messages.create({
     body: 'your verification code is ' + firstNum + '' + secondNum + '' + thirdNum + '' + fourthNum,
     to: '+216'+num,
-    from: '+18507532868'
+    from: '+19148098893'
  }).then(message => console.log(message))
    .catch(error => console.log(error))
 }
@@ -175,7 +214,7 @@ function resetPassword() {
   client.messages.create({
     body: 'your reset password code is ' + firstNum + '' + secondNum + '' + thirdNum + '' + fourthNum,
     to: '+21658769219',
-    from: '+18507532868'
+    from: '+19148098893'
  }).then(message => console.log(message))
    .catch(error => console.log(error))
 }

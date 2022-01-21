@@ -55,7 +55,7 @@ export default function AboutScreen({ navigation }) {
           </View>
         </View>
       </View>
-      <View style={{ marginTop: 480 }}>
+      <View style={{ marginTop: 400 }}>
         <Footer />
       </View>
     </SafeAreaView>

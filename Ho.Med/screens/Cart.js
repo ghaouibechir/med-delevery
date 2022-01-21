@@ -173,6 +173,7 @@ delete(id){
           <Text>                  TotalPrice                                     {this.state.totalPrice} DT</Text>
           <Button
             onPress={() => this.confirm()}
+           
             title="Confirm"
             color="#10857F"
             accessibilityLabel="Learn more about this purple button"
