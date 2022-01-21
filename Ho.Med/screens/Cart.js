@@ -31,7 +31,7 @@ export default class Cart extends Component {
 
     };
   }
-  
+
   incrementValue() {
     this.setState({
       value: this.state.value + 1
@@ -61,6 +61,28 @@ export default class Cart extends Component {
   componentDidMount() {
     this.fetchdata();
   }
+  
+  // pay() {
+  //   axios.post("https://api.konnect.network/api/v2/payments/init-payment", {
+  //     "receiverWalletId": "5f7a209aeb3f76490ac4a3d1",
+  //     "amount": 10000,
+  //     "token": "TND",
+  //     "firstName": "Mon prenom",
+  //     "lastName": "Mon nom",
+  //     "phoneNumber": "24563609",
+  //     "email": "mon.email@mail.com",
+  //     "orderId": "1234657",
+  //     "link": "https://api.dev.konnect.network/WSlQUtBF8",
+  //     "webhook": "https://merchant.tech/api/notification_payment",
+  //     "successUrl": "https://dev.konnect.network/gateway/payment-success",
+  //     "failUrl": "https://dev.konnect.network/gateway/payment-failure",
+  //     "acceptedPaymentMethods": [
+  //       "bank_card",
+  //       "wallet",
+  //       "e-DINAR"
+  //     ]
+  //   }).then(({payUrl}) => { console.log("bbbbbbb",payUrl) })
+  // }
   confirm() {
     axios.put(`http://192.168.43.216:5000/ListOrderById/${'bechir'}`, {})
       .then((res) => {
@@ -68,9 +90,9 @@ export default class Cart extends Component {
       })
       .catch((err) => { console.log(err) });
   }
- 
+
   fetchdata() {
-    axios.get(`http://192.168.43.216:5000/medecine/cart/${'bechir'}`).then(({ data }) => {
+    axios.get(`http://192.168.1.14:5000/medecine/cart/${'bechir'}`).then(({ data }) => {
       this.setState({ data: data })
       // console.log("12121212121212121212121", this.state.data)
     })
@@ -115,9 +137,7 @@ export default class Cart extends Component {
                 <TouchableOpacity style={[styles.card, { borderColor: item.color }]} onPress={() => { this.clickEventListener(item) }}>
                   <Image style={styles.img} source={{ uri: this.__getCompletedIcon(item) }} />
                   <View style={styles.cardContent}>
-
-
-                    <Text style={[styles.description, this.__getDescriptionStyle(item)]}>{item.name}</Text>
+<Text style={[styles.description, this.__getDescriptionStyle(item)]}>{item.name}</Text>
                     <Text size={29}>Price :{item.price}DT</Text>
                     <Text>    </Text>
                     <View style={{ flexDirection: "column" }}>
@@ -147,17 +167,17 @@ export default class Cart extends Component {
             )
           }} />
         <View>
-        <Button
-           
+          <Button
+            // onPress={() => this.pay()}
             onPress={() => this.props.navigation.push("Paiment")}
-            title="Stripe"
+            title="Pay"
             color="#10857F"
             accessibilityLabel="Learn more about this purple button"
           />
 
           <Button
             onPress={() => this.confirm()}
-           
+
             title="Confirm"
             color="#10857F"
             accessibilityLabel="Learn more about this purple button"

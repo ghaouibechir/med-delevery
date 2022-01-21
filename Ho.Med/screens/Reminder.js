@@ -15,10 +15,10 @@ Notifications.setNotificationHandler({
 
 export default function ReminderScreen() {
 
-   const [expoPushToken, setExpoPushToken] = useState('');
+  const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
-  const responseListener = useRef();  
+  const responseListener = useRef();
 
   useEffect(() => {
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
@@ -28,7 +28,7 @@ export default function ReminderScreen() {
     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
       console.log(response);
     });
-  
+
     return () => {
       Notifications.removeNotificationSubscription(notificationListener.current);
       Notifications.removeNotificationSubscription(responseListener.current);
@@ -54,7 +54,7 @@ export default function ReminderScreen() {
     } else {
       alert('Must use physical device for Push Notifications');
     }
-  
+
     if (Platform.OS === 'android') {
       Notifications.setNotificationChannelAsync('default', {
         name: 'default',
@@ -63,11 +63,10 @@ export default function ReminderScreen() {
         lightColor: '#FF231F7C',
       });
     }
-  
     return token;
   }
 
- 
+
   const sendMesaage = (token) => {
     fetch('https://exp.host/--/api/v2/push/send', {
       method: 'POST',
@@ -85,7 +84,7 @@ export default function ReminderScreen() {
       }),
     });
   }
-  
+
 
   return (
     <View style={styles.container}>
