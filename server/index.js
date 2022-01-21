@@ -9,7 +9,9 @@ var port = process.env.PORT || 5000;
 var cors = require("cors");
 const users = require("./routes/users");
 const myUsers = require("./routes/myUser");
+const myFeedback = require("./routes/userFeedback");
 const paras = require("./routes/paras");
+const feedbacks = require("./routes/feedback")
 // import {Stripe} from "stripe";
 
 
@@ -35,7 +37,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/user", myUsers);
-app.use("/para" , paras)
+app.use("/para" , paras);
+app.use("/feedback" , feedbacks);
+app.use("/feed",myFeedback)
 /*==================================={Stripe }=========================================================== */
 // const stripe = Stripe(secKey , { apiVersion: "2020-08-27" });
 app.post("/create-payment-intent", async (req, res) => {

@@ -372,7 +372,7 @@ class Navbar extends Component {
           >
             <FontAwesome5 name="head-side-virus" size={30} color="black" />
           </TouchableOpacity>
-          <Text style={{ marginLeft: 10,marginTop:5}}>HEAD</Text>
+          <Text style={{ marginLeft: 10,marginTop:5}}></Text>
           </View>
           <View>
           <TouchableOpacity
