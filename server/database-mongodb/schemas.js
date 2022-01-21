@@ -1,24 +1,22 @@
-
-const mongoose = require('mongoose');
-const db = require('./index.js');
+const mongoose = require("mongoose");
+const db = require("./index.js");
 mongoose.Promise = global.Promise;
 const AutoIncrement = require('mongoose-sequence')(mongoose);
-const { isEmail } = require("validator");
 
 const userSchema = new mongoose.Schema({
   id: { type: Number },
   name: {
     type: String,
   },
-  phoneNumber:{
-    type:String
+  phoneNumber: {
+    type: String,
   },
   email: {
     type: String,
     required: true,
   },
   adress: {
-    type: String
+    type: String,
   },
   username: {
     type: String,
@@ -28,13 +26,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  identityCard: { type: String, default: '' },
+  identityCard: { type: String, default: "" },
   vip: { type: Boolean, default: false },
   connected: { type: Boolean, default: false },
-  banned: { type: Boolean, default: false }
-
+  banned: { type: Boolean, default: false },
 });
-userSchema.plugin(AutoIncrement, { id: 'id_seq', inc_field: 'id' });
+
+userSchema.plugin(AutoIncrement, { id: "id_seq", inc_field: "id" });
 const pharmacySchema = new mongoose.Schema({
   username: {
     type: String,
@@ -45,19 +43,19 @@ const pharmacySchema = new mongoose.Schema({
     required: true,
   },
   adress: {
-    type: Number
+    type: Number,
   },
   phoneNumber: {
-    type: Number
+    type: Number,
   },
   password: {
     type: String,
     required: true,
   },
+  createdAt: { type: Date, immutable: true, default: () => Date.now() },
   location: { type: String },
   connected: { type: Boolean, default: false },
-  banned: { type: Boolean, default: false }
-
+  banned: { type: Boolean, default: false },
 });
 
 const orderSchema = new mongoose.Schema({
@@ -65,6 +63,7 @@ const orderSchema = new mongoose.Schema({
  userId:{type:String},
  medecineId:{type:Array},
  totalPrice:{type:Number},
+ Governorates:{type:String},
  prescription:{type:String,default:''},
  response:{type:String,default:''},
  confirmation:{type:Boolean,default:false},
@@ -72,15 +71,13 @@ const orderSchema = new mongoose.Schema({
  updatedAt: { type: Date, default: () => Date.now() }
 });
 
-
-
 const medecineSchema = new mongoose.Schema({
   name: String,
   description: String,
   category: String,
   img: String,
   price: Number,
-  prescription: { type: Boolean, default: false }
+  prescription: { type: Boolean, default: false },
 });
 
 const paraSchema = new mongoose.Schema({
@@ -89,18 +86,18 @@ const paraSchema = new mongoose.Schema({
   category: String,
   img: String,
   price: Number,
-  pharmacyId: String
+  pharmacyId: String,
 });
 
 const reminderSchema = new mongoose.Schema({
   userId: String,
   timing: String,
-  guide: Array
+  guide: Array,
 });
 const adminSchema = new mongoose.Schema({
   email: String,
   password: String,
-  username: String
+  username: String,
 });
 const restPasswordSchema = mongoose.Schema(
   {
@@ -109,14 +106,21 @@ const restPasswordSchema = mongoose.Schema(
   },
   { versionKey: false } // to not save the __v attribute ... // Source: https://mongoosejs.com/docs/guide.html#versionKey
 );
-const admin = mongoose.model('admin', adminSchema);
-const user = mongoose.model('user', userSchema);
-const pharmacy = mongoose.model('pharmacy', pharmacySchema);
-const order = mongoose.model('order', orderSchema);
-const medecine = mongoose.model('medecine', medecineSchema);
-const para = mongoose.model('para', paraSchema);
-const reminder = mongoose.model('reminder', reminderSchema);
-const resetpasswords = mongoose.model('ResetPassword', restPasswordSchema)
+const feedbackSchema = mongoose.Schema({
+  userId: { type: String },
+  content: { type: String },
+  createdAt: { type: Date, immutable: true, default: () => Date.now() },
+});
+
+const admin = mongoose.model("admin", adminSchema);
+const user = mongoose.model("user", userSchema);
+const pharmacy = mongoose.model("pharmacy", pharmacySchema);
+const order = mongoose.model("order", orderSchema);
+const medecine = mongoose.model("medecine", medecineSchema);
+const para = mongoose.model("para", paraSchema);
+const reminder = mongoose.model("reminder", reminderSchema);
+const resetpasswords = mongoose.model("ResetPassword", restPasswordSchema);
+const feedback = mongoose.model("feedback", feedbackSchema);
 
 module.exports = {
   user,
@@ -126,5 +130,6 @@ module.exports = {
   order,
   reminder,
   admin,
-  resetpasswords
-} 
+  resetpasswords,
+  feedback,
+};
