@@ -158,15 +158,15 @@ export default {
       currentEdit: "",
       selectedFile: "",
       thumbnail:
-        "https://face-pro.net/wp-content/plugins/penci-pennews-portfolio/images/no-thumbnail.jpg",
+        "",
     };
   },
 
   methods: {
-    add: async function () {
+    add: function () {
       this.upload();
       setTimeout(() => {
-        console.log(this.thumbnail);
+        console.log('zzzzzzzzz',this.thumbnail);
 
         var item = {
           name: this.name,
@@ -189,10 +189,10 @@ export default {
       this.selectedFile = event.target.files[0];
     },
     upload() {
+      
       const formData = new FormData();
       formData.append("file", this.selectedFile);
       formData.append("upload_preset", "lsom30en");
-      console.log(formData);
       axios
         .post(
           "https://api.cloudinary.com/v1_1/ben-arous/image/upload",

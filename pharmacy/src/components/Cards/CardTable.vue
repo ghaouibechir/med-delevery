@@ -55,7 +55,19 @@
                     ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
                     : 'bg-emerald-800 text-emerald-300 border-emerald-700',
                 ]"
-              ></th>
+              >
+                precription
+              </th>
+              <th
+                class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+                :class="[
+                  color === 'light'
+                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                    : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+                ]"
+              >
+                medcines
+              </th>
 
               <th
                 class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -64,7 +76,9 @@
                     ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
                     : 'bg-emerald-800 text-emerald-300 border-emerald-700',
                 ]"
-              ></th>
+              >
+                confirmation
+              </th>
             </tr>
           </thead>
           <tbody v-for="item in orders" :key="item.quatity">
@@ -83,7 +97,7 @@
                     color === 'light' ? 'text-blueGray-600' : 'text-white',
                   ]"
                 >
-                  {{ username }}
+                  {{ item.username }}
                 </span>
               </th>
               <td
@@ -97,14 +111,33 @@
               <td
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
               >
-                <div class="flex"></div>
+                <div class="flex">ddddddd</div>
+              </td>
+              <td
+                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+              >
+                <div class="flex">
+                  <i
+                    class="fas fa-capsules"
+                    @click="
+                      {
+                        showMedcines = !showMedcines;
+                      }
+                    "
+                  ></i>
+                  <div v-if="showMedcines">
+                    <ul>
+                      <li>zzzzzzzzzzzzzzzzzzz</li>
+                    </ul>
+                  </div>
+                </div>
               </td>
               <td
                 v-if="view && currentEdit !== item._id"
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
               >
                 <div class="flex items-center">
-                  <button class="yes" v-on:click="changeView(item._id)">
+                  <button class="yes" v-on:click="confirm(item._id)">
                     <i class="fas fa-check"></i>
                   </button>
 
@@ -119,12 +152,12 @@
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
               >
                 <div class="flex items-center">
-                  <button class="confirm" v-on:click="confirm(item._id)">
-                    confirm
+                  <button class="confirm" v-on:click="decline(item._id)">
+                    Delete
                   </button>
 
-                  <button class="decline" v-on:click="decline(item._id)">
-                    decline
+                  <button class="decline" v-on:click="changeView('')">
+                    cancel
                   </button>
                 </div>
               </td>
@@ -232,13 +265,13 @@
                       color === 'dark' ? 'text-blueGray-600' : 'text-white',
                     ]"
                   >
-                    {{ username }}
+                    {{ item.username }}
                   </span>
                 </th>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                 >
-                  {{ item.totalPrice }}
+                  {{ item.totalPrice }}TND
                 </td>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -288,33 +321,53 @@ export default {
       confirmeOrders: [],
       view: true,
       currentEdit: "",
+      showMedcines: false,
+      id: "",
     };
   },
   methods: {
-    getOrders: function () {
-      axios
-        .get("http://localhost:5000/orders/comingOrders")
-        .then(({ data }) => {
-          this.orders = data;
-          console.log("this is the order coming from server", this.orders);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+    // getOrders: function () {
+    //   axios
+    //     .get("http://localhost:5000/orders/comingOrders")
+    //     .then(({ data }) => {
+    //       this.orders = data;
+    //       console.log("this is the order coming from server", this.orders);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // },
     changeView: function (id) {
       // this.view = !this.view;
       this.currentEdit = id;
     },
     confirm: function (id) {
-      this.confirmeOrders.push(id);
-      this.orders.pop(id);
+      for (var i = 0; i < this.orders.length; i++) {
+        if (this.orders[i]._id === id) {
+          this.confirmeOrders.push(i);
+          this.orders.splice(i, 1);
+        }
+        console.log(this.confirmeOrders);
+      }
     },
     decline: function (id) {
-      this.orders.pop(id);
+      for (var i = 0; i < this.orders.length; i++) {
+        if (this.orders[i]._id === id) {
+          this.orders.splice(i, 1);
+        }
+      }
     },
   },
-
+  mounted: function () {
+    let y = localStorage.getItem("session");
+    this.id = JSON.parse(y).id;
+    axios
+      .get(`http://localhost:5000/orders/getOrders/${this.id}`)
+      .then(({ data }) => {
+        console.log("data", data);
+        this.orders = data.orders;
+      });
+  },
   components: {},
   props: {
     color: {
@@ -324,9 +377,6 @@ export default {
         return ["light", "dark"].indexOf(value) !== -1;
       },
     },
-  },
-  created: function () {
-    this.getOrders();
   },
 };
 </script>
@@ -342,11 +392,11 @@ export default {
 }
 .confirm {
   width: 20px;
-  color: darkcyan;
+  color: rgb(241, 60, 28);
 }
 .decline {
   margin-left: 30px;
   width: 20px;
-  color: crimson;
+  color: rgb(149, 149, 149);
 }
 </style>

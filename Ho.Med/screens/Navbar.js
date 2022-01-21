@@ -30,10 +30,12 @@ class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      view:[],
       medecine: [],
       medecines: [],
       orderId: "",
       value: 0,
+      id:'',
       spesificMed : "" ,
 
     };
@@ -41,12 +43,14 @@ class Navbar extends Component {
 
   componentDidMount() {
     this.fetchdata();
-    AsyncStorage.getItem('key').then((d) => { console.log('qqqqqqqqqqqqqqq', d); })
+    AsyncStorage.getItem('key').then((d)=>{this.setState({id:JSON.parse(d).id})}).catch(err=>console.log(err))
+  
   }
+
 
   fetchdata = async () => {
     try {
-      let response = await axios.get("http://192.168.11.71:5000/medecine");
+      let response = await axios.get("http://192.168.11.63:5000/medecine");
       this.setState({medecine:response.data});
       this.setState({medecines:response.data});
     } catch (error) {
@@ -56,7 +60,7 @@ class Navbar extends Component {
 
   fetchParasData = async () => {
     try {
-      let response = await axios.get("http://192.168.11.71:5000/para/paras");
+      let response = await axios.get("http://192.168.43.184:5000/para/paras");
       this.setState({medecine:response.data});
     } catch (error) {
       console.log(error);
@@ -68,9 +72,9 @@ class Navbar extends Component {
     console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyy", id)
      this.incrementValue() 
    
-    axios.put(`http://192.168.11.71:5000/OrderId/${'bechir'}`, { id })
+    axios.put(`http://192.168.11.63:5000/OrderId/${'bechir'}`, { id })
       .then((res) => {
-        console.log(res)
+     this.addProductToCart(id)
       })
       .catch((err) => { console.log(err) });
   }
@@ -83,7 +87,45 @@ class Navbar extends Component {
     console.log("value+" + (this.state.value + 1))
   }
 
-  searshForMedicines (medName) {
+renderView(id){
+  if(true && this.state.view.indexOf(id)===-1){
+    return(
+    <View style={styles.socialBarSection}>
+                        <TouchableOpacity
+                          activeOpacity={0.9}
+                          style={styles.socialBarButton}
+                          onPress={() => { this.myCart(id)  }}
+                        >
+                          <Image
+                            style={styles.icon}
+                            source={{
+                              uri: "https://img.icons8.com/nolan/96/3498db/add-shopping-cart.png",
+                            }}
+                          />
+                          <Text  style={[styles.socialBarLabel, styles.buyNow]}>
+                            Buy Now
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+  )
+  }else{
+    return(
+      <View> 
+        <Text>Added to cart</Text>
+         </View>
+    )
+  }
+  
+   }
+  
+  
+    addProductToCart = (id) => {
+      Alert.alert("Success", "The product has been added to your cart");
+      this.setState({view:[...this.state.view,id]})
+      console.log(this.state.view);
+    };  
+
+searshForMedicines (medName) {
     var res = []
     var meds = this.state.medecine
     if(medName == "") {
@@ -372,7 +414,7 @@ class Navbar extends Component {
           >
             <FontAwesome5 name="head-side-virus" size={30} color="black" />
           </TouchableOpacity>
-          <Text style={{ marginLeft: 10,marginTop:5}}>HEAD</Text>
+          <Text style={{ marginLeft: 10,marginTop:5}}></Text>
           </View>
           <View>
           <TouchableOpacity
@@ -422,25 +464,7 @@ class Navbar extends Component {
 
                 <View style={styles.cardFooter}>
                   <View style={styles.socialBarContainer}>
-                    <View style={styles.socialBarSection}>
-                      <TouchableOpacity
-                        activeOpacity={0.9}
-                        style={styles.socialBarButton}
-                        onPress={() => {
-                          this.myCart(item._id);
-                        }}
-                      >
-                        <Image
-                          style={styles.icon}
-                          source={{
-                            uri: "https://img.icons8.com/nolan/96/3498db/add-shopping-cart.png",
-                          }}
-                        />
-                        <Text style={[styles.socialBarLabel, styles.buyNow]}>
-                          Buy Now
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
+                   {this.renderView(item._id)} 
                   </View>
                 </View>
               </View>
