@@ -49,6 +49,7 @@ class CameraScreen extends Component {
     prescriptionsList: [],
     deleteDialog: false,
     currentPrescriptionId: "",
+    image:'',
   };
 
   render() {
@@ -97,9 +98,9 @@ class CameraScreen extends Component {
             }}
           >
             Our Pharmacist will call you to confirm medicines from your
-            prescriptions by
+            prescriptions 
           </Text>
-          <Text style={{ ...Fonts.primaryColor18Medium }}>6:19 PM Today</Text>
+          <Text style={{ ...Fonts.primaryColor18Medium }}></Text>
         </View>
       </View>
     );
@@ -265,8 +266,9 @@ class CameraScreen extends Component {
 
   pickImageFromCamera = async () => {
     let result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
+      aspect: [4, 3],
+      base64: true
     });
 
     if (!result.cancelled) {
@@ -275,15 +277,40 @@ class CameraScreen extends Component {
         id: Date.now(),
         url: result.uri,
       };
-      console.log("jjjjjjjjjjjjjj", result);
       newDataImg.push(item);
       this.setState({ prescriptionsList: newDataImg });
+      this.setState({ image: result.uri })
+      
+        let base64Img = `data:image/jpg;base64,${result.base64}`
+        let apiUrl = 'https://api.cloudinary.com/v1_1/ben-arous/image/upload';
+    
+        let data = {
+          "file": base64Img,
+          "upload_preset": "lsom30en",
+        }
+  
+        fetch(apiUrl, {
+          body: JSON.stringify(data),
+          headers: {
+            'content-type': 'application/json'
+          },
+          method: 'POST',
+        }).then(async r => {
+            let data = await r.json()
+            console.log(data)
+            return data.secure_url
+      }).catch(err=>console.log(err))
     }
   };
 
+ 
+
   pickImageFromGallery = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+       
+        allowsEditing: true,
+        aspect: [4, 3],
+        base64: true
     })
 
     if (!result.cancelled) {
@@ -292,8 +319,31 @@ class CameraScreen extends Component {
             id: Date.now(),
             url: result.uri,
         };
+        console.log('ggggggggg',result);
         newDataImg.push(item);
         this.setState({ prescriptionsList: newDataImg });
+        this.setState({ image: result.uri })
+      
+        let base64Img = `data:image/jpg;base64,${result.base64}`
+        
+        let apiUrl = 'https://api.cloudinary.com/v1_1/ben-arous/image/upload';
+    
+        let data = {
+          "file": base64Img,
+          "upload_preset": "lsom30en",
+        }
+  
+        fetch(apiUrl, {
+          body: JSON.stringify(data),
+          headers: {
+            'content-type': 'application/json'
+          },
+          method: 'POST',
+        }).then(async r => {
+            let data = await r.json()
+            console.log(data.secure_url)
+            return data.secure_url
+      }).catch(err=>console.log(err))
     }
 }
 

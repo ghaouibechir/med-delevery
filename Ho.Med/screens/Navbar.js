@@ -32,7 +32,7 @@ class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      view:false,
+      view:[],
       medecine: [],
       orderId: "",
       value: 0,
@@ -65,7 +65,7 @@ class Navbar extends Component {
    
     axios.put(`http://192.168.43.184:5000/OrderId/${this.state.id}`, { id })
       .then((res) => {
-     this.addProductToCart()
+     this.addProductToCart(id)
       })
       .catch((err) => { console.log(err) });
 
@@ -81,16 +81,47 @@ class Navbar extends Component {
     console.log("value+" + (this.state.value + 1))
   }
 
+ renderView(id){
+if(true && this.state.view.indexOf(id)===-1){
+  return(
+  <View style={styles.socialBarSection}>
+                      <TouchableOpacity
+                        activeOpacity={0.9}
+                        style={styles.socialBarButton}
+                        onPress={() => { this.myCart(id)  }}
+                      >
+                        <Image
+                          style={styles.icon}
+                          source={{
+                            uri: "https://img.icons8.com/nolan/96/3498db/add-shopping-cart.png",
+                          }}
+                        />
+                        <Text  style={[styles.socialBarLabel, styles.buyNow]}>
+                          Buy Now
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+)
+}else{
+  return(
+    <View> 
+      <Text>Added to cart</Text>
+       </View>
+  )
+}
 
+ }
 
 
   addProductToCart = (id) => {
     Alert.alert("Success", "The product has been added to your cart");
-    this.setState({view:!this.state.view})
+    this.setState({view:[...this.state.view,id]})
+    console.log(this.state.view);
   };
 
   render() {
-    return (
+    
+    return ( 
       <View style={styles.container}>
         <View
           style={{
@@ -145,7 +176,7 @@ class Navbar extends Component {
         </View>
         <View>
 
-          <Button style={styles.bat} title="Prescription"
+          <Button style={Colors.primaryColor} title="Prescription"
             onPress={() => this.props.navigation.navigate("Camera")}
 
           />
@@ -178,31 +209,7 @@ class Navbar extends Component {
 
                 <View style={styles.cardFooter}>
                   <View style={styles.socialBarContainer}>
-                    <View style={styles.socialBarSection}>
-                      <TouchableOpacity
-                        activeOpacity={0.9}
-                        style={styles.socialBarButton}
-                        // onPress={() => {this.addProductToCart(item._id ) } }
-                        // onPress={() => navigation.navigate('cart',{name:"bechir",age:"45"}) }
-
-                        onPress={() => { this.myCart(item._id)  }}
-                        // onPress={() => { this.incrementValue() }}
-
-
-
-
-                      >
-                        <Image
-                          style={styles.icon}
-                          source={{
-                            uri: "https://img.icons8.com/nolan/96/3498db/add-shopping-cart.png",
-                          }}
-                        />
-                        <Text  style={[styles.socialBarLabel, styles.buyNow]}>
-                          Buy Now
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
+                   {this.renderView(item._id)} 
                   </View>
                 </View>
               </View>

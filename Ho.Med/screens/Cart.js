@@ -13,52 +13,62 @@ import {
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors, Fonts, Sizes } from "../constant/styles";
-import  AsyncStorage  from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios"
 export default class Cart extends Component {
+  
   constructor(props) {
-
     super(props);
     this.state = {
       data: [],
-      Valuue:[],
+      Valuue: [],
       value: 1,
       totalPrice: 0,
-      id:''
+      id: ''
     };
   }
-  
-  componentDidMount(){
-    AsyncStorage.getItem('key').then((d)=>{this.setState({id:JSON.parse(d).id})}).then(()=>{this.fetchdata();}).catch(err=>console.log(err))
-    
-    
-  }
-  incrementValue() {
-    this.setState({
-      value: this.state.value + 1
 
-    })
-    console.log("value+" + (this.state.value + 1))
+  componentDidMount() {
+    AsyncStorage.getItem('key')
+      .then((d) => { this.setState({ id: JSON.parse(d).id }) })
+      .then(() => { this.fetchdata() })
+      
+      .catch(err => console.log(err))
+       
   }
-  // decrementValue() {
-  //   this.setState({
-  //     value: this.state.value - 1
-  //   })
-  //   console.log("value+" + (this.state.value - 1))
-  // }
-  decrementValue() {
-    if(this.state.value===0){
-      this.setState({
-        value: 0
-    })
-    
-    }else {
-      this.setState({
-        value: this.state.value - 1
-    })
-    console.log("value+" + (this.state.value - 1))
-  }}
-  
+  incrementValue(id) {
+    var data = this.state.data
+    for (let i = 0; i < data.length; i++) {
+      if (data[i]._id === id && data[i].qt < 5) {
+        data[i].qt++
+        data[i].price= (data[i].price+data[i].prix)
+      }
+      this.setState({ data: data })
+    }
+    this.totalPrice()
+  }
+
+  totalPrice(dat=this.state.data){
+ 
+   var total=0
+    for(var i=0;i<dat.length;i++){
+    total+=dat[i].price
+    }
+    this.setState({totalPrice:total})
+  }
+  decrementValue(id) {
+    var data = this.state.data
+    for (let i = 0; i < data.length; i++) {
+      if (data[i]._id === id && data[i].qt > 1) {
+        data[i].qt--
+        data[i].price=data[i].price-data[i].prix
+      }
+      this.setState({ data: data })
+
+    }
+    this.totalPrice()
+  }
+
 
 
   confirm() {
@@ -68,14 +78,20 @@ export default class Cart extends Component {
       })
       .catch((err) => { console.log(err) });
   }
-  
+
 
 
   fetchdata() {
-    
+
     axios.get(`http://192.168.43.184:5000/medecine/cart/${this.state.id}`).then(({ data }) => {
-      this.setState({ data: data })
-      console.log("12121212121212121212121", this.state.data)
+      var datta = data
+      for (var i = 0; i < datta.length; i++) {
+        datta[i].qt = 1
+        datta[i].prix = datta[i].price
+      }
+      
+      this.setState({ data: datta })
+      this.totalPrice()
     })
 
   }
@@ -95,7 +111,11 @@ export default class Cart extends Component {
     }
   }
 
-
+delete(id){
+  axios.put(`http://192.168.43.184:5000/deleteOrder/${this.state.id}`,{id:id}).then(()=>{
+    this.fetchdata()
+  })
+}
 
 
 
@@ -113,8 +133,8 @@ export default class Cart extends Component {
           }}
           renderItem={({ item }) => {
             return (
-
               <View>
+
                 <TouchableOpacity style={[styles.card, { borderColor: item.color }]} onPress={() => { this.clickEventListener(item) }}>
                   <Image style={styles.img} source={{ uri: this.__getCompletedIcon(item) }} />
                   <View style={styles.cardContent}>
@@ -123,25 +143,25 @@ export default class Cart extends Component {
                     <Text style={[styles.description, this.__getDescriptionStyle(item)]}>{item.name}</Text>
                     <Text size={29}>Price :{item.price}DT</Text>
                     <Text>    </Text>
-                    <View style={{ flexDirection: "column"}}>
+                    <View style={{ flexDirection: "column" }}>
                       <MaterialCommunityIcons
                         name="plus"
                         size={29}
-                        onPress={() =>this.incrementValue() }
+                        onPress={() => this.incrementValue(item._id)}
                       />
                       <Text>    </Text>
-                      <View style={{ fontSize: 900 }}><Text>Quantity : {this.state.value}</Text></View>
+                      <View style={{ fontSize: 900 }}><Text>Quantity : {item.qt}</Text></View>
                       <Text>    </Text>
                       <MaterialCommunityIcons
                         name="minus"
                         size={29}
-                        onPress={() => this.decrementValue()}
-                      />
+                        onPress={() => this.decrementValue(item._id)}
+                        />
                     </View>
                   </View>
+                        <Text onPress={()=>{this.delete(item._id) }}> delete </Text>
 
                 </TouchableOpacity>
-
 
               </View>
 
@@ -150,6 +170,7 @@ export default class Cart extends Component {
             )
           }} />
         <View>
+          <Text>                  TotalPrice                                     {this.state.totalPrice} DT</Text>
           <Button
             onPress={() => this.confirm()}
             title="Confirm"
@@ -166,12 +187,7 @@ export default class Cart extends Component {
   }
 
 }
-//     <Button
-//    onPress={()=>this.confirm()}
-//    title="Confirm"
-//   color="#10857F"
-//    accessibilityLabel="Learn more about this purple button"
-//  />
+
 
 
 
