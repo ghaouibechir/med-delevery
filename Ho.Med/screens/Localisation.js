@@ -2,27 +2,25 @@ import * as React from "react";
 
 import {
   SafeAreaView,
-  Picker,
-  View,
-  Animated,
-  Text,
-  Button,
-  BackHandler,
-
+    View,
   StyleSheet,
 
 } from "react-native";
+import {Picker} from '@react-native-community/picker'
 import { Colors, Sizes } from "../constant/styles";
 import Footer from "./Footer";
 import { WebView } from "react-native-webview";
 import * as Location from 'expo-location';
-const MAP =
-  "https://www.google.com/maps/search/pharmacie+a+proximit%C3%A9/@36.8942714,10.1870812,16z";
+import axios from 'axios'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function NotificationScreen() {
   const { errorMsg, setErrorMsg } = React.useState('')
   const [longitude, setLongitude] = React.useState('')
+  const [id, setId] = React.useState('')
   const [latitude, setLatitude] = React.useState('')
-  const [selectedValue, setSelectedValue] = React.useState("java");
+  const [selectedValue, setSelectedValue] = React.useState("your location");
+  const MAP =
+    "https://www.google.com/maps/search/pharmacy+%C3%A0+proximit%C3%A9+de+"+selectedValue+"/@36.8700319,10.1607386,14z/data=!3m1!4b1";
   React.useEffect(() => {
     (
       Location.requestForegroundPermissionsAsync().then(({ status }) => {
@@ -35,8 +33,11 @@ export default function NotificationScreen() {
           setLongitude(location.coords.longitude);
           setLatitude(location.coords.latitude);
         })                                          
-      }).catch(err => { console.log(err) })
-    );
+      }).then(()=>{AsyncStorage.getItem('key').then((d)=>{setId(JSON.parse(d).id)}).catch(err=>console.log(err))})
+       .catch(err => { console.log(err) })
+      
+      );
+  
   }, []);
 
   return (
@@ -45,10 +46,15 @@ export default function NotificationScreen() {
         <WebView source={{ uri: MAP }} onLoad={console.log("Loaded!")} />
         <Picker
         selectedValue={selectedValue}
-        onValueChange={(itemValue, itemIndex) => {setSelectedValue(itemValue)
-         console.log(selectedValue)}
+        onValueChange={(itemValue, itemIndex) => {
+        setSelectedValue(itemValue)
+        axios.put(`http://192.168.43.184:5000/state/${id}`,{state:itemValue})
+        .then(()=>{})
+        .catch(err=>{console.log(err);})
+        }
       }
       >
+        <Picker.Item label="Choose your state" value="Choose your state" />
         <Picker.Item label="Ariana" value="Ariana" />
         <Picker.Item label="Beja" value="Beja" />
         <Picker.Item label="Ben Arous" value="Ben Arous" />
