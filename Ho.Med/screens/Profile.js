@@ -1,4 +1,4 @@
-import { React, useContext, useEffect } from "react";
+import {React,useContext,useEffect ,useState}  from "react";
 
 import {
   SafeAreaView,
@@ -15,18 +15,43 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "./CredentialsContext";
-
 import Footer from "./Footer";
+import axios from "axios";
+
 
 
 
 export default function ProfileScreen({ navigation }) {
+
+  const [user , setUser] = useState({})
+  const [userId , setUserId] = useState(null)
+
   useEffect(() => {
-    // console.log(stored);
-  }, [])
-  const { stored, setStored } = useContext(CredentialsContext);
-  const clearLogin = () => {
-    AsyncStorage.removeItem('key').then(() => {
+    AsyncStorage.getItem('key').then((d)=>{setUserId(JSON.parse(d).id)})
+    console.log(userId)
+  },[])
+
+  useEffect(() => {
+    getUser()
+  })
+
+  
+
+  const getUser = async () => {
+    const id = userId
+    try {
+      let response = await axios.get("http://192.168.43.184:5000/user/" + id)
+      setUser(response.data)
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+
+
+  const {stored,setStored}=useContext(CredentialsContext);
+  const clearLogin =()=>{
+    AsyncStorage.removeItem('key').then(()=>{
       setStored(null)
     }).catch(err => console.log(err))
   }
@@ -86,17 +111,17 @@ export default function ProfileScreen({ navigation }) {
               </View>
             </View>
 
-            <TouchableOpacity style={styles.buttonContainer}>
-              <Text style={{ fontSize: 26 }}> User</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonContainer}>
-              <Text style={{ fontSize: 15 }}> user@gmail.com</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+              <Text style={{ fontSize: 26 }}> {user.username}</Text>
+            </View>
+            <View style={styles.buttonContainer}>
+              <Text style={{ fontSize: 15 }}> {user.email}</Text>
+            </View>
             <TouchableOpacity
               style={styles.buttonContainer}
-              onPress={() => navigation.navigate("cart")}
+              onPress={() => navigation.navigate("feedback")}
             >
-              <Text style={{ fontSize: 15 }}> Your card</Text>
+              <Text style={{ fontSize: 15 }}> Feedback</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonContainer}

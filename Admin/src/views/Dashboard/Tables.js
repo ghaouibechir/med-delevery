@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{ useState, useEffect } from "react";
 // Chakra imports
 import {
   Flex,
@@ -17,9 +17,27 @@ import CardBody from "components/Card/CardBody.js";
 import TablesProjectRow from "components/Tables/TablesProjectRow";
 import TablesTableRow from "components/Tables/TablesTableRow";
 import { tablesProjectData, tablesTableData } from "variables/general";
+import axios from "axios"
+import moment from "moment"
+
 
 function Tables() {
   const textColor = useColorModeValue("gray.700", "white");
+  const [pharmacietable, setPharmacietable] = useState([]);
+  const [userstable, setUserstable] = useState([]);
+
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/admin/getPharmacies')
+    .then(({data}) =>{
+      console.log(data);
+     
+      setPharmacietable(data.pharmacies)
+      setUserstable(data.users)
+    }) 
+  },[])
+  
+ 
 
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
@@ -34,37 +52,45 @@ function Tables() {
             <Thead>
               <Tr my=".8rem" pl="0px" color="gray.400">
                 <Th pl="0px" color="gray.400">
-                  Author
+                 Pharmacy
                 </Th>
-                <Th color="gray.400">Function</Th>
+                <Th color="gray.400">Address</Th>
                 <Th color="gray.400">Status</Th>
-                <Th color="gray.400">Employed</Th>
+                <Th color="gray.400">Joined At</Th>
                 <Th></Th>
               </Tr>
             </Thead>
             <Tbody>
-              {tablesTableData.map((row) => {
+             
+              {
+              pharmacietable.map((row) => {
                 return (
                   <TablesTableRow
-                    name={row.name}
+                    name={row.username}
                     logo={row.logo}
                     email={row.email}
-                    subdomain={row.subdomain}
-                    domain={row.domain}
-                    status={row.status}
-                    date={row.date}
-                  />
+                    domain={row.location}
+                    status={row.connected}
+                    date={moment(row.createdAt).format("MMM Do YY")}
+                    
+                    _id={row._id}
+                    banned={row.banned} />  
                 );
               })}
+
+              
             </Tbody>
           </Table>
         </CardBody>
       </Card>
-      <Card my="22px" overflowX={{ sm: "scroll", xl: "hidden" }}>
+      <Card
+        my="22px"
+        overflowX={{ sm: "scroll", xl: "hidden" }}
+      >
         <CardHeader p="6px 0px 22px 0px">
           <Flex direction="column">
             <Text fontSize="lg" color={textColor} fontWeight="bold" pb=".5rem">
-              Users Table
+              Users's Table
             </Text>
           </Flex>
         </CardHeader>
@@ -73,24 +99,26 @@ function Tables() {
             <Thead>
               <Tr my=".8rem" pl="0px">
                 <Th pl="0px" color="gray.400">
-                  Companies
+                  Users
                 </Th>
-                <Th color="gray.400">Budget</Th>
+                <Th color="gray.400">Phone Number</Th>
                 <Th color="gray.400">Status</Th>
-                <Th color="gray.400">Completion</Th>
+                
                 <Th></Th>
               </Tr>
             </Thead>
             <Tbody>
-              {tablesProjectData.map((row) => {
+              {userstable.map((row) => {
                 return (
                   <TablesProjectRow
                     name={row.name}
                     logo={row.logo}
-                    status={row.status}
-                    budget={row.budget}
-                    progression={row.progression}
-                  />
+                    email={row.email}
+                    vip={row.vip}
+                    budget={row.phoneNumber}
+                  
+                    _id={row._id}
+                    banned={row.banned}/>
                 );
               })}
             </Tbody>
@@ -98,7 +126,8 @@ function Tables() {
         </CardBody>
       </Card>
     </Flex>
+    
   );
 }
-
+// // ban={ban(id => ban(_id) )}
 export default Tables;

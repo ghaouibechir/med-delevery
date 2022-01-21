@@ -9,19 +9,20 @@ import {
   Button,
   ScrollView,
   FlatList,
-
   TextInput,
-
+  I18nManager,
 } from "react-native";
 import { withNavigation } from "react-navigation";
 import { Colors, Fonts, Sizes } from "../constant/styles";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons , FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Footer from "./Footer";
 import axios from "axios";
 import data from "react-native-ico/src/data";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "./CredentialsContext";
+import { Icon } from 'react-native-elements';
+import { FontAwesome5 } from '@expo/vector-icons'; 
 
 
 class Navbar extends Component {
@@ -29,22 +30,38 @@ class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      view:[],
       medecine: [],
+      medecines: [],
       orderId: "",
       value: 0,
+      id:'',
+      spesificMed : "" ,
+
     };
   }
 
   componentDidMount() {
     this.fetchdata();
-    AsyncStorage.getItem('key').then((d) => { console.log('qqqqqqqqqqqqqqq', d); })
+    AsyncStorage.getItem('key').then((d)=>{this.setState({id:JSON.parse(d).id})}).catch(err=>console.log(err))
+  
   }
+
 
   fetchdata = async () => {
     try {
-      let response = await axios.get("http://192.168.43.216:5000/medecine");
-      this.setState({ medecine: response.data });
-      // console.log(response.data);
+      let response = await axios.get("http://192.168.1.14:5000/medecine");
+      this.setState({medecine:response.data});
+      this.setState({medecines:response.data});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  fetchParasData = async () => {
+    try {
+      let response = await axios.get("http://192.168.1.14:5000/para/paras");
+      this.setState({medecine:response.data});
     } catch (error) {
       console.log(error);
     }
@@ -53,11 +70,11 @@ class Navbar extends Component {
 
   myCart(id) {
     console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyy", id)
-    this.incrementValue()
-
-    axios.put(`http://192.168.43.216:5000/OrderId/${'bechir'}`, { id })
+     this.incrementValue() 
+   
+    axios.put(`http://192.168.1.14:5000/OrderId/${'bechir'}`, { id })
       .then((res) => {
-        console.log(res)
+     this.addProductToCart(id)
       })
       .catch((err) => { console.log(err) });
   }
@@ -70,8 +87,132 @@ class Navbar extends Component {
     console.log("value+" + (this.state.value + 1))
   }
 
+renderView(id){
+  if(true && this.state.view.indexOf(id)===-1){
+    return(
+    <View style={styles.socialBarSection}>
+                        <TouchableOpacity
+                          activeOpacity={0.9}
+                          style={styles.socialBarButton}
+                          onPress={() => { this.myCart(id)  }}
+                        >
+                          <Image
+                            style={styles.icon}
+                            source={{
+                              uri: "https://img.icons8.com/nolan/96/3498db/add-shopping-cart.png",
+                            }}
+                          />
+                          <Text  style={[styles.socialBarLabel, styles.buyNow]}>
+                            Buy Now
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+  )
+  }else{
+    return(
+      <View> 
+        <Text>Added to cart</Text>
+         </View>
+    )
+  }
+  
+   }
+  
+  
+    addProductToCart = (id) => {
+      Alert.alert("Success", "The product has been added to your cart");
+      this.setState({view:[...this.state.view,id]})
+      console.log(this.state.view);
+    };  
+
+searshForMedicines (medName) {
+    var res = []
+    var meds = this.state.medecine
+    if(medName == "") {
+      this.setState({medecine: this.state.medecines})
+      return;
+    }
+    for(var i = 0 ; i < meds.length; i++) {
+      if(meds[i].name.split(medName).length > 1) {
+        res.push(meds[i])
+      }
+    }
+    this.setState({medecine : res})
+  }
+
+  allMeds () {
+    this.setState({medecine: this.state.medecines})
+  }
+
+  covidMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "COVID CARE AND PROTECTION") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
+  }
+
+  teethMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "Teeth") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
+  }
+
+  cardiohMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "Cardio") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
+  }
+
+  noseMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "Nose") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
+  }
+
+  eyesMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "Eyes") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
+  }
+
+  headMeds () {
+    var res = []
+    for(var i = 0 ; i < this.state.medecines.length; i++) {
+      if(this.state.medecines[i].category === "Head") {
+        res.push(this.state.medecines[i])
+      }
+    }
+    this.setState({medecine: res})
+  }
+  scrollListToStart(contentWidth, contentHeight) {
+    if (I18nManager.isRTL) {
+        this.scrollView.scrollTo({x: contentWidth});
+    }
+}
+
+
 
   render() {
+    let containerStyle = I18nManager.isRTL ? styles.RTLContainer : styles.LTRContainer;
     return (
       <View style={styles.container}>
         <View
@@ -86,12 +227,6 @@ class Navbar extends Component {
               <Text style={{ ...Fonts.whiteColor20Medium }}>Ho-Med</Text>
             </View>
             <View style={{ flexDirection: "row" }}>
-              <MaterialCommunityIcons
-                name="map-marker-outline"
-                size={27}
-                color={Colors.whiteColor}
-                onPress={() => this.props.navigation.push("localisation")}
-              />
               <TouchableOpacity>
                 <MaterialIcons
                   name="shopping-cart"
@@ -101,7 +236,7 @@ class Navbar extends Component {
                   onPress={() => this.props.navigation.push("cart")}
                 />
                 <View style={styles.cartItemCountWrapStyle}>
-                  <Text >{this.state.value}</Text>
+                  <Text>{this.state.value}</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -111,8 +246,13 @@ class Navbar extends Component {
               name="search"
               size={22}
               color={Colors.primaryColor}
+              onPress={() => this.searshForMedicines(this.state.spesificMed)}
             />
             <TextInput
+              onChangeText={(text) => {
+                this.setState({ spesificMed: text });
+                this.searshForMedicines(this.state.spesificMed);
+              }}
               numberOfLines={1}
               selectionColor={Colors.primaryColor}
               style={{
@@ -126,9 +266,176 @@ class Navbar extends Component {
           </TouchableOpacity>
         </View>
         <View>
-          <Button style={styles.bat} title="Prescription"
+          <Button
+            style={styles.bat}
+            title="Prescription"
             onPress={() => this.props.navigation.navigate("Camera")}
           />
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
+        >
+           <ScrollView
+            ref={ref => this.scrollView = ref}
+            onContentSizeChange={this.scrollListToStart.bind(this)}
+            horizontal={true}
+            style={[styles.buttonsContainer, containerStyle]}>
+              <View>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "white",
+              borderRadius: 50,
+            }}
+            onPress={() => this.allMeds()}
+          >
+            <Text>ALL</Text>
+          </TouchableOpacity>
+          <Text style={{ marginLeft: 15,marginTop:5}}>ALL</Text>
+          </View>
+          <View>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "white",
+              borderRadius: 50,
+            }}
+            onPress={() => this.covidMeds()}
+          >
+            <FontAwesome5 name="virus" size={30} color="#185c12" />
+          </TouchableOpacity>
+          <Text style={{ marginLeft: 7,marginTop:5}}>COVID</Text>
+          </View>
+          <View>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "white",
+              borderRadius: 50,
+            }}
+            onPress={() => this.teethMeds()}
+          >
+            <FontAwesome5 name="teeth" size={30} color="#ed8079" />
+          </TouchableOpacity>
+          <Text style={{ marginLeft: 4,marginTop:5}}>TEETH</Text>
+          </View>
+          <View>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "white",
+              borderRadius: 50,
+            }}
+            onPress={() => this.cardiohMeds()}
+          >
+            <FontAwesome5 name="lungs" size={30} color="#ed8079" />
+          </TouchableOpacity>
+          <Text style={{ marginLeft: 2,marginTop:5}}>CARDIO</Text>
+          </View>
+          <View>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "white",
+              borderRadius: 50,
+            }}
+            onPress={() => this.noseMeds()}
+          >
+            <FontAwesome name="eyedropper" size={30} color="black" />
+          </TouchableOpacity>
+          <Text style={{ marginLeft: 8,marginTop:5}}>NOSE</Text>
+          </View>
+          <View>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "white",
+              borderRadius: 50,
+            }}
+            onPress={() => this.eyesMeds()}
+          >
+            <FontAwesome5 name="eye" size={30} color="black" />
+          </TouchableOpacity>
+          <Text style={{ marginLeft: 11,marginTop:5}}>EYES</Text>
+          </View>
+          <View>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "white",
+              borderRadius: 50,
+            }}
+            onPress={() => this.headMeds()}
+          >
+            <FontAwesome5 name="head-side-virus" size={30} color="black" />
+          </TouchableOpacity>
+          <Text style={{ marginLeft: 10,marginTop:5}}></Text>
+          </View>
+          <View>
+          <TouchableOpacity
+            style={{
+              marginRight : 20,
+              borderWidth: 1,
+              borderColor: "rgba(0,0,0,0.2)",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 55,
+              height: 55,
+              backgroundColor: "white",
+              borderRadius: 50,
+            }}
+            onPress={() => this.fetchParasData()}
+          >
+            <Text>PARAS</Text>
+          </TouchableOpacity>
+          <Text style={{ marginLeft: 5,marginTop:5}}>PARAS</Text>
+          </View>
+          </ScrollView>
         </View>
         <FlatList
           style={styles.list}
@@ -157,22 +464,7 @@ class Navbar extends Component {
 
                 <View style={styles.cardFooter}>
                   <View style={styles.socialBarContainer}>
-                    <View style={styles.socialBarSection}>
-                      <TouchableOpacity
-                        activeOpacity={0.9}
-                        style={styles.socialBarButton}
-                        onPress={() => { this.myCart(item._id) }}>
-                        <Image
-                          style={styles.icon}
-                          source={{
-                            uri: "https://img.icons8.com/nolan/96/3498db/add-shopping-cart.png",
-                          }}
-                        />
-                        <Text style={[styles.socialBarLabel, styles.buyNow]}>
-                          Buy Now
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
+                   {this.renderView(item._id)} 
                   </View>
                 </View>
               </View>
@@ -186,7 +478,7 @@ class Navbar extends Component {
 }
 
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create({ 
   headerInfoWrapStyle: {
     flexDirection: "row",
     paddingLeft: Sizes.fixPadding,
@@ -305,6 +597,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+    RTLContainer: {
+        flexDirection: 'row-reverse'
+    },
+
+    LTRContainer: {
+        flexDirection: 'row'
+    },
 });
 Navbar.navigationOptions = () => {
   return {
