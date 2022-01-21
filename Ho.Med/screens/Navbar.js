@@ -43,8 +43,10 @@ class Navbar extends Component {
 
   componentDidMount() {
     this.fetchdata();
-    AsyncStorage.getItem('key').then((d) => { console.log('qqqqqqqqqqqqqqq', d); })
+    AsyncStorage.getItem('key').then((d)=>{this.setState({id:JSON.parse(d).id})}).catch(err=>console.log(err))
+  
   }
+
 
   fetchdata = async () => {
     try {
@@ -58,7 +60,7 @@ class Navbar extends Component {
 
   fetchParasData = async () => {
     try {
-      let response = await axios.get("http://192.168.11.63:5000/para/paras");
+      let response = await axios.get("http://192.168.43.184:5000/para/paras");
       this.setState({medecine:response.data});
     } catch (error) {
       console.log(error);
@@ -78,8 +80,6 @@ class Navbar extends Component {
   }
 
 
-
-  
   incrementValue() {
     this.setState({
       value: this.state.value + 1
@@ -87,46 +87,45 @@ class Navbar extends Component {
     console.log("value+" + (this.state.value + 1))
   }
 
- renderView(id){
-if(true && this.state.view.indexOf(id)===-1){
-  return(
-  <View style={styles.socialBarSection}>
-                      <TouchableOpacity
-                        activeOpacity={0.9}
-                        style={styles.socialBarButton}
-                        onPress={() => { this.myCart(id)  }}
-                      >
-                        <Image
-                          style={styles.icon}
-                          source={{
-                            uri: "https://img.icons8.com/nolan/96/3498db/add-shopping-cart.png",
-                          }}
-                        />
-                        <Text  style={[styles.socialBarLabel, styles.buyNow]}>
-                          Buy Now
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-)
-}else{
-  return(
-    <View> 
-      <Text>Added to cart</Text>
-       </View>
+renderView(id){
+  if(true && this.state.view.indexOf(id)===-1){
+    return(
+    <View style={styles.socialBarSection}>
+                        <TouchableOpacity
+                          activeOpacity={0.9}
+                          style={styles.socialBarButton}
+                          onPress={() => { this.myCart(id)  }}
+                        >
+                          <Image
+                            style={styles.icon}
+                            source={{
+                              uri: "https://img.icons8.com/nolan/96/3498db/add-shopping-cart.png",
+                            }}
+                          />
+                          <Text  style={[styles.socialBarLabel, styles.buyNow]}>
+                            Buy Now
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
   )
-}
+  }else{
+    return(
+      <View> 
+        <Text>Added to cart</Text>
+         </View>
+    )
+  }
+  
+   }
+  
+  
+    addProductToCart = (id) => {
+      Alert.alert("Success", "The product has been added to your cart");
+      this.setState({view:[...this.state.view,id]})
+      console.log(this.state.view);
+    };  
 
- }
-
-
-  addProductToCart = (id) => {
-    Alert.alert("Success", "The product has been added to your cart");
-    this.setState({view:[...this.state.view,id]})
-    console.log(this.state.view);
-  };
-
- 
-  searshForMedicines (medName) {
+searshForMedicines (medName) {
     var res = []
     var meds = this.state.medecine
     if(medName == "") {
@@ -267,8 +266,9 @@ if(true && this.state.view.indexOf(id)===-1){
           </TouchableOpacity>
         </View>
         <View>
-
-          <Button style={Colors.primaryColor} title="Prescription"
+          <Button
+            style={styles.bat}
+            title="Prescription"
             onPress={() => this.props.navigation.navigate("Camera")}
           />
         </View>
@@ -465,25 +465,6 @@ if(true && this.state.view.indexOf(id)===-1){
                 <View style={styles.cardFooter}>
                   <View style={styles.socialBarContainer}>
                    {this.renderView(item._id)} 
-                    <View style={styles.socialBarSection}>
-                      <TouchableOpacity
-                        activeOpacity={0.9}
-                        style={styles.socialBarButton}
-                        onPress={() => {
-                          this.myCart(item._id);
-                        }}
-                      >
-                        <Image
-                          style={styles.icon}
-                          source={{
-                            uri: "https://img.icons8.com/nolan/96/3498db/add-shopping-cart.png",
-                          }}
-                        />
-                        <Text style={[styles.socialBarLabel, styles.buyNow]}>
-                          Buy Now
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
                   </View>
                 </View>
               </View>
@@ -494,9 +475,9 @@ if(true && this.state.view.indexOf(id)===-1){
       </View>
     );
   }
-
-    
 }
+
+
 const styles = StyleSheet.create({ 
   headerInfoWrapStyle: {
     flexDirection: "row",
