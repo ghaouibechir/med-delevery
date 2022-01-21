@@ -326,17 +326,17 @@ export default {
     };
   },
   methods: {
-    // getOrders: function () {
-    //   axios
-    //     .get("http://localhost:5000/orders/comingOrders")
-    //     .then(({ data }) => {
-    //       this.orders = data;
-    //       console.log("this is the order coming from server", this.orders);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // },
+    getOrders: function () {
+      axios
+        .get("http://localhost:5000/orders/comingOrders")
+        .then(({ data }) => {
+          this.orders = data;
+          console.log("this is the order coming from server", this.orders);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     changeView: function (id) {
       // this.view = !this.view;
       this.currentEdit = id;
@@ -358,7 +358,7 @@ export default {
       }
     },
   },
-  
+
   components: {},
   props: {
     color: {
