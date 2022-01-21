@@ -12,7 +12,7 @@ import {
 import React from "react";
 
 function DashboardTableRow(props) {
-  const { logo, name, members, budget, progression } = props;
+  const { logo, name,  content } = props;
   const textColor = useColorModeValue("gray.700", "white");
   return (
     <Tr>
@@ -30,25 +30,13 @@ function DashboardTableRow(props) {
         </Flex>
       </Td>
 
-      <Td>
-        <AvatarGroup size="sm">
-          {members.map((member) => {
-            return (
-              <Avatar
-                name="Ryan Florence"
-                src={member}
-                _hover={{ zIndex: "3", cursor: "pointer" }}
-              />
-            );
-          })}
-        </AvatarGroup>
-      </Td>
+      
       <Td>
         <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
-          {budget}
+          {content}
         </Text>
       </Td>
-      <Td>
+      {/* <Td>
         <Flex direction="column">
           <Text
             fontSize="md"
@@ -63,7 +51,7 @@ function DashboardTableRow(props) {
             borderRadius="15px"
           />
         </Flex>
-      </Td>
+      </Td> */}
     </Tr>
   );
 }
