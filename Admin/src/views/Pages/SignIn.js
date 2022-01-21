@@ -37,7 +37,7 @@ function SignIn() {
       console.log(data)
       history.push('/admin/dashboard')
       let session ={ 
-         id:data.admin.id
+         id:data.token
       }
       localStorage.setItem('session', JSON.stringify(session));
       console.log(localStorage.getItem("session"));

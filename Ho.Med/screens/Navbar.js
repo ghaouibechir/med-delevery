@@ -50,7 +50,7 @@ class Navbar extends Component {
 
   fetchdata = async () => {
     try {
-      let response = await axios.get("http://192.168.43.184:5000/medecine");
+      let response = await axios.get("http://192.168.11.63:5000/medecine");
       this.setState({medecine:response.data});
       this.setState({medecines:response.data});
     } catch (error) {
@@ -72,7 +72,7 @@ class Navbar extends Component {
     console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyy", id)
      this.incrementValue() 
    
-    axios.put(`http://192.168.43.184:5000/OrderId/${this.state.id}`, { id })
+    axios.put(`http://192.168.11.63:5000/OrderId/${'bechir'}`, { id })
       .then((res) => {
      this.addProductToCart(id)
       })
@@ -414,7 +414,7 @@ searshForMedicines (medName) {
           >
             <FontAwesome5 name="head-side-virus" size={30} color="black" />
           </TouchableOpacity>
-          <Text style={{ marginLeft: 10,marginTop:5}}>HEAD</Text>
+          <Text style={{ marginLeft: 10,marginTop:5}}></Text>
           </View>
           <View>
           <TouchableOpacity
