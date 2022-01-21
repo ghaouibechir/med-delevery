@@ -28,7 +28,7 @@ function TablesTableRow(props) {
     
     console.log(_id)
   
-     axios.put(`http://localhost:5000/admin/banUser/${_id}`)
+     axios.put(`http://localhost:5000/admin/ban/${_id}`)
        .then(({data}) => console.log(data) ,
       toggle())
         
@@ -37,7 +37,7 @@ function TablesTableRow(props) {
     setTimeout(() =>{
     console.log(_id)
       
-      axios.put(`http://localhost:5000/admin/banUser/${_id}`)
+      axios.put(`http://localhost:5000/admin/unban/${_id}`)
        .then(({data}) => console.log(data) ,
           toggle())
             },3000)

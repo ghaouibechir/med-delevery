@@ -33,7 +33,7 @@ function DashboardTableRow(props) {
     
     console.log(_id)
   
-  axios.put(`http://localhost:5000/admin/ban/${_id}`)
+  axios.put(`http://localhost:5000/admin/banUser/${_id}`)
    .then(({data}) => console.log(data) ,
    toggle(),
    console.log(toggleban),
@@ -44,17 +44,17 @@ function DashboardTableRow(props) {
       }
 
   const unban = (_id) =>{
-      setTimeout(() =>{
+      
       console.log(_id)
       
-    axios.put(`http://localhost:5000/admin/unban/${_id}`)
+    axios.put(`http://localhost:5000/admin/unbanUser/${_id}`)
        .then(({data}) => console.log(data) ,
        toggle(),
    console.log(toggleban),
            
        )
     
-       },3000)}
+       }
     
   
 

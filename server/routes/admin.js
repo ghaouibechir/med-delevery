@@ -1,7 +1,9 @@
 const express = require("express");
+const mongoose= require("mongoose");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const Admin = require("../models/admin");
+const {find_a_user_by_id_and_update} = require ("../models/user")
 const config = require("../config/database");
 const { admin, pharmacy, feedback , user} = require("../database-mongodb/schemas");
 const passport = require("passport");
@@ -70,27 +72,32 @@ router.get('/getPharmacies', async (req, res)=>{
 router.put('/ban/:_id', async(req, res)=>{
   
   console.log(req.params._id)
-  var ban = await user.findByIdAndUpdate({_id:req.params._id},{banned:true})
+  var ban = await pharmacy.findByIdAndUpdate({_id:req.params._id},{banned:true},{new:true})
     
       console.log(ban.banned)
-      res.send("done")
+      res.send(ban.banned)
     }
 )
   //unban pharmacy
 router.put('/unban/:_id', async(req, res)=>{
     
-    console.log(req.params._id)
-    var ban = await user.findByIdAndUpdate({_id:req.params._id},{banned:false})
-      
-        console.log(ban.banned)
-        res.send("done")
-      }
+    try {console.log(typeof req.params._id)
+    console.log(req.params._id);
+    var userb= await pharmacy.find({_id:req.params._id})
+
+    console.log(userb)
+    var ban = await pharmacy.findByIdAndUpdate({_id:req.params._id},{banned:false},{new:true})
+      console.log("ubannnnn",ban);
+       
+        res.send("unbanned")
+      } catch(err){ console.log(err);}
+    }
 )
 //ban user
 router.put('/banUser/:_id', async(req, res)=>{ 
   console.log(req.params._id)
-  var ban = await pharmacy.findByIdAndUpdate({_id:req.params._id},{banned:true})
-    console.log(ban.banned)
+  var ban = await user.findByIdAndUpdate({_id:req.params._id},{banned:true},{new:true})
+    console.log("ban",ban.banned)
     res.send("done")
   }
 )
@@ -98,7 +105,7 @@ router.put('/banUser/:_id', async(req, res)=>{
 router.put('/unbanUser/:_id', async(req, res)=>{
   
   console.log(req.params._id)
-      var ban = await pharmacy.findByIdAndUpdate({_id:req.params._id},{banned:false})
+      var ban = await user.findByIdAndUpdate({_id:req.params._id},{banned:false},{new:true})
         console.log(ban.banned)
         res.send("done")
   }

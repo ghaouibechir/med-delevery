@@ -80,8 +80,7 @@ export default function Dashboard() {
       setTableData(data.feedbacks);
       setNames(data.result)
 
-      console.log(tableData);
-      console.log(names);
+     
 
     });
   }, []);
