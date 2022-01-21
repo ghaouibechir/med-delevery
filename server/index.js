@@ -135,6 +135,7 @@ app.put("/ListOrderById/:id", async (req, res) => {
 /*====================================={Add the medcine to the cart}=====================[Navbar]============================== */
 
 app.put("/OrderId/:id", async (req, res) => {
+  console.log(req.params.id,req.body);
   const doc = await order.findOne({ userId: req.params.id });
   var t=false  
     for(var i = 1; i < doc.medecineId.length;i++){
