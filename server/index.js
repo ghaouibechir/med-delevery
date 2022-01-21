@@ -109,7 +109,13 @@ app.put('/deleteOrder/:id', async (req,res)=>{
   })
  
  
-
+app.put('/state/:id',(req,res)=>{
+  console.log(req.params.id);
+  order.findOneAndUpdate({userId:req.params.id},req.body ,(err,data)=>{
+    if(err)throw err
+    else{res.send(data)}
+  })
+})
 
 
 
@@ -160,6 +166,7 @@ app.put("/OrderId/:id", async (req, res) => {
 /*======================={Get the medecine inside the cart by userId}================================================== */
 
 app.get("/medecine/cart/:id", async (req, res) => { 
+  console.log(req.params.id);
   var x= await order.findOne({ userId: req.params.id }) 
   var quantity=x.medecineId
   console.log('qqqqqqqq',quantity);
@@ -168,7 +175,7 @@ app.get("/medecine/cart/:id", async (req, res) => {
     array.push(x.medecineId[i].id)
   }
  var medecin = await medecine.find({ '_id': { $in: array } });
-
+console.log(medecin);
  res.send(medecin)
 });
 
