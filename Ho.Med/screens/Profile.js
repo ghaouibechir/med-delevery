@@ -40,7 +40,7 @@ export default function ProfileScreen({ navigation }) {
   const getUser = async () => {
     const id = userId
     try {
-      let response = await axios.get("http://192.168.11.71:5000/user/" + id)
+      let response = await axios.get("http://192.168.43.184:5000/user/" + id)
       setUser(response.data)
     }
     catch (err) {
@@ -111,17 +111,17 @@ export default function ProfileScreen({ navigation }) {
               </View>
             </View>
 
-            <TouchableOpacity style={styles.buttonContainer}>
+            <View style={styles.buttonContainer}>
               <Text style={{ fontSize: 26 }}> {user.username}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonContainer}>
+            </View>
+            <View style={styles.buttonContainer}>
               <Text style={{ fontSize: 15 }}> {user.email}</Text>
-            </TouchableOpacity>
+            </View>
             <TouchableOpacity
               style={styles.buttonContainer}
-              onPress={() => navigation.navigate("cart")}
+              onPress={() => navigation.navigate("feedback")}
             >
-              <Text style={{ fontSize: 15 }}> Your card</Text>
+              <Text style={{ fontSize: 15 }}> Feedback</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonContainer}

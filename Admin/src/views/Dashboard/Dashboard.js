@@ -72,10 +72,16 @@ export default function Dashboard() {
   ]);
   const overlayRef = React.useRef();
   const [tableData, setTableData] = useState([]);
+  const [names, setNames] = useState([]);
+
   useEffect(() => {
     axios.get("http://localhost:5000/admin/getfeedbacks").then(({ data }) => {
       console.log(data);
-      setTableData(data);
+      setTableData(data.feedbacks);
+      setNames(data.result)
+
+     
+
     });
   }, []);
   return (
@@ -468,9 +474,9 @@ export default function Dashboard() {
               </Tr>
             </Thead>
             <Tbody>
-              {tableData.map((row) => {
+              {tableData.map((row,i) => {
                 return (
-                  <DashboardTableRow name={row.name} budget={row.content} />
+                  <DashboardTableRow  content={row.content} name={names[i]} />
                 );
               })}
             </Tbody>

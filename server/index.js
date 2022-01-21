@@ -9,7 +9,9 @@ var port = process.env.PORT || 5000;
 var cors = require("cors");
 const users = require("./routes/users");
 const myUsers = require("./routes/myUser");
+const myFeedback = require("./routes/userFeedback");
 const paras = require("./routes/paras");
+const feedbacks = require("./routes/feedback")
 // import {Stripe} from "stripe";
 
 
@@ -35,7 +37,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/user", myUsers);
-app.use("/para" , paras)
+app.use("/para" , paras);
+app.use("/feedback" , feedbacks);
+app.use("/feed",myFeedback)
 /*==================================={Stripe }=========================================================== */
 // const stripe = Stripe(secKey , { apiVersion: "2020-08-27" });
 app.post("/create-payment-intent", async (req, res) => {
@@ -80,6 +84,44 @@ app.get("/medecine", async (req, res) => {
     res.send(error);
   }
 });
+
+
+app.put('/deleteOrder/:id', async (req,res)=>{ 
+ var orde= await order.find({userId:req.params.id})
+  var data=orde[0].medecineId
+  for(var i=0;i<data.length;i++){
+    if(data[i].id===req.body.id){
+      data.splice(i,1)
+    }
+  }
+
+    console.log(data);
+    order.updateOne({ userId: req.params.id }, { medecineId: data },{new:true}, (err, data) => {
+      if (err) {
+        res.send(err)
+      } else {
+        res.send(data)
+      }
+    })
+ 
+  
+  
+  })
+ 
+ 
+app.put('/state/:id',(req,res)=>{
+  console.log(req.params.id);
+  order.findOneAndUpdate({userId:req.params.id},req.body ,(err,data)=>{
+    if(err)throw err
+    else{res.send(data)}
+  })
+})
+
+
+
+
+
+
 /*==================================={Delete The orders afther the confirm}=======================[Cart]=============================== */
 
 app.put("/ListOrderById/:id", async (req, res) => {
@@ -99,25 +141,19 @@ app.put("/ListOrderById/:id", async (req, res) => {
 /*====================================={Add the medcine to the cart}=====================[Navbar]============================== */
 
 app.put("/OrderId/:id", async (req, res) => {
-  // console.log("aaaaaaaaaaa",req.body)
-  //console.log("tttttttt",(req.params.id))
+  console.log(req.params.id,req.body);
   const doc = await order.findOne({ userId: req.params.id });
-
-  var t=false
-  
+  var t=false  
     for(var i = 1; i < doc.medecineId.length;i++){
     if(doc.medecineId[i].id===req.body.id ){
       doc.medecineId[i].quatity++
       t=true
     }
   }
-  
   if(t===false){
     doc.medecineId.push({ id: req.body.id, quatity: 1 })
   }
-
-  
-  // console.log(doc.medecineId);
+  console.log(doc.medecineId);
   order.updateOne({ userId: req.params.id }, { medecineId: doc.medecineId }, (err, data) => {
     if (err) {
       res.send(err)
@@ -125,46 +161,25 @@ app.put("/OrderId/:id", async (req, res) => {
       res.send(data)
     }
   })
-  //  order.medecines.create(red.body.id);
-  // order.findByIdAndUpdate(
-  //      req.params.id, 
-  //    { medecineId : ['1254','554'] } 
-  //   //  { $push: {medecineId : }}
-
-  // ,(err,data)=>{
-  //   if(err){
-  //     res.send(err)
-  //   }else{
-  //     res.send(data)
-  //   }
-  // })
-
 })
+
 /*======================={Get the medecine inside the cart by userId}================================================== */
 
-app.get("/medecine/cart/:id", async (req, res) => {
-  
-  
-   
-  var x= await order.findOne({ userId: req.params.id })
-  
+app.get("/medecine/cart/:id", async (req, res) => { 
+  console.log(req.params.id);
+  var x= await order.findOne({ userId: req.params.id }) 
+  var quantity=x.medecineId
+  console.log('qqqqqqqq',quantity);
   var array=[]
   for(var i=0; i<x.medecineId.length; i++){
     array.push(x.medecineId[i].id)
-    
   }
  var medecin = await medecine.find({ '_id': { $in: array } });
+console.log(medecin);
  res.send(medecin)
-  //  order.updateOne({ userId: req.params.id }, { medecineId: doc.medecineId }, (err, data) => {
-  //   if (err) {
-  //     res.send(err)
-  //   } else {
-  //     res.send(data)
-  //   }
-  // })
-    
-
 });
+
+
 
 app.use("/users", users);
 app.use("/pharmacies", pharmacy);

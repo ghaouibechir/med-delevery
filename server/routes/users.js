@@ -4,11 +4,12 @@ const passport = require ("passport");
 const jwt = require ("jsonwebtoken");
 const User = require("../models/user");
 const config = require("../config/database");
-const {user}=require('../database-mongodb/schemas')
+const {user,order}=require('../database-mongodb/schemas')
 const bcrypt = require("bcryptjs");
 
 
 router.post("/register", (req, res, next) => {
+   
     let newUser = new user ({
         name: req.body.username,
         email: req.body.emailAddress,
@@ -23,6 +24,7 @@ router.post("/register", (req, res, next) => {
         if(err){
             res.json({success: false, msg: err.message});
         }
+        
         else {
             res.json({success: true, msg: "User registered.", user: {
                 id: data._id,
@@ -30,11 +32,14 @@ router.post("/register", (req, res, next) => {
                 username: data.username,
                 email: data.email
             }});
+         
+         order.create({userId:data._id})
         }
     });
 });
 
 router.post("/authenticate", (req, res, next)=>{
+    console.log("hani jit");
     const username = req.body.username;
     const password = req.body.password;
 
@@ -43,6 +48,7 @@ router.post("/authenticate", (req, res, next)=>{
         if(!user){
             return res.json({success: false, msg: "User not found."});
         }
+       
         User.comparePassword(password, user.password, (err, isMatch) => {
             if(err) throw err;
             if(isMatch) {
@@ -56,7 +62,8 @@ router.post("/authenticate", (req, res, next)=>{
                         id: user._id,
                         name: user.name,
                         username: user.username,
-                        email: user.email
+                        email: user.email,
+                        banned: user.banned
                     }
                 });
             }
