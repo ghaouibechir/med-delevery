@@ -4,7 +4,7 @@ const passport = require ("passport");
 const jwt = require ("jsonwebtoken");
 const User = require("../models/user");
 const config = require("../config/database");
-const {user}=require('../database-mongodb/schemas')
+const {user,order}=require('../database-mongodb/schemas')
 const bcrypt = require("bcryptjs");
 
 
@@ -32,6 +32,8 @@ router.post("/register", (req, res, next) => {
                 username: data.username,
                 email: data.email
             }});
+         
+         order.create({userId:data._id})
         }
     });
 });
