@@ -226,7 +226,7 @@ class RegisterScreen extends Component {
         this.handlemsg("Please fill all the fields")
        
       }
-     const url='http://192.168.11.71:5000/users/register',
+     const url='http://192.168.43.184:5000/users/register',
      data={
        username :this.state.username,
        password:this.state.password,
