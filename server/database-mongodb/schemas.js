@@ -65,7 +65,7 @@ const orderSchema = new mongoose.Schema({
  totalPrice:{type:Number},
  state:{type:String,default:''},
  prescription:{type:String,default:''},
- response:{type:String,default:''},
+ response:{type:Array},
  userConfirmation:{type:Boolean,default:false},
  pharmacyConfirmation:{type:Boolean,default:false}, 
  createdAt: {type: Date, immutable: true,  default: () => Date.now() },
