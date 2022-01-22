@@ -55,7 +55,19 @@
                     ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
                     : 'bg-emerald-800 text-emerald-300 border-emerald-700',
                 ]"
-              ></th>
+              >
+                precription
+              </th>
+              <th
+                class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+                :class="[
+                  color === 'light'
+                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                    : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+                ]"
+              >
+                medcines
+              </th>
 
               <th
                 class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -64,10 +76,12 @@
                     ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
                     : 'bg-emerald-800 text-emerald-300 border-emerald-700',
                 ]"
-              ></th>
+              >
+                confirmation
+              </th>
             </tr>
           </thead>
-          <tbody v-for="item in orders" :key="item.quatity">
+          <tbody v-for="item in incomingOrders" :key="item.quatity">
             <tr>
               <th
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
@@ -83,7 +97,7 @@
                     color === 'light' ? 'text-blueGray-600' : 'text-white',
                   ]"
                 >
-                  {{ username }}
+                  {{ item.username }}
                 </span>
               </th>
               <td
@@ -97,14 +111,36 @@
               <td
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
               >
-                <div class="flex"></div>
+                <i class="fas fa-prescription-bottle-alt" @click="change(item._id)" v-if="true && currentId!=item._id"></i>
+                 <div v-if="currentId===item._id">
+                   {{item.prescription}} hhhh
+                 </div>
+              </td>
+              <td
+                class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+              >
+                <div class="flex">
+                  <i
+                    class="fas fa-capsules"
+                    @click="
+                      {
+                        showMedcines = !showMedcines;
+                      }
+                    "
+                  ></i>
+                  <div v-if="showMedcines">
+                     <ul class="check-list"  v-for="medecin in medecines" :key="medecin.name"  >
+                       <li>{{medecin}}</li>
+                     </ul>
+                  </div>
+                </div>
               </td>
               <td
                 v-if="view && currentEdit !== item._id"
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
               >
                 <div class="flex items-center">
-                  <button class="yes" v-on:click="changeView(item._id)">
+                  <button class="yes" v-on:click="confirm(item._id)">
                     <i class="fas fa-check"></i>
                   </button>
 
@@ -119,12 +155,12 @@
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
               >
                 <div class="flex items-center">
-                  <button class="confirm" v-on:click="confirm(item._id)">
-                    confirm
+                  <button class="confirm" v-on:click="decline(item._id)">
+                    Delete
                   </button>
 
-                  <button class="decline" v-on:click="decline(item._id)">
-                    decline
+                  <button class="decline" v-on:click="changeView('')">
+                    cancel
                   </button>
                 </div>
               </td>
@@ -232,13 +268,13 @@
                       color === 'dark' ? 'text-blueGray-600' : 'text-white',
                     ]"
                   >
-                    {{ username }}
+                    {{ item.username }}
                   </span>
                 </th>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                 >
-                  {{ item.totalPrice }}
+                  {{ item.totalPrice }}TND
                 </td>
                 <td
                   class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -288,15 +324,47 @@ export default {
       confirmeOrders: [],
       view: true,
       currentEdit: "",
+      showMedcines: false,
+      id: "",
+      state:"",
+      incomingOrders:[],
+      medecines:[],
+      show: false,
+      currentId:""
     };
   },
   methods: {
     getOrders: function () {
+      let s=localStorage.getItem('session')
+      this.state=JSON.parse(s).state
+      console.log(this.state);
+     var data={
+       state : this.state
+     }
       axios
-        .get("http://localhost:5000/orders/comingOrders")
+        .post("http://localhost:5000/orders/comingOrders",data)
         .then(({ data }) => {
-          this.orders = data;
-          console.log("this is the order coming from server", this.orders);
+         
+          console.log("this is the order coming from server", data);
+          
+          for (var i=0; i<data.length ; i++){
+            if(data[i].userConfirmation){
+              this.incomingOrders.push(data[i])
+            
+            }
+          }
+           console.log("jghft",this.incomingOrders)
+           
+           for (let medecin in this.incomingOrders){
+             this.medecines=this.incomingOrders[medecin].medecineId
+           }
+           console.log(this.medecines);
+
+          axios.post("http://localhost:5000/orders/getMedecines",this.medecines)
+          .then(({ data }) => {
+          this.medecines=data
+          console.log(this.medecines) 
+        })
         })
         .catch((err) => {
           console.log(err);
@@ -307,12 +375,28 @@ export default {
       this.currentEdit = id;
     },
     confirm: function (id) {
-      this.confirmeOrders.push(id);
-      this.orders.pop(id);
+      for (var i = 0; i < this.orders.length; i++) {
+        if (this.orders[i]._id === id) {
+          this.confirmeOrders.push(i);
+          this.orders.splice(i, 1);
+        }
+        console.log(this.confirmeOrders);
+      }
     },
     decline: function (id) {
-      this.orders.pop(id);
+      for (var i = 0; i < this.orders.length; i++) {
+        if (this.orders[i]._id === id) {
+          this.orders.splice(i, 1);
+        }
+      }
     },
+    change: function (id) {
+     
+      this.currentId = id;
+    },
+  },
+  created:function(){
+    this.getOrders()
   },
 
   components: {},
@@ -324,9 +408,6 @@ export default {
         return ["light", "dark"].indexOf(value) !== -1;
       },
     },
-  },
-  created: function () {
-    this.getOrders();
   },
 };
 </script>
@@ -342,11 +423,37 @@ export default {
 }
 .confirm {
   width: 20px;
-  color: darkcyan;
+  color: rgb(241, 60, 28);
 }
 .decline {
   margin-left: 30px;
   width: 20px;
-  color: crimson;
+  color: rgb(149, 149, 149);
+}
+.check-list {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.check-list li {
+  position: relative;
+  list-style-type: none;
+  padding-left: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.check-list li:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: -2px;
+    width: 5px;
+    height: 11px;
+    border-width: 0 2px 2px 0;
+    border-style: solid;
+    border-color: #00a8a8;
+    transform-origin: bottom left;
+    transform: rotate(45deg);
 }
 </style>
