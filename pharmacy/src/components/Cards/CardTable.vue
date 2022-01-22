@@ -81,7 +81,7 @@
               </th>
             </tr>
           </thead>
-          <tbody v-for="item in orders" :key="item.quatity">
+          <tbody v-for="item in incomingOrders" :key="item.quatity">
             <tr>
               <th
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
@@ -111,7 +111,10 @@
               <td
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
               >
-                <div class="flex">ddddddd</div>
+                <i class="fas fa-prescription-bottle-alt" @click="change(item._id)" v-if="true && currentId!=item._id"></i>
+                 <div v-if="currentId===item._id">
+                   {{item.prescription}} hhhh
+                 </div>
               </td>
               <td
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -126,9 +129,9 @@
                     "
                   ></i>
                   <div v-if="showMedcines">
-                    <ul>
-                      <li>zzzzzzzzzzzzzzzzzzz</li>
-                    </ul>
+                     <ul class="check-list"  v-for="medecin in medecines" :key="medecin.name"  >
+                       <li>{{medecin}}</li>
+                     </ul>
                   </div>
                 </div>
               </td>
@@ -323,15 +326,45 @@ export default {
       currentEdit: "",
       showMedcines: false,
       id: "",
+      state:"",
+      incomingOrders:[],
+      medecines:[],
+      show: false,
+      currentId:""
     };
   },
   methods: {
     getOrders: function () {
+      let s=localStorage.getItem('session')
+      this.state=JSON.parse(s).state
+      console.log(this.state);
+     var data={
+       state : this.state
+     }
       axios
-        .get("http://localhost:5000/orders/comingOrders")
+        .post("http://localhost:5000/orders/comingOrders",data)
         .then(({ data }) => {
-          this.orders = data;
-          console.log("this is the order coming from server", this.orders);
+         
+          console.log("this is the order coming from server", data);
+          
+          for (var i=0; i<data.length ; i++){
+            if(data[i].userConfirmation){
+              this.incomingOrders.push(data[i])
+            
+            }
+          }
+           console.log("jghft",this.incomingOrders)
+           
+           for (let medecin in this.incomingOrders){
+             this.medecines=this.incomingOrders[medecin].medecineId
+           }
+           console.log(this.medecines);
+
+          axios.post("http://localhost:5000/orders/getMedecines",this.medecines)
+          .then(({ data }) => {
+          this.medecines=data
+          console.log(this.medecines) 
+        })
         })
         .catch((err) => {
           console.log(err);
@@ -357,6 +390,13 @@ export default {
         }
       }
     },
+    change: function (id) {
+     
+      this.currentId = id;
+    },
+  },
+  created:function(){
+    this.getOrders()
   },
 
   components: {},
@@ -389,5 +429,31 @@ export default {
   margin-left: 30px;
   width: 20px;
   color: rgb(149, 149, 149);
+}
+.check-list {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.check-list li {
+  position: relative;
+  list-style-type: none;
+  padding-left: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.check-list li:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: -2px;
+    width: 5px;
+    height: 11px;
+    border-width: 0 2px 2px 0;
+    border-style: solid;
+    border-color: #00a8a8;
+    transform-origin: bottom left;
+    transform: rotate(45deg);
 }
 </style>

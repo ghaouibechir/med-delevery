@@ -119,11 +119,14 @@ export default {
 
          } 
          else {
-           let session ={  id:data.pharmacy.id}
+           let session ={ 
+              id:data.pharmacy.id ,
+              state:data.pharmacy.state
+           }
           localStorage.setItem('session', JSON.stringify(session));
-          localStorage.setItem("id", data.pharmacy.id);
+          localStorage.setItem("id", data.token);
           this.$router.push("/Index");
-          console.log(localStorage.getItem("id"));
+          
         }   
       })
     }
