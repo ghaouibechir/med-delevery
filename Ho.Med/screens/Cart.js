@@ -171,16 +171,9 @@ delete(id){
           }} />
         <View>
           <Text>                  TotalPrice                                     {this.state.totalPrice} DT</Text>
-        <Button
-           
-            onPress={() => this.props.navigation.push("Paiment")}
-            title="Stripe"
-            color="#10857F"
-            accessibilityLabel="Learn more about this purple button"
-          />
 
           <Button
-            onPress={() => this.confirm()}
+            onPress={() => this.props.navigation.push("Aploder")}
            
             title="Confirm"
             color="#10857F"
