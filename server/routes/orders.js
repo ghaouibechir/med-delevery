@@ -7,7 +7,7 @@ const Orders = require("../models/pharmacy");
 
 router.post("/comingOrders", (req, res) => {
     console.log(req.body);
-  order.find({}, (err, data) => {
+  order.find(req.body, (err, data) => {
     if (err) {
       res.send(err);
     } else {
@@ -18,16 +18,14 @@ router.post("/comingOrders", (req, res) => {
 
 router.post("/getMedecines", async (req, res) => {
   
-console.log(req.body);
+  var array = []; 
+   for (var i = 0; i < req.body.length; i++) {
+    array.push(req.body[i].id);
+  }
 
-//   var orders = await order.findOne({});
-//   var array = [];
-//   for (var i = 0; i < orders.medecineId.length; i++) {
-//     array.push(orders.medecineId[i]);
-//   }
 
-   var medecin = await medecine.find({ _id: { $in: req.body } });
-
+   var medecin = await medecine.find({ _id: { $in: array } });
+ 
   var arr = [];
   for (var i = 0; i < medecin.length; i++) {
     arr.push(medecin[i].name);
@@ -40,7 +38,7 @@ console.log(req.body);
 
 //   //const userName = userInfo.username
 
-  console.log(arr);
+
   res.send(arr);
 });
 module.exports = router;

@@ -123,8 +123,9 @@ export default {
               id:data.pharmacy.id ,
               state:data.pharmacy.state
            }
-          localStorage.setItem('session', JSON.stringify(session));
-          localStorage.setItem("id", data.token);
+           
+          sessionStorage.setItem('session', JSON.stringify(session));
+          sessionStorage.setItem("id", data.token);
           this.$router.push("/Index");
           
         }   

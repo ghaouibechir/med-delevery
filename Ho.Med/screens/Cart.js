@@ -10,7 +10,7 @@ import {
   Alert,
   TouchableOpacity,
 } from "react-native";
-
+import Footer from "./Footer";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -24,7 +24,8 @@ export default class Cart extends Component {
       Valuue: [],
       value: 1,
       totalPrice: 0,
-      id: ''
+      id: '',
+      gov:null
     };
   }
 
@@ -32,8 +33,9 @@ export default class Cart extends Component {
     AsyncStorage.getItem('key')
       .then((d) => { this.setState({ id: JSON.parse(d).id }) })
       .then(() => { this.fetchdata() })
-      
       .catch(err => console.log(err))
+
+    
        
   }
   incrementValue(id) {
@@ -82,7 +84,7 @@ export default class Cart extends Component {
 
 
   fetchdata() {
-
+   console.log(this.state.gov);
     axios.get(`http://192.168.43.184:5000/medecine/cart/${this.state.id}`).then(({ data }) => {
       var datta = data
       for (var i = 0; i < datta.length; i++) {
@@ -117,6 +119,31 @@ delete(id){
   })
 }
 
+confirmation(){
+  AsyncStorage.getItem('state').then((d)=>{this.setState({gov:d})}).then(()=>{ if(this.state.data.length === 0){
+    Alert.alert("hint", "You need to add medecines to your cart")
+  }else if(this.state.gov===null){ 
+    Alert.alert("hint", "You need to mention your location")
+  }
+  else{
+    AsyncStorage.removeItem('state')
+    var res=[];
+    var data=this.state.data;
+
+    for(var i=0;i<data.length;i++){
+      res.push({
+         id:data[i]._id,
+         quatity:data[i].qt
+      })
+    }
+ console.log('eeeeeee',res)
+    axios.put(`http://192.168.43.184:5000/confirmation/${this.state.id}`,{data:res,totalPrice:this.state.totalPrice}).then(()=>{
+      this.props.navigation.push("Aploder")
+    }).catch(err=>console.log(err))
+  }}).catch(err=>console.log(err))
+ 
+ 
+}
 
 
 
@@ -173,14 +200,14 @@ delete(id){
           <Text>                  TotalPrice                                     {this.state.totalPrice} DT</Text>
 
           <Button
-            onPress={() => this.props.navigation.push("Aploder")}
+            onPress={() => this.confirmation()}
            
             title="Confirm"
             color="#10857F"
             accessibilityLabel="Learn more about this purple button"
           />
         </View>
-
+        <Footer />
       </View>
 
 

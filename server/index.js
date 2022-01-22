@@ -108,13 +108,48 @@ app.put('/deleteOrder/:id', async (req,res)=>{
   
   })
  
- 
+
+  app.put('/confirme/:id',(req,res)=>{
+    order.findOneAndUpdate({_id:req.params.id},{
+      state:'',
+      pharmacyConfirmation:true,
+      medecineId:[],
+    } ,(err,data)=>{
+      if(err)throw err
+      else{res.send(data)}
+    })
+  })
+
+  app.put('/decline/:id',(req,res)=>{
+    order.findOneAndUpdate({_id:req.params.id},{
+      state:'',
+    } ,(err,data)=>{
+      if(err)throw err
+      else{res.send(data)}
+    })
+  })
+
+
 app.put('/state/:id',(req,res)=>{
   console.log(req.params.id);
   order.findOneAndUpdate({userId:req.params.id},req.body ,(err,data)=>{
     if(err)throw err
     else{res.send(data)}
   })
+})
+
+
+app.put('/confirmation/:id',(req,res)=>{
+console.log(req.body);
+order.findOneAndUpdate(
+  {userId:req.params.id},
+  { userConfirmation:true,
+    totalPrice:req.body.totalPrice,
+    medecineId:req.body.data
+  } ,(err,data)=>{
+  if(err)throw err
+  else{res.send(data)}
+})
 })
 
 
@@ -166,16 +201,12 @@ app.put("/OrderId/:id", async (req, res) => {
 /*======================={Get the medecine inside the cart by userId}================================================== */
 
 app.get("/medecine/cart/:id", async (req, res) => { 
-  console.log(req.params.id);
   var x= await order.findOne({ userId: req.params.id }) 
-  var quantity=x.medecineId
-  console.log('qqqqqqqq',quantity);
   var array=[]
   for(var i=0; i<x.medecineId.length; i++){
     array.push(x.medecineId[i].id)
   }
  var medecin = await medecine.find({ '_id': { $in: array } });
-console.log(medecin);
  res.send(medecin)
 });
 
