@@ -4,6 +4,7 @@ import {
   SafeAreaView,
     View,
   StyleSheet,
+  Button,
 
 } from "react-native";
 import {Picker} from '@react-native-community/picker'
@@ -13,7 +14,7 @@ import { WebView } from "react-native-webview";
 import * as Location from 'expo-location';
 import axios from 'axios'
 import AsyncStorage from "@react-native-async-storage/async-storage";
-export default function NotificationScreen() {
+export default function NotificationScreen({ navigation }) {
   const { errorMsg, setErrorMsg } = React.useState('')
   const [longitude, setLongitude] = React.useState('')
   const [id, setId] = React.useState('')
@@ -39,7 +40,10 @@ export default function NotificationScreen() {
       );
   
   }, []);
-
+  const state = (x) => {
+    AsyncStorage.setItem('state',x).then(()=>{navigation.navigate("navbar") }).catch(err=>console.log(err))
+     }
+  
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
       <View style={{ width: 420, height: 740 }}>
@@ -80,6 +84,10 @@ export default function NotificationScreen() {
         <Picker.Item label="Tunis" value="Tunis" />
         <Picker.Item label="Zaghouan" value="Zaghouan" />
       </Picker>
+      <Button
+            title="Proceed to order "
+            onPress={() => state(selectedValue)}
+          />
         <Footer />
       </View>
 

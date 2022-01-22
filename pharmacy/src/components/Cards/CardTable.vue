@@ -87,7 +87,7 @@
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
               >
                 <img
-                  :src="bootstrap"
+                  src="https://images-ext-1.discordapp.net/external/R7hyplSsVnqROjk9mjSS6gMMZyCUv3YGhzswWacZC7I/https/upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Breezeicons-actions-22-im-user.svg/1200px-Breezeicons-actions-22-im-user.svg.png?width=375&height=375"
                   class="h-12 w-12 bg-white rounded-full border"
                   alt="..."
                 />
@@ -135,7 +135,7 @@
                   </div>
                 </div>
               </td>
-              <td
+                       <td
                 v-if="view && currentEdit !== item._id"
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
               >
@@ -149,14 +149,18 @@
                   </button>
                 </div>
               </td>
+
               <!-- confirmation view -->
               <td
                 v-if="currentEdit === item._id"
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
               >
-                <div class="flex items-center">
-                  <button class="confirm" v-on:click="decline(item._id)">
-                    Delete
+                <div
+                  class="flex items-center"
+                  v-if="view && currentEdit2 !== item._id"
+                >
+                  <button class="confirm" v-on:click="changeView2(item._id)">
+                    Decline
                   </button>
 
                   <button class="decline" v-on:click="changeView('')">
@@ -164,9 +168,31 @@
                   </button>
                 </div>
               </td>
+            
               <td
                 class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right"
-              ></td>
+              >
+                <div class="container" v-if="currentEdit2 === item._id">
+                <form>
+                  <label>
+                    <input type="radio" name="radio" checked />
+                    <span>No Medcines Available</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="radio" />
+                    <span>This medcines require prescription</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="radio" />
+                    <span>Not enough quatity of medcines Available </span>
+                  </label>
+                </form>
+                  <button  class="non" v-on:click="decline(item._id)">
+                  <i class="fas fa-times-circle"></i>
+                    
+                  </button>
+              </div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -330,65 +356,88 @@ export default {
       incomingOrders:[],
       medecines:[],
       show: false,
-      currentId:""
+      currentId:"",
+      currentEdit2:''
     };
   },
   methods: {
     getOrders: function () {
-      let s=localStorage.getItem('session')
+      let s=sessionStorage.getItem('session')
       this.state=JSON.parse(s).state
       console.log(this.state);
+      
      var data={
        state : this.state
      }
-      axios
+     setInterval(()=>{ axios
         .post("http://localhost:5000/orders/comingOrders",data)
         .then(({ data }) => {
          
           console.log("this is the order coming from server", data);
           
           for (var i=0; i<data.length ; i++){
+                
             if(data[i].userConfirmation){
-              this.incomingOrders.push(data[i])
+              var res=true
+              for(var j=0 ;j<this.incomingOrders.length;j++){
+                if(data[i]._id === this.incomingOrders[j]._id){
+                  res=false
+                }
+              }
+                
+                if(res===true){
+                  this.incomingOrders.push(data[i])
+                  }
+              
             
             }
           }
-           console.log("jghft",this.incomingOrders)
-           
+        console.log(this.incomingOrders);
+           var arr=[]
            for (let medecin in this.incomingOrders){
-             this.medecines=this.incomingOrders[medecin].medecineId
+             arr=this.incomingOrders[medecin].medecineId
            }
-           console.log(this.medecines);
-
-          axios.post("http://localhost:5000/orders/getMedecines",this.medecines)
+          axios.post("http://localhost:5000/orders/getMedecines",arr)
           .then(({ data }) => {
           this.medecines=data
-          console.log(this.medecines) 
+         
         })
         })
         .catch((err) => {
           console.log(err);
-        });
+        });},2000)
+     
+    },
+      changeView2: function (id) {
+      this.currentEdit2 = id;
     },
     changeView: function (id) {
       // this.view = !this.view;
       this.currentEdit = id;
     },
     confirm: function (id) {
-      for (var i = 0; i < this.orders.length; i++) {
-        if (this.orders[i]._id === id) {
-          this.confirmeOrders.push(i);
-          this.orders.splice(i, 1);
+      for (var i = 0; i < this.incomingOrders.length; i++) {
+        if (this.incomingOrders[i]._id === id) {
+          this.confirmeOrders.push(this.incomingOrders[i]);
+          this.incomingOrders.splice(i, 1);
         }
         console.log(this.confirmeOrders);
       }
+     axios.put('http://localhost:5000/confirme/'+id).then(
+       ()=>{}
+     )
+
     },
     decline: function (id) {
-      for (var i = 0; i < this.orders.length; i++) {
-        if (this.orders[i]._id === id) {
-          this.orders.splice(i, 1);
+      this.currentEdit2=''
+      for (var i = 0; i < this.incomingOrders.length; i++) {
+        if (this.incomingOrders[i]._id === id) {
+          this.incomingOrders.splice(i, 1);
         }
       }
+     axios.put('http://localhost:5000/decline/'+id).then(
+       ()=>{}
+     )
     },
     change: function (id) {
      
@@ -412,11 +461,21 @@ export default {
 };
 </script>
 <style scoped>
+
+#confirmd{
+ color: red;
+}
+
 .yes {
   width: 20px;
   color: darkcyan;
 }
 .no {
+  margin-left: 30px;
+  width: 20px;
+  color: crimson;
+}
+.non {
   margin-left: 30px;
   width: 20px;
   color: crimson;
@@ -456,4 +515,92 @@ export default {
     transform-origin: bottom left;
     transform: rotate(45deg);
 }
+</style>
+<style lang="scss" scoped>
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+$primary-color: #07524b; // Change color here. C'mon, try it! 
+$text-color: mix(#000, $primary-color, 64%);
+
+body {
+	font-family: "Inter", sans-serif;
+	color: $text-color;
+	font-size: calc(1em + 1.25vw);
+	background-color: mix(#fff, $primary-color, 90%);
+}
+
+form {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+}
+
+label {
+	display: flex;
+	cursor: pointer;
+	font-weight: 500;
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 0.375em;
+	/* Accessible outline */
+	/* Remove comment to use */ 
+	/*
+		&:focus-within {
+				outline: .125em solid $primary-color;
+		}
+	*/
+	input {
+		position: absolute;
+		left: -9999px;
+		&:checked + span {
+			background-color: mix(#fff, $primary-color, 84%);
+			&:before {
+				box-shadow: inset 0 0 0 0.4375em $primary-color;
+			}
+		}
+	}
+	span {
+		display: flex;
+		align-items: center;
+		padding: 0.375em 0.75em 0.375em 0.375em;
+		border-radius: 99em; // or something higher...
+		transition: 0.25s ease;
+		&:hover {
+			background-color: mix(#fff, $primary-color, 84%);
+		}
+		&:before {
+			display: flex;
+			flex-shrink: 0;
+			content: "";
+			background-color: #fff;
+			width: 1.5em;
+			height: 1.5em;
+			border-radius: 50%;
+			margin-right: 0.375em;
+			transition: 0.25s ease;
+			box-shadow: inset 0 0 0 0.125em $primary-color;
+		}
+	}
+}
+
+// Codepen spesific styling - only to center the elements in the pen preview and viewport
+.container {
+  background-color: rgb(192, 196, 193);
+  border-radius: 4%;
+	position: absolute;
+	top: 0;
+
+	right: 0%;
+	bottom: 0;
+	width: 30%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 20px;
+}
+
 </style>
