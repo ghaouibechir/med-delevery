@@ -5,19 +5,20 @@ const Orders = require("../models/pharmacy");
 
 // const { order } = require("../database-mongodb/schemas");
 
-// router.get("/comingOrders", (req, res) => {
-//   order.find({}, (err, data) => {
-//     if (err) {
-//       res.send(err);
-//     } else {
-//       res.send(data);
-//     }
-//   });
-// });
+router.post("/comingOrders", (req, res) => {
+    console.log(req.body);
+  order.find({}, (err, data) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(data);
+    }
+  });
+});
 
-// router.get("/getOrders/:id", async (req, res) => {
-//   console.log(req.params);
-//   let id = req.params.id;
+router.post("/getMedecines", async (req, res) => {
+  
+console.log(req.body);
 
 //   var orders = await order.findOne({});
 //   var array = [];
@@ -25,12 +26,12 @@ const Orders = require("../models/pharmacy");
 //     array.push(orders.medecineId[i]);
 //   }
 
-//   var medecin = await medecine.find({ _id: { $in: array } });
+   var medecin = await medecine.find({ _id: { $in: req.body } });
 
-//   var arr = [];
-//   for (var i = 0; i < medecin.length; i++) {
-//     arr.push(medecin[i].name);
-//   }
+  var arr = [];
+  for (var i = 0; i < medecin.length; i++) {
+    arr.push(medecin[i].name);
+  }
 //   var username = "";
 //   var userInfo = await user.find({ _id: orders.userId });
 //   for (var i = 0; i < userInfo.length; i++) {
@@ -38,6 +39,8 @@ const Orders = require("../models/pharmacy");
 //   }
 
 //   //const userName = userInfo.username
-//   res.send({ arr, orders, username });
-// });
+
+  console.log(arr);
+  res.send(arr);
+});
 module.exports = router;
