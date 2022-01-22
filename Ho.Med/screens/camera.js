@@ -443,9 +443,9 @@ class CameraScreen extends Component {
           activeOpacity={0.9}
           onPress={() =>
             this.state.prescriptionsList.length != 0
-              ? // this.props.navigation.push('PreviouslyBoughtItems')
+              ?  this.props.navigation.push('Aploder')
                 // axios.post(url,esmelpersprectionfischema:this.state.prescriptionsList)
-                console.log("Prescriptions list:", this.state.prescriptionsList)
+                
               : null
           }
           style={styles.continueButtonStyle}
@@ -714,3 +714,8 @@ CameraScreen.navigationOptions = () => {
 };
 
 export default withNavigation(CameraScreen);
+
+
+
+
+
