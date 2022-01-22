@@ -37,6 +37,7 @@ router.post("/authenticate", (req, res, next) => {
   const password = req.body.password;
   Pharmacy.getPharmacyByUsername(username, (err, pharmacy) => {
     if (err) throw err;
+    console.log(pharmacy);
     if (!pharmacy) {
       return res.json({ success: false, msg: "pharmacy not found" });
     }
@@ -53,9 +54,9 @@ router.post("/authenticate", (req, res, next) => {
           token: token,
           pharmacy: {
             id: pharmacy._id,
-            name: pharmacy.name,
             username: pharmacy.username,
             email: pharmacy.email,
+            state: pharmacy.location,
           },
         });
       } else {
