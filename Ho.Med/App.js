@@ -20,7 +20,7 @@ import Apploading from 'expo-app-loading';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "./screens/CredentialsContext";
 import EditProfile from './screens/editProfile';
-import CameraScreen from './screens/camera';
+import CameraScreen from './screens/Camera';
 import ResetPassword from './screens/ResetPassword';
 import ResetPasswordVerification from './screens/ResetPasswordVerification';
 import NewPassword from "./screens/NewPassword";
