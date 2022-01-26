@@ -26,6 +26,7 @@ import ResetPasswordVerification from './screens/ResetPasswordVerification';
 import NewPassword from "./screens/NewPassword";
 import Feedback from "./screens/Feedback";
 import Paiment from "./screens/Paiment";
+import Aploder from './screens/AppLoder';
 const Stack = createNativeStackNavigator();
 
 
@@ -117,6 +118,11 @@ export default function App() {
                       name="Camera"
                       component={CameraScreen}
                       options={{ headerShown: true }}
+                    />
+                      <Stack.Screen
+                      name="Aploder"
+                      component={Aploder}
+                      options={{ headerShown: false }}
                     />
                   </>
                   :

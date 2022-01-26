@@ -62,7 +62,7 @@ const orderSchema = new mongoose.Schema({
   pharmacyId: { type: String, default: "" },
   userId: { type: String },
   medecineId: { type: Array },
-  totalPrice: { type: Number },
+  totalPrice: { type: Number,default:0 },
   state: { type: String, default: "" },
   prescription: { type: String, default: "" },
   response: { type: Array },

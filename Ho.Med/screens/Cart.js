@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 import {
   View,
@@ -10,13 +10,12 @@ import {
   Alert,
   TouchableOpacity,
 } from "react-native";
-
+import Footer from "./Footer";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios"
+import axios from "axios";
 export default class Cart extends Component {
-  
   constructor(props) {
     super(props);
     this.state = {
@@ -24,105 +23,142 @@ export default class Cart extends Component {
       Valuue: [],
       value: 1,
       totalPrice: 0,
-      id: ''
+      id: "",
+      gov: null,
     };
   }
 
   componentDidMount() {
-    AsyncStorage.getItem('key')
-      .then((d) => { this.setState({ id: JSON.parse(d).id }) })
-      .then(() => { this.fetchdata() })
-      
-      .catch(err => console.log(err))
-       
+    AsyncStorage.getItem("key")
+      .then((d) => {
+        this.setState({ id: JSON.parse(d).id });
+      })
+      .then(() => {
+        this.fetchdata();
+      })
+      .catch((err) => console.log(err));
   }
   incrementValue(id) {
-    var data = this.state.data
+    var data = this.state.data;
     for (let i = 0; i < data.length; i++) {
       if (data[i]._id === id && data[i].qt < 5) {
-        data[i].qt++
-        data[i].price= (data[i].price+data[i].prix)
+        data[i].qt++;
+        data[i].price = data[i].price + data[i].prix;
       }
-      this.setState({ data: data })
+      this.setState({ data: data });
     }
-    this.totalPrice()
+    this.totalPrice();
   }
 
-  totalPrice(dat=this.state.data){
- 
-   var total=0
-    for(var i=0;i<dat.length;i++){
-    total+=dat[i].price
+  totalPrice(dat = this.state.data) {
+    var total = 0;
+    for (var i = 0; i < dat.length; i++) {
+      total += dat[i].price;
     }
-    this.setState({totalPrice:total})
+    this.setState({ totalPrice: total });
   }
   decrementValue(id) {
-    var data = this.state.data
+    var data = this.state.data;
     for (let i = 0; i < data.length; i++) {
       if (data[i]._id === id && data[i].qt > 1) {
-        data[i].qt--
-        data[i].price=data[i].price-data[i].prix
+        data[i].qt--;
+        data[i].price = data[i].price - data[i].prix;
       }
-      this.setState({ data: data })
-
+      this.setState({ data: data });
     }
-    this.totalPrice()
+    this.totalPrice();
   }
-
-
 
   confirm() {
-    axios.put(`http://192.168.43.184:5000/ListOrderById/${this.state.id}`, {})
+    axios
+      .put(`http://192.168.11.33:5000/ListOrderById/${this.state.id}`, {})
       .then((res) => {
-        console.log(res)
+        console.log(res);
       })
-      .catch((err) => { console.log(err) });
+      .catch((err) => {
+        console.log(err);
+      });
   }
-
-
 
   fetchdata() {
+    console.log(this.state.gov);
+    axios
+      .get(`http://192.168.11.33:5000/medecine/cart/${this.state.id}`)
+      .then(({ data }) => {
+        var datta = data;
+        for (var i = 0; i < datta.length; i++) {
+          datta[i].qt = 1;
+          datta[i].prix = datta[i].price;
+        }
 
-    axios.get(`http://192.168.43.184:5000/medecine/cart/${this.state.id}`).then(({ data }) => {
-      var datta = data
-      for (var i = 0; i < datta.length; i++) {
-        datta[i].qt = 1
-        datta[i].prix = datta[i].price
-      }
-      
-      this.setState({ data: datta })
-      this.totalPrice()
-    })
-
+        this.setState({ data: datta });
+        this.totalPrice();
+      });
   }
   clickEventListener = (item) => {
-    Alert.alert("Item selected: " + item.name)
-  }
+    Alert.alert("Item selected: " + item.name);
+  };
 
   __getCompletedIcon = () => {
-
     return "https://img.icons8.com/flat_round/64/000000/checkmark.png";
-
-  }
+  };
 
   __getDescriptionStyle = (item) => {
     if (item.completed == 1) {
-      return { textDecorationLine: "line-through", fontStyle: 'italic', color: "#808080" };
+      return {
+        textDecorationLine: "line-through",
+        fontStyle: "italic",
+        color: "#808080",
+      };
     }
+  };
+
+  delete(id) {
+    axios
+      .put(`http://192.168.11.33:5000/deleteOrder/${this.state.id}`, { id: id })
+      .then(() => {
+        this.fetchdata();
+      });
   }
 
-delete(id){
-  axios.put(`http://192.168.43.184:5000/deleteOrder/${this.state.id}`,{id:id}).then(()=>{
-    this.fetchdata()
-  })
-}
+  confirmation() {
+    AsyncStorage.getItem("state")
+      .then((d) => {
+        this.setState({ gov: d });
+      })
+      .then(() => {
+        if (this.state.data.length === 0) {
+          Alert.alert("hint", "You need to add medecines to your cart");
+        } else if (this.state.gov === null) {
+          Alert.alert("hint", "You need to mention your location");
+        } else {
+          AsyncStorage.removeItem("state");
+          var res = [];
+          var data = this.state.data;
 
-
-
+          for (var i = 0; i < data.length; i++) {
+            res.push({
+              id: data[i]._id,
+              quatity: data[i].qt,
+            });
+          }
+          console.log("eeeeeee", res);
+          axios
+            .put(`http://192.168.11.33:5000/confirmation/${this.state.id}`, {
+              data: res,
+              totalPrice: this.state.totalPrice,
+            })
+            .then(() => {
+              this.props.navigation.push("Aploder");
+            })
+            .catch((err) => console.log(err));
+        }
+      })
+      .catch((err) => console.log(err));
+  }
 
   render() {
     return (
-
       <View style={styles.container}>
         <FlatList
           style={styles.tasks}
@@ -134,71 +170,73 @@ delete(id){
           renderItem={({ item }) => {
             return (
               <View>
-
-                <TouchableOpacity style={[styles.card, { borderColor: item.color }]} onPress={() => { this.clickEventListener(item) }}>
-                  <Image style={styles.img} source={{ uri: this.__getCompletedIcon(item) }} />
+                <TouchableOpacity
+                  style={[styles.card, { borderColor: item.color }]}
+                  onPress={() => {
+                    this.clickEventListener(item);
+                  }}
+                >
+                  <Image
+                    style={styles.img}
+                    source={{ uri: this.__getCompletedIcon(item) }}
+                  />
                   <View style={styles.cardContent}>
-
-
-                    <Text style={[styles.description, this.__getDescriptionStyle(item)]}>{item.name}</Text>
+                    <Text
+                      style={[
+                        styles.description,
+                        this.__getDescriptionStyle(item),
+                      ]}
+                    >
+                      {item.name}
+                    </Text>
                     <Text size={29}>Price :{item.price}DT</Text>
-                    <Text>    </Text>
+                    <Text> </Text>
                     <View style={{ flexDirection: "column" }}>
                       <MaterialCommunityIcons
                         name="plus"
                         size={29}
                         onPress={() => this.incrementValue(item._id)}
                       />
-                      <Text>    </Text>
-                      <View style={{ fontSize: 900 }}><Text>Quantity : {item.qt}</Text></View>
-                      <Text>    </Text>
+                      <Text> </Text>
+                      <View style={{ fontSize: 900 }}>
+                        <Text>Quantity : {item.qt}</Text>
+                      </View>
+                      <Text> </Text>
                       <MaterialCommunityIcons
                         name="minus"
                         size={29}
                         onPress={() => this.decrementValue(item._id)}
-                        />
+                      />
                     </View>
                   </View>
-                        <Text onPress={()=>{this.delete(item._id) }}> delete </Text>
-
+                  <Text
+                    onPress={() => {
+                      this.delete(item._id);
+                    }}
+                  >
+                    {" "}
+                    delete{" "}
+                  </Text>
                 </TouchableOpacity>
-
               </View>
-
-
-
-            )
-          }} />
+            );
+          }}
+        />
         <View>
-          <Text>                  TotalPrice                                     {this.state.totalPrice} DT</Text>
-        <Button
-           
-            onPress={() => this.props.navigation.push("Paiment")}
-            title="Stripe"
-            color="#10857F"
-            accessibilityLabel="Learn more about this purple button"
-          />
+          <Text> TotalPrice {this.state.totalPrice} DT</Text>
 
           <Button
-            onPress={() => this.confirm()}
-           
+            onPress={() => this.confirmation()}
             title="Confirm"
             color="#10857F"
             accessibilityLabel="Learn more about this purple button"
           />
         </View>
-
+        <Footer />
       </View>
-
-
-
     );
   }
-
 }
-
-
-
 
 const styles = StyleSheet.create({
   headerInfoWrapStyle: {
@@ -231,7 +269,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 20,
-    backgroundColor: "#eeeeee"
+    backgroundColor: "#eeeeee",
   },
   tasks: {
     flex: 1,
@@ -246,7 +284,7 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    shadowColor: '#00000021',
+    shadowColor: "#00000021",
     shadowOffset: {
       width: 0,
       height: 6,
@@ -258,10 +296,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginHorizontal: 20,
     backgroundColor: "white",
-    flexBasis: '46%',
+    flexBasis: "46%",
     padding: 10,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     borderLeftWidth: 6,
   },
 
@@ -269,13 +307,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     flex: 1,
     color: "#008080",
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   date: {
     fontSize: 14,
     flex: 1,
     color: "#696969",
-    marginTop: 5
+    marginTop: 5,
   },
 });
 
