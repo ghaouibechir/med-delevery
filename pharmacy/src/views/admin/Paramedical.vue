@@ -17,9 +17,9 @@
                     class="d-flex justify-content-between align-items-center"
                     v-if="view && currentEdit !== item._id"
                   >
-                    <h5 class="dress-name">{{ item.name }}</h5>
+                    <p id="itemName">{{ item.name }}</p>
                     <div class="d-flex flex-column mb-2">
-                      <span class="new-price">{{ item.price }}</span>
+                      <span class="new-price" id="itemName">{{ item.price }}</span>
                       <small class="old-price text-right">TND</small>
                     </div>
                     <div
@@ -157,8 +157,7 @@ export default {
       view: true,
       currentEdit: "",
       selectedFile: "",
-      thumbnail:
-        "",
+      thumbnail: "",
     };
   },
 
@@ -166,7 +165,7 @@ export default {
     add: function () {
       this.upload();
       setTimeout(() => {
-        console.log('zzzzzzzzz',this.thumbnail);
+        console.log("zzzzzzzzz", this.thumbnail);
 
         var item = {
           name: this.name,
@@ -189,7 +188,6 @@ export default {
       this.selectedFile = event.target.files[0];
     },
     upload() {
-      
       const formData = new FormData();
       formData.append("file", this.selectedFile);
       formData.append("upload_preset", "lsom30en");
@@ -257,7 +255,9 @@ export default {
 body {
   background-color: #eee;
 }
-
+#itemName {
+font-size: 30px;
+}
 .container {
   width: 900px;
 }
@@ -273,6 +273,7 @@ body {
 
 .image-container {
   position: relative;
+  size: 50%;
 }
 
 .thumbnail-image {
