@@ -13,7 +13,7 @@ export default function Paiment({ navigation }) {
   return (
     <SafeAreaView >
       <View
-      style={{ width: 600, height: 1000 }}
+      style={{ width: 700, height: 1000 }}
       >
         <WebView source={{ uri: pay }}
         onLoad={console.log("Loaded!")}
