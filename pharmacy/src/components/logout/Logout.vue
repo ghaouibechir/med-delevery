@@ -19,7 +19,7 @@ export default {
 /* CSS */
 .button-24 {
   background: #6d0805;
-  border: 1px solid #ff4742;
+  border: 1px solid #6d0805;
   border-radius: 6px;
   box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
   box-sizing: border-box;
@@ -48,7 +48,7 @@ export default {
 .button-24:active {
   background-color: initial;
   background-position: 0 0;
-  color: #ff4742;
+  color: #6d0805;
 }
 
 .button-24:active {

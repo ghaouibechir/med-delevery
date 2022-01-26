@@ -46,7 +46,7 @@ export default {
     }
   },
     mounted:function(){
-    let y = localStorage.getItem('session')
+    let y = sessionStorage.getItem('session')
     this.id = JSON.parse(y).id
    axios.get(`http://localhost:5000/orders/getOrders/${this.id}`)
    .then(({data})=>{

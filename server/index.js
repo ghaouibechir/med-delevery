@@ -2,7 +2,7 @@ const { event, user, medecine, order } = require("./database-mongodb/schemas");
 
 
 var express = require("express");
-const client = require('twilio')('ACef3a21de70771e1ddc68a842568cda00', '72370b563d7bc333bd230ebd9e90a0d3');
+const client = require('twilio')('ACef3a21de70771e1ddc68a842568cda00', '7e14180722dc9b0e778dc162c3b75328');
 var app = express();
 const passport = require("passport");
 var port = process.env.PORT || 5000;
@@ -107,14 +107,60 @@ app.put('/deleteOrder/:id', async (req,res)=>{
   
   
   })
+
+  app.get('/check/:id',(req,res)=>{
+    console.log(req.params.id);
+    order.find({userId:req.params.id},(err,data)=>{
+      if(err){
+        throw err
+      }else{
+        res.send(data)
+      }
+    })
+  })
  
- 
+
+  app.put('/confirme/:id',(req,res)=>{
+    order.findOneAndUpdate({_id:req.params.id},{
+      state:'',
+      pharmacyConfirmation:true,
+      medecineId:[],
+    } ,(err,data)=>{
+      if(err)throw err
+      else{res.send(data)}
+    })
+  })
+
+  app.put('/decline/:id',(req,res)=>{
+    order.findOneAndUpdate({_id:req.params.id},{
+      state:'',
+    } ,(err,data)=>{
+      if(err)throw err
+      else{res.send(data)}
+    })
+  })
+
+
 app.put('/state/:id',(req,res)=>{
   console.log(req.params.id);
   order.findOneAndUpdate({userId:req.params.id},req.body ,(err,data)=>{
     if(err)throw err
     else{res.send(data)}
   })
+})
+
+
+app.put('/confirmation/:id',(req,res)=>{
+console.log(req.body);
+order.findOneAndUpdate(
+  {userId:req.params.id},
+  { userConfirmation:true,
+    totalPrice:req.body.totalPrice,
+    medecineId:req.body.data
+  } ,(err,data)=>{
+  if(err)throw err
+  else{res.send(data)}
+})
 })
 
 
@@ -166,16 +212,12 @@ app.put("/OrderId/:id", async (req, res) => {
 /*======================={Get the medecine inside the cart by userId}================================================== */
 
 app.get("/medecine/cart/:id", async (req, res) => { 
-  console.log(req.params.id);
   var x= await order.findOne({ userId: req.params.id }) 
-  var quantity=x.medecineId
-  console.log('qqqqqqqq',quantity);
   var array=[]
   for(var i=0; i<x.medecineId.length; i++){
     array.push(x.medecineId[i].id)
   }
  var medecin = await medecine.find({ '_id': { $in: array } });
-console.log(medecin);
  res.send(medecin)
 });
 
@@ -221,7 +263,7 @@ function resetPassword() {
   num4 = fourthNum
   client.messages.create({
     body: 'your reset password code is ' + firstNum + '' + secondNum + '' + thirdNum + '' + fourthNum,
-    to: '+21658769219',
+    to: '+21624444422',
     from: '+19148098893'
  }).then(message => console.log(message))
    .catch(error => console.log(error))

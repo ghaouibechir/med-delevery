@@ -171,7 +171,7 @@ export default {
           name: this.name,
           price: this.price,
           img: this.thumbnail,
-          pharmacyId: localStorage.getItem("id"),
+          pharmacyId: JSON.parse(sessionStorage.getItem("session")).id
         };
 
         axios
@@ -203,7 +203,7 @@ export default {
         });
     },
     getPara: function () {
-      var id = localStorage.getItem("id");
+       var id = JSON.parse(sessionStorage.getItem("session")).id
 
       axios
         .get(`http://localhost:5000/pharmacies/para/${id}`)
