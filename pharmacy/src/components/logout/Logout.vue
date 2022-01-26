@@ -1,93 +1,57 @@
 <template>
-    
-
-<div class="wrapper">
-    <button class="button" @click="logout()">Logout !</button>
-</div>
+  <div class="wrapper">
+    <button class="button-24" role="button" @click="logout()">Logout</button>
+  </div>
 </template>
 
 <script>
-
-
 export default {
-    methods:{
-
-        logout: function(){
-      localStorage.clear();
+  methods: {
+    logout: function () {
+      sessionStorage.clear();
       this.$router.push("/login");
-    }
-    }
-   
-}
+    },
+  },
+};
 </script>
 
-<style  scoped>
-:root {
-    --bg: #eee;
-    --color: #1a1e24;
-    --font: Montserrat, Roboto, Helvetica, Arial, sans-serif;
+<style scoped>
+/* CSS */
+.button-24 {
+  background: #6d0805;
+  border: 1px solid #ff4742;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 16px;
+  min-height: 40px;
+  outline: 0;
+  padding: 12px 14px;
+  text-align: center;
+  text-rendering: geometricprecision;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  margin-left: 50px;
+  margin-bottom: 50px;
 }
 
-.wrapper {
-    padding: 1.5rem 0;
-    filter: url('#goo');
+.button-24:hover,
+.button-24:active {
+  background-color: initial;
+  background-position: 0 0;
+  color: #ff4742;
 }
 
-.button {
-    display: inline-block;
-    text-align: center;
-    background: var(--color);
-    color: var(--bg);
-    font-weight: bold;
-    padding: 1.18em 1.32em 1.03em;
-    line-height: 1;
-    border-radius: 1em;
-    position: relative;
-    min-width: 8.23em;
-    text-decoration: none;
-    font-family: var(--font);
-    font-size: 1.25rem;
-}
-
-.button:before,
-.button:after {
-    width: 4.4em;
-    height: 2.95em;
-    position: absolute;
-    content: "";
-    display: inline-block;
-    background: var(--color);
-    border-radius: 50%;
-    transition: transform 1s ease;
-    transform: scale(0);
-    z-index: -1;
-}
-
-.button:before {
-    top: -25%;
-    left: 20%;
-}
-
-.button:after {
-    bottom: -25%;
-    right: 20%;
-}
-
-.button:hover:before,
-.button:hover:after {
-    transform: none;
-}
-
-
-/* Demo styles */
-
-body {
-    width: 100%;
-    height: 100%;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: var(--bg)
+.button-24:active {
+  opacity: 0.5;
 }
 </style>
