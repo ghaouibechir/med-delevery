@@ -53,7 +53,7 @@ export default function NotificationScreen({ navigation }) {
         onValueChange={(itemValue, itemIndex) => {
         setSelectedValue(itemValue)
         axios
-          .put(`http://192.168.11.33:5000/state/${id}`, { state: itemValue })
+          .put(`http://192.168.11.6:5000/state/${id}`, { state: itemValue })
           .then(() => {})
           .catch((err) => {
             console.log(err);
