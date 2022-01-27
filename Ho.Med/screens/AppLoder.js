@@ -10,7 +10,7 @@ export default function Aploder({ navigation }) {
     AsyncStorage.getItem('key')
     .then((d) => { setId(JSON.parse(d).id) })
     .then(()=>{check()})
-    // .then(()=>{ axios.get('http://192.168.11.33:5000/check/'+id).then(({data})=>{
+    // .then(()=>{ axios.get('http://192.168.11.6:5000/check/'+id).then(({data})=>{
     //       if(data[0].pharmacyConfirmation){
     //         Alert.alert("cogratulation", "You order has been accepted successfuly")    
     //           navigation.navigate("Paiment")
@@ -21,7 +21,7 @@ export default function Aploder({ navigation }) {
  })
 
     const check=()=>{
-        setInterval(()=>{axios.get('http://192.168.11.33:5000/check/'+id).then(({data})=>{
+        setInterval(()=>{axios.get('http://192.168.11.6:5000/check/'+id).then(({data})=>{
             console.log(data);
           if(data[0].pharmacyConfirmation){   
               navigation.navigate("Paiment")

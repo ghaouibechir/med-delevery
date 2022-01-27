@@ -21,7 +21,7 @@ import axios from "axios";
 import data from "react-native-ico/src/data";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "./CredentialsContext";
-import { Icon } from "react-native-elements";
+import { colors, Icon } from "react-native-elements";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 
@@ -51,7 +51,7 @@ class Navbar extends Component {
 
   fetchdata = async () => {
     try {
-      let response = await axios.get("http://192.168.11.33:5000/medecine");
+      let response = await axios.get("http://192.168.11.6:5000/medecine");
       this.setState({ medecine: response.data });
       this.setState({ medecines: response.data });
     } catch (error) {
@@ -61,7 +61,7 @@ class Navbar extends Component {
 
   fetchParasData = async () => {
     try {
-      let response = await axios.get("http://192.168.11.33:5000/para/paras");
+      let response = await axios.get("http://192.168.11.6:5000/para/paras");
       this.setState({ medecine: response.data });
     } catch (error) {
       console.log(error);
@@ -73,7 +73,7 @@ class Navbar extends Component {
     this.incrementValue();
 
     axios
-      .put(`http://192.168.11.33:5000/OrderId/${this.state.id}`, { id })
+      .put(`http://192.168.11.6:5000/OrderId/${this.state.id}`, { id })
       .then((res) => {
         this.addProductToCart(id);
       })
@@ -227,7 +227,7 @@ class Navbar extends Component {
           <View style={styles.headerInfoWrapStyle}>
             <View>
               <Image
-                source={require("../assets/images/transparent-icon.png")}
+                source={require("../assets/images/logoz.png")}
                 style={styles.appLogoStyle}
               />
             </View>
@@ -349,7 +349,10 @@ class Navbar extends Component {
                 }}
                 onPress={() => this.teethMeds()}
               >
-                <FontAwesome5 name="teeth" size={30} color="#ed8079" />
+                <Image
+                  source={require("../assets/images/teeth.png")}
+                  style={styles.teethStyle}
+                />
               </TouchableOpacity>
               <Text style={{ marginLeft: 4, marginTop: 5 }}>TEETH</Text>
             </View>
@@ -368,7 +371,11 @@ class Navbar extends Component {
                 }}
                 onPress={() => this.cardiohMeds()}
               >
-                <FontAwesome5 name="lungs" size={30} color="#ed8079" />
+                {/* <FontAwesome5 name="lungs" size={30} color="#ed8079" /> */}
+                <Image
+                  source={require("../assets/images/cardio.jpg")}
+                  style={styles.noseStyle}
+                />
               </TouchableOpacity>
               <Text style={{ marginLeft: 2, marginTop: 5 }}>CARDIO</Text>
             </View>
@@ -409,7 +416,10 @@ class Navbar extends Component {
                 }}
                 onPress={() => this.eyesMeds()}
               >
-                <FontAwesome5 name="eye" size={30} color="black" />
+                <Image
+                  source={require("../assets/images/eye.jpg")}
+                  style={styles.eyeStyle}
+                />
               </TouchableOpacity>
               <Text style={{ marginLeft: 11, marginTop: 5 }}>EYES</Text>
             </View>
@@ -428,7 +438,10 @@ class Navbar extends Component {
                 }}
                 onPress={() => this.headMeds()}
               >
-                <FontAwesome5 name="head-side-virus" size={30} color="black" />
+                <Image
+                  source={require("../assets/images/hea.jpg")}
+                  style={styles.noseStyle}
+                />
               </TouchableOpacity>
               <Text style={{ marginLeft: 10, marginTop: 5 }}>HEAD</Text>
             </View>
@@ -447,7 +460,10 @@ class Navbar extends Component {
                 }}
                 onPress={() => this.fetchParasData()}
               >
-                <Text>PARAS</Text>
+                <Image
+                  source={require("../assets/images/para.jpg")}
+                  style={styles.noseStyle}
+                />
               </TouchableOpacity>
               <Text style={{ marginLeft: 5, marginTop: 5 }}>PARAS</Text>
             </View>
@@ -504,8 +520,9 @@ const styles = StyleSheet.create({
   cartItemCountWrapStyle: {
     position: "absolute",
     right: -8.0,
-    height: 17.0,
+    height: 19.0,
     width: 17.0,
+    bottom: 20.0,
     borderRadius: 8.5,
     alignItems: "center",
     justifyContent: "center",
@@ -546,6 +563,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flexBasis: "47%",
     marginHorizontal: 5,
+    borderRadius: 30,
   },
   cardHeader: {
     paddingVertical: 17,
@@ -597,9 +615,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flex: 1,
   },
+  teethStyle: {
+    width: 50.0,
+    height: 50.0,
+  },
   noseStyle: {
     width: 50.0,
     height: 20.0,
+  },
+  eyeStyle: {
+    width: 50.0,
+    height: 22.0,
   },
   appLogoStyle: {
     width: 120.0,

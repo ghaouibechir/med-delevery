@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#c6dee4",
   },
   backgroundImage: {
-    width: 600,
-    height: 500,
+    width: 300,
+    height: 300,
     marginTop: 200,
     marginLeft: -50,
   },

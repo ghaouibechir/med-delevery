@@ -96,7 +96,7 @@ class RegisterScreen extends Component {
     var num = this.state.PhoneNumber.phoneNumber;
     console.log("kkkkkkkkkkkkkkk", num);
     try {
-      let response = await axios.post("http://192.168.11.33:5000/", {
+      let response = await axios.post("http://192.168.11.6:5000/", {
         number: num,
       });
       this.setState({ verifNum1: response.data.num1 });
@@ -232,7 +232,7 @@ class RegisterScreen extends Component {
     ) {
       this.handlemsg("Please fill all the fields");
     }
-    const url = "http://192.168.11.33:5000/users/register",
+    const url = "http://192.168.11.6:5000/users/register",
       data = {
         username: this.state.username,
         password: this.state.password,
