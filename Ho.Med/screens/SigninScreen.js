@@ -98,7 +98,7 @@ class SigninScreen extends Component {
     if (this.state.username == '' || this.state.password == '') {
       this.handlemsg("Please fill all the fields")
     }
-    const url = "http://192.168.11.33:5000/users/authenticate";
+    const url = "http://192.168.11.6:5000/users/authenticate";
     
     axios.post(url, { username: username, password: password }).then((res) => {
 

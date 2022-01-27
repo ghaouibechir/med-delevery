@@ -71,7 +71,7 @@ export default class Cart extends Component {
 
   confirm() {
     axios
-      .put(`http://192.168.11.33:5000/ListOrderById/${this.state.id}`, {})
+      .put(`http://192.168.11.6:5000/ListOrderById/${this.state.id}`, {})
       .then((res) => {
         console.log(res);
       })
@@ -83,7 +83,7 @@ export default class Cart extends Component {
   fetchdata() {
     console.log(this.state.gov);
     axios
-      .get(`http://192.168.11.33:5000/medecine/cart/${this.state.id}`)
+      .get(`http://192.168.11.6:5000/medecine/cart/${this.state.id}`)
       .then(({ data }) => {
         var datta = data;
         for (var i = 0; i < datta.length; i++) {
@@ -115,7 +115,7 @@ export default class Cart extends Component {
 
   delete(id) {
     axios
-      .put(`http://192.168.11.33:5000/deleteOrder/${this.state.id}`, { id: id })
+      .put(`http://192.168.11.6:5000/deleteOrder/${this.state.id}`, { id: id })
       .then(() => {
         this.fetchdata();
       });
@@ -144,7 +144,7 @@ export default class Cart extends Component {
           }
           console.log("eeeeeee", res);
           axios
-            .put(`http://192.168.11.33:5000/confirmation/${this.state.id}`, {
+            .put(`http://192.168.11.6:5000/confirmation/${this.state.id}`, {
               data: res,
               totalPrice: this.state.totalPrice,
             })
