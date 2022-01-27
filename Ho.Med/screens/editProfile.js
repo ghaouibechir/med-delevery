@@ -11,56 +11,57 @@ import {
 } from "react-native";
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import  AsyncStorage  from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Footer from "./Footer";
-import {useState ,useEffect} from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function EditProfile({ navigation }) {
-
-  const [user , setUser] = useState({})
-  const [userNameEdit , setUserNameEdit] = useState(user.username)
-  const [emailEdit , setemailEdit] = useState(user.email)
-  const [phoneNumberEdit , setPhoneNumberEdit] = useState(user.phoneNumber)
-  const [userId , setUserId] = useState("")
-
-  useEffect(() => {
-    AsyncStorage.getItem('key').then((d)=>{setUserId(JSON.parse(d).id)})
-    console.log(userId)
-  },[])
+  const [user, setUser] = useState({});
+  const [userNameEdit, setUserNameEdit] = useState(user.username);
+  const [emailEdit, setemailEdit] = useState(user.email);
+  const [phoneNumberEdit, setPhoneNumberEdit] = useState(user.phoneNumber);
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
-    getUser()
-  })
+    AsyncStorage.getItem("key")
+      .then((d) => {
+        return JSON.parse(d).id;
+      })
+      .then((id) => {
+        getUser(id);
+      });
+  }, []);
 
-  
-
-  const getUser = async () => {
-    const id = userId
+  const getUser = async (id) => {
+    // const id = userId;
     try {
-      let response = await axios.get("http://192.168.11.6:5000/user/" + id)
-      setUser(response.data)
+      let response = await axios.get("http://192.168.11.6:5000/user/" + id);
+      console.log(response.data);
+      setUser(response.data);
+    } catch (err) {
+      console.log(err);
     }
-    catch (err) {
-      console.log(err)
-    }
-  }
+  };
 
   const UpdateUser = async () => {
-    const id = userId
-    const username = userNameEdit
-    const email = emailEdit
-    const phoneNumber = phoneNumberEdit
+    const id = userId;
+    const username = userNameEdit;
+    const email = emailEdit;
+    const phoneNumber = phoneNumberEdit;
     try {
-      console.log("user updating...")
-      let result = await axios.put("http://192.168.11.6:5000/user/" + id , {username , email , phoneNumber})
+      console.log("user updating...");
+      let result = await axios.put("http://192.168.11.6:5000/user/" + id, {
+        username,
+        email,
+        phoneNumber,
+      });
+    } catch (err) {
+      console.log(err);
     }
-    catch (err) {
-      console.log(err)
-    }
-  }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
@@ -73,56 +74,54 @@ export default function EditProfile({ navigation }) {
       >
         <View style={styles.headerInfoWrapStyle}>
           <View>
-            <Text style={{ ...Fonts.whiteColor20Medium }}>Ho-Med</Text>
+            <Text style={{ ...Fonts.whiteColor20Medium }}></Text>
           </View>
+
           <View style={{ flexDirection: "row" }}>
-          <AntDesign
-             name="check" 
-             size={27} 
-             color={Colors.whiteColor}
-             onPress={() => { 
-              UpdateUser()
-              navigation.navigate('Profile')
+            <AntDesign
+              name="check"
+              size={27}
+              color={Colors.whiteColor}
+              onPress={() => {
+                UpdateUser();
+                navigation.navigate("Profile");
               }}
-             />
+            />
           </View>
         </View>
+        <Image
+          source={require("../assets/images/logoz.png")}
+          style={styles.appLogoStyle}
+        />
       </View>
       <View style={styles.container}>
         <View style={styles.header}></View>
-        
-        <Image
-          style={styles.avatar}
-          source={{ uri: "https://bootdey.com/img/Content/avatar/avatar6.png" }}
-        />
+
         <View style={styles.body}>
           <View style={styles.bodyContent}>
-            <Text style={styles.name}>John Doe</Text>
-            <Text style={styles.info}>UX Designer / Mobile developer</Text>
-            <Text style={styles.description}>
-              Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum
-              electram expetendis, omittam deseruisse consequuntur ius an,
-            </Text>
-            <View style={styles.card}>
-              <View style={styles.cardHeader}>
-                <Text style={styles.cardTitle}>Description</Text>
-              </View>
-            </View>
-
             <TouchableOpacity style={styles.buttonContainer}>
-              <TextInput style={{ fontSize: 26 }}
-              onChangeText={text => setUserNameEdit(text)}
-              >{user.username}</TextInput>
+              <Text style={{ color: "white" }}> Name : </Text>
+              <TextInput
+                style={{ fontSize: 26 }}
+                onChangeText={(text) => setUserNameEdit(text)}
+              >
+                {user.username}
+              </TextInput>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer}>
-              <TextInput style={{ fontSize: 26 }}
-              onChangeText={text => setemailEdit(text)}
-              >{user.email}</TextInput>
+              <Text style={{ color: "white" }}> Email : </Text>
+              <TextInput onChangeText={(text) => setemailEdit(text)}>
+                {user.email}
+              </TextInput>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer}>
-              <TextInput style={{ fontSize: 26 }}
-              onChangeText={text => setPhoneNumberEdit(text)}
-              >{user.phoneNumber}</TextInput>
+              <Text style={{ color: "white" }}> phone Number : </Text>
+              <TextInput
+                style={{ fontSize: 26 }}
+                onChangeText={(text) => setPhoneNumberEdit(text)}
+              >
+                {user.phoneNumber}
+              </TextInput>
             </TouchableOpacity>
           </View>
         </View>
@@ -162,7 +161,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: "#10857F",
-    height: 200,
+  
   },
   avatar: {
     width: 130,
@@ -181,7 +180,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   body: {
-    marginTop: 40,
   },
   bodyContent: {
     flex: 1,
@@ -208,11 +206,22 @@ const styles = StyleSheet.create({
     marginTop: 10,
     height: 45,
     flexDirection: "row",
-    justifyContent: "center",
+
     alignItems: "center",
     marginBottom: 20,
     width: 250,
-    borderRadius: 30,
+    borderRadius: 10,
     backgroundColor: "#10857F",
+  },
+  appLogoStyle: {
+    width: 200.0,
+    height: 200.0,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    alignSelf: "center",
+    // marginBottom: Sizes.fixPadding,
+    // marginTop: Sizes.fixPadding * -50.0,
   },
 });

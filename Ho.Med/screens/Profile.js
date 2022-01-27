@@ -1,4 +1,4 @@
-import {React,useContext,useEffect ,useState}  from "react";
+import { React, useContext, useEffect, useState } from "react";
 
 import {
   SafeAreaView,
@@ -11,50 +11,47 @@ import {
 } from "react-native";
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "./CredentialsContext";
 import Footer from "./Footer";
+import { FontAwesome5 } from "@expo/vector-icons";
 import axios from "axios";
 
-
-
-
 export default function ProfileScreen({ navigation }) {
-
-  const [user , setUser] = useState({})
-  const [userId , setUserId] = useState(null)
-
-  useEffect(() => {
-    AsyncStorage.getItem('key').then((d)=>{setUserId(JSON.parse(d).id)})
-    console.log(userId)
-  },[])
+  const [user, setUser] = useState({});
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    getUser()
-  })
+    AsyncStorage.getItem("key").then((d) => {
+      setUserId(JSON.parse(d).id);
+    });
+    console.log(userId);
+  }, []);
 
-  
+  useEffect(() => {
+    getUser();
+  });
 
   const getUser = async () => {
-    const id = userId
+    const id = userId;
     try {
       let response = await axios.get("http://192.168.11.6:5000/user/" + id);
-      setUser(response.data)
+      setUser(response.data);
+    } catch (err) {
+      console.log(err);
     }
-    catch (err) {
-      console.log(err)
-    }
-  }
+  };
 
-
-  const {stored,setStored}=useContext(CredentialsContext);
-  const clearLogin =()=>{
-    AsyncStorage.removeItem('key').then(()=>{
-      setStored(null)
-    }).catch(err => console.log(err))
-  }
+  const { stored, setStored } = useContext(CredentialsContext);
+  const clearLogin = () => {
+    AsyncStorage.removeItem("key")
+      .then(() => {
+        setStored(null);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.bodyBackColor }}>
       <View
@@ -66,7 +63,7 @@ export default function ProfileScreen({ navigation }) {
       >
         <View style={styles.headerInfoWrapStyle}>
           <View>
-            <Text style={{ ...Fonts.whiteColor20Medium }}>Ho-Med</Text>
+            <Text style={{ ...Fonts.whiteColor20Medium }}></Text>
           </View>
           <View style={{ flexDirection: "row" }}>
             <AntDesign
@@ -90,27 +87,24 @@ export default function ProfileScreen({ navigation }) {
           </View>
         </View>
       </View>
+
       <View style={styles.container}>
         <View style={styles.header}></View>
         <Image
-          style={styles.avatar}
-          source={{ uri: "https://bootdey.com/img/Content/avatar/avatar6.png" }}
+          source={require("../assets/images/logoz.png")}
+          style={styles.appLogoStyle}
+        />
+
+        <Image style={styles.avatar} source={{ uri: user.img }} />
+        <MaterialIcons
+          name="plus-circleo"
+          size={26}
+          style={{ marginLeft: 210, bottom: 35 }}
+          onPress={() => navigation.navigate("cart")}
         />
 
         <View style={styles.body}>
           <View style={styles.bodyContent}>
-            <Text style={styles.name}>John Doe</Text>
-            <Text style={styles.info}>UX Designer / Mobile developer</Text>
-            <Text style={styles.description}>
-              Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum
-              electram expetendis, omittam deseruisse consequuntur ius an,
-            </Text>
-            <View style={styles.card}>
-              <View style={styles.cardHeader}>
-                <Text style={styles.cardTitle}>Description</Text>
-              </View>
-            </View>
-
             <View style={styles.buttonContainer}>
               <Text style={{ fontSize: 26 }}> {user.username}</Text>
             </View>
@@ -191,7 +185,14 @@ const styles = StyleSheet.create({
   bodyContent: {
     flex: 1,
     alignItems: "center",
-    padding: 30,
+  },
+  appLogoStyle: {
+    width: 180.0,
+    height: 60.0,
+    bottom: 140.0,
+    left: 90,
+
+    // marginTop: Sizes.fixPadding * 1.0,
   },
   name: {
     fontSize: 28,
@@ -217,7 +218,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
     width: 250,
-    borderRadius: 30,
+    borderRadius: 18,
     backgroundColor: "#10857F",
   },
 });
