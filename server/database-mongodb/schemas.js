@@ -30,6 +30,11 @@ const userSchema = new mongoose.Schema({
   vip: { type: Boolean, default: false },
   connected: { type: Boolean, default: false },
   banned: { type: Boolean, default: false },
+  img: {
+    type: String,
+    default:
+      "https://www.creativefabrica.com/wp-content/uploads/2019/02/Profile-Icon-by-arus-1-580x386.jpg",
+  },
 });
 
 userSchema.plugin(AutoIncrement, { id: "id_seq", inc_field: "id" });
@@ -62,7 +67,7 @@ const orderSchema = new mongoose.Schema({
   pharmacyId: { type: String, default: "" },
   userId: { type: String },
   medecineId: { type: Array },
-  totalPrice: { type: Number,default:0 },
+  totalPrice: { type: Number, default: 0 },
   state: { type: String, default: "" },
   prescription: { type: String, default: "" },
   response: { type: Array },
