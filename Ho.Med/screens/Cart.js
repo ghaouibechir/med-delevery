@@ -10,7 +10,7 @@ import {
   Alert,
   TouchableOpacity,
 } from "react-native";
-
+import Footer from "./Footer";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -24,7 +24,8 @@ export default class Cart extends Component {
       Valuue: [],
       value: 1,
       totalPrice: 0,
-      id: ''
+      id: '',
+      gov:null
     };
   }
 
@@ -32,9 +33,10 @@ export default class Cart extends Component {
     AsyncStorage.getItem('key')
       .then((d) => { this.setState({ id: JSON.parse(d).id }) })
       .then(() => { this.fetchdata() })
-
       .catch(err => console.log(err))
 
+    
+       
   }
   incrementValue(id) {
     var data = this.state.data
@@ -72,7 +74,7 @@ export default class Cart extends Component {
 
 
   confirm() {
-    axios.put(`http://192.168.1.14:5000/ListOrderById/${this.state.id}`, {})
+    axios.put(`http://192.168.1.20:5000/ListOrderById/${this.state.id}`, {})
       .then((res) => {
         console.log(res)
       })
@@ -82,8 +84,8 @@ export default class Cart extends Component {
 
 
   fetchdata() {
-
-    axios.get(`http://192.168.1.14:5000/medecine/cart/${this.state.id}`).then(({ data }) => {
+   console.log(this.state.gov);
+    axios.get(`http://192.168.1.20:5000/medecine/cart/${this.state.id}`).then(({ data }) => {
       var datta = data
       for (var i = 0; i < datta.length; i++) {
         datta[i].qt = 1
@@ -110,11 +112,41 @@ export default class Cart extends Component {
       return { textDecorationLine: "line-through", fontStyle: 'italic', color: "#808080" };
     }
   }
-  delete(id) {
-    axios.put(`http://192.168.1.14:5000/deleteOrder/${this.state.id}`, { id: id }).then(() => {
-      this.fetchdata()
-    })
+
+delete(id){
+  axios.put(`http://192.168.1.20:5000/deleteOrder/${this.state.id}`,{id:id}).then(()=>{
+    this.fetchdata()
+  })
+}
+
+confirmation(){
+  AsyncStorage.getItem('state').then((d)=>{this.setState({gov:d})}).then(()=>{ if(this.state.data.length === 0){
+    Alert.alert("hint", "You need to add medecines to your cart")
+  }else if(this.state.gov===null){ 
+    Alert.alert("hint", "You need to mention your location")
   }
+  else{
+    AsyncStorage.removeItem('state')
+    var res=[];
+    var data=this.state.data;
+
+    for(var i=0;i<data.length;i++){
+      res.push({
+         id:data[i]._id,
+         quatity:data[i].qt
+      })
+    }
+ console.log('eeeeeee',res)
+    axios.put(`http://192.168.1.20:5000/confirmation/${this.state.id}`,{data:res,totalPrice:this.state.totalPrice}).then(()=>{
+      this.props.navigation.push("Aploder")
+    }).catch(err=>console.log(err))
+  }}).catch(err=>console.log(err))
+ 
+ 
+}
+
+
+
   render() {
     return (
 
@@ -158,17 +190,17 @@ export default class Cart extends Component {
             )
           }} />
         <View>
-          <Text>  TotalPrice    {this.state.totalPrice} DT</Text>
-          <Button
-          onPress={() => this.props.navigation.push("Aploder")}
-            // onPress={() => this.confirm()}
+          <Text>                  TotalPrice                                     {this.state.totalPrice} DT</Text>
 
+          <Button
+            onPress={() => this.confirmation()}
+           
             title="Confirm"
             color="#10857F"
             accessibilityLabel="Learn more about this purple button"
           />
         </View>
-
+        <Footer />
       </View>
 
 

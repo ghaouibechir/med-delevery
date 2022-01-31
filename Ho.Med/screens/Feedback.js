@@ -26,7 +26,7 @@ export default function Feedback({ navigation }) {
     const feed = feedback
     try {
       console.log("hhhhhhhhffrfrht")
-      await axios.post("http://192.168.1.14:5000/feed/addfeedback", { userId: id, content: feed })
+      await axios.post("http://192.168.1.20:5000/feed/addfeedback", { userId: id, content: feed })
       console.log("hhhhhhhhht")
     }
     catch (err) {

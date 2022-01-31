@@ -98,7 +98,7 @@ class SigninScreen extends Component {
     if (this.state.username == '' || this.state.password == '') {
       this.handlemsg("Please fill all the fields")
     }
-    const url = 'http://192.168.1.14:5000/users/authenticate'
+    const url = 'http://192.168.1.20:5000/users/authenticate'
     
     axios.post(url, { username: username, password: password }).then((res) => {
 
@@ -115,7 +115,7 @@ class SigninScreen extends Component {
           this.handlemsg('Invalid credentials entred ')
         }
       } else  {
-          console.log(result.user.banned);
+         
           if(result.user.banned){this.handlemsg('You have been banned ')}
           else{
             this.handlemsg(`Connected ✅`, "SUCCESS")

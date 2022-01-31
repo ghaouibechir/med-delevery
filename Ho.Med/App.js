@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as Font from 'expo-font';
+// import * as Font from 'expo-font';
 import Navbar from "./screens/Navbar";
 import Localisation from "./screens/Localisation";
 import Cart from "./screens/Cart";
@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react'
 import RegisterScreen from "./screens/RegisterScreen";
 import Login from "./screens/SigninScreen";
 import LandingPage from "./screens/LandingPage";
-import Footer from "./screens/Footer";
+// import Footer from "./screens/Footer";
 import NotificationScreen from "./screens/Notification";
 import ReminderScreen from "./screens/Reminder"
 import ProfileScreen from "./screens/Profile"
@@ -20,13 +20,14 @@ import Apploading from 'expo-app-loading';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "./screens/CredentialsContext";
 import EditProfile from './screens/editProfile';
-import CameraScreen from './screens/Camera';
+import CameraScreen from './screens/camera';
 import ResetPassword from './screens/ResetPassword';
 import ResetPasswordVerification from './screens/ResetPasswordVerification';
 import NewPassword from "./screens/NewPassword";
 import Feedback from "./screens/Feedback";
 import Paiment from "./screens/Paiment";
 import Aploder from './screens/AppLoder';
+import MusicScreen from './screens/Music'
 const Stack = createNativeStackNavigator();
 
 
@@ -119,10 +120,15 @@ export default function App() {
                       component={CameraScreen}
                       options={{ headerShown: true }}
                     />
-                    <Stack.Screen
+                      <Stack.Screen
                       name="Aploder"
                       component={Aploder}
                       options={{ headerShown: false }}
+                    />
+                      <Stack.Screen
+                      name="Music"
+                      component={MusicScreen}
+                      options={{ headerShown: true  }}
                     />
                   </>
                   :

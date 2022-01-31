@@ -50,7 +50,7 @@ class Navbar extends Component {
 
   fetchdata = async () => {
     try {
-      let response = await axios.get("http://192.168.1.14:5000/medecine");
+      let response = await axios.get("http:// 192.168.1.20:5000/medecine");
       this.setState({medecine:response.data});
       this.setState({medecines:response.data});
     } catch (error) {
@@ -60,7 +60,7 @@ class Navbar extends Component {
 
   fetchParasData = async () => {
     try {
-      let response = await axios.get("http://192.168.1.14:5000/para/paras");
+      let response = await axios.get("http://192. 192.168.1.20:5000/para/paras");
       this.setState({medecine:response.data});
     } catch (error) {
       console.log(error);
@@ -72,7 +72,7 @@ class Navbar extends Component {
     console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyy", id)
      this.incrementValue() 
    
-    axios.put(`http://192.168.1.14:5000/OrderId/${'bechir'}`, { id })
+    axios.put(`http:// 192.168.1.20:5000/OrderId/${this.state.id}`, { id })
       .then((res) => {
      this.addProductToCart(id)
       })
@@ -239,6 +239,19 @@ searshForMedicines (medName) {
                   <Text>{this.state.value}</Text>
                 </View>
               </TouchableOpacity>
+
+              <TouchableOpacity>
+                <MaterialIcons
+                  name="music"
+                  size={26}
+                  color={Colors.whiteColor}
+                  style={{ marginLeft: Sizes.fixPadding + 10.0 }}
+                  onPress={() => this.props.navigation.push("Music")}
+                />
+                
+              </TouchableOpacity>
+
+
             </View>
           </View>
           <TouchableOpacity style={styles.searchButtonStyle}>

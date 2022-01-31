@@ -40,7 +40,7 @@ export default function EditProfile({ navigation }) {
   const getUser = async () => {
     const id = userId
     try {
-      let response = await axios.get("http://192.168.1.14:5000/user/" + id)
+      let response = await axios.get("http://192.168.1.20:5000/user/" + id)
       setUser(response.data)
     }
     catch (err) {
@@ -55,7 +55,7 @@ export default function EditProfile({ navigation }) {
     const phoneNumber = phoneNumberEdit
     try {
       console.log("user updating...")
-      let result = await axios.put("http://192.168.1.14:5000/user/" + id , {username , email , phoneNumber})
+      let result = await axios.put("http://192.168.1.20:5000/user/" + id , {username , email , phoneNumber})
     }
     catch (err) {
       console.log(err)
