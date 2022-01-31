@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styled from 'styled-components'
+import styled from "styled-components";
 import {
   SafeAreaView,
   StatusBar,
@@ -16,8 +16,8 @@ import { withNavigation } from "react-navigation";
 import { Colors, Fonts, Sizes } from "../constant/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TransitionPresets } from "react-navigation-stack";
-import IntlPhoneInput from 'react-native-intl-phone-input';
-import axios from "axios"
+import IntlPhoneInput from "react-native-intl-phone-input";
+import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CredentialsContext } from "./CredentialsContext";
 
@@ -29,8 +29,6 @@ class RegisterScreen extends Component {
       this.handleBackButton.bind(this)
     );
   }
-
-
 
   componentWillUnmount() {
     BackHandler.removeEventListener(
@@ -47,17 +45,17 @@ class RegisterScreen extends Component {
   state = {
     fullName: "",
     password: "",
-    username: '',
+    username: "",
     emailAddress: "",
-    PhoneNumber: '',
-    typemsg: '',
-    address: '',
-    message: '',
+    PhoneNumber: "",
+    typemsg: "",
+    address: "",
+    message: "",
     credentials: null,
-    verifNum1: '',
-    verifNum2: '',
-    verifNum3: '',
-    verifNum4: '',
+    verifNum1: "",
+    verifNum2: "",
+    verifNum3: "",
+    verifNum4: "",
   };
 
   render() {
@@ -94,11 +92,9 @@ class RegisterScreen extends Component {
   //   })
   // }
 
-
-
   getVerificationNumber = async () => {
-    var num = this.state.PhoneNumber.phoneNumber
-    console.log('kkkkkkkkkkkkkkk', num);
+    var num = this.state.PhoneNumber.phoneNumber;
+    console.log("kkkkkkkkkkkkkkk", num);
     try {
       let response = await axios.post("http://192.168.1.20:5000/",{number:num});
       this.setState({verifNum1 :response.data.num1});
@@ -128,10 +124,15 @@ class RegisterScreen extends Component {
   phoneNumberTextField() {
     return (
       <IntlPhoneInput
-        onChangeText={(text) => { this.setState({ PhoneNumber: text }) }}
+        onChangeText={(text) => {
+          this.setState({ PhoneNumber: text });
+        }}
         defaultCountry="TN"
         containerStyle={styles.textFieldStyle}
-        dialCodeTextStyle={{ ...Fonts.blackColor17Medium, marginLeft: Sizes.fixPadding - 5.0, }}
+        dialCodeTextStyle={{
+          ...Fonts.blackColor17Medium,
+          marginLeft: Sizes.fixPadding - 5.0,
+        }}
         phoneInputStyle={{
           flex: 1,
           marginLeft: Sizes.fixPadding,
@@ -180,7 +181,6 @@ class RegisterScreen extends Component {
   }
   userNameTextField() {
     return (
-      
       <TextInput
         placeholder="username"
         value={this.state.username}
@@ -188,7 +188,6 @@ class RegisterScreen extends Component {
         selectionColor={Colors.primaryColor}
         style={styles.textFieldStyle}
       />
-      
     );
   }
   addressTextField() {
@@ -202,8 +201,8 @@ class RegisterScreen extends Component {
       />
     );
   }
-  handlemsg(message, typemsg = 'FAILED') {
-    this.setState({ message: message, typemsg: typemsg })
+  handlemsg(message, typemsg = "FAILED") {
+    this.setState({ message: message, typemsg: typemsg });
   }
   registerText() {
     return (
@@ -218,54 +217,72 @@ class RegisterScreen extends Component {
       </Text>
     );
   }
-  register(){
- console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaa',this.state.message);
-      this.handlemsg('','FAILED');
-       if(this.state.username =='' || this.state.password=='' || this.state.fullName=='' || 
-       this.state.address=='' || this.state.PhoneNumber=='' || this.state.emailAddress==''){
-        this.handlemsg("Please fill all the fields")
-       
-      }
-     const url='http://192.168.1.20:5000/users/register',
-     data={
-       username :this.state.username,
-       password:this.state.password,
-       fullName:this.state.fullName,
-       address:this.state.address,
-       PhoneNumber:this.state.PhoneNumber.phoneNumber,
-       emailAddress:this.state.emailAddress,
-       connected:true
-      }
+  register() {
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaa", this.state.message);
+    this.handlemsg("", "FAILED");
+    if (
+      this.state.username == "" ||
+      this.state.password == "" ||
+      this.state.fullName == "" ||
+      this.state.address == "" ||
+      this.state.PhoneNumber == "" ||
+      this.state.emailAddress == ""
+    ) {
+      this.handlemsg("Please fill all the fields");
+    }
+    const url = "http://192.168.11.6:5000/users/register",
+      data = {
+        username: this.state.username,
+        password: this.state.password,
+        fullName: this.state.fullName,
+        address: this.state.address,
+        PhoneNumber: this.state.PhoneNumber.phoneNumber,
+        emailAddress: this.state.emailAddress,
+        connected: true,
+      };
 
-    console.log('bbbbbbbbbbbbbbbbbbbbbb', this.state.message, 'ccccccccccccccc', data);
-    if (this.state.message !== 'Please fill all the fields') {
-      axios.post(url, data).then((res) => {
-
-        const result = res.data
-        const { success, msg } = result
-        this.setState({ credentials: result.user })
-        console.log("jjjjjjjjjjjjj",this.state.credentials);
-        if (success !== true) {
-          if (this.state.message !== 'Please fill all the fields') {
-            this.handlemsg(msg)
+    console.log(
+      "bbbbbbbbbbbbbbbbbbbbbb",
+      this.state.message,
+      "ccccccccccccccc",
+      data
+    );
+    if (this.state.message !== "Please fill all the fields") {
+      axios
+        .post(url, data)
+        .then((res) => {
+          const result = res.data;
+          const { success, msg } = result;
+          this.setState({ credentials: result.user });
+          console.log("jjjjjjjjjjjjj", this.state.credentials);
+          if (success !== true) {
+            if (this.state.message !== "Please fill all the fields") {
+              this.handlemsg(msg);
+            }
+          } else {
+            if (this.state.message !== "Please fill all the fields") {
+              this.handlemsg(`Welcome To Our Family ✅`, "SUCCESS");
+              this.getVerificationNumber();
+              setTimeout(() => {
+                this.props.navigation.push("verification", {
+                  num1: this.state.verifNum1,
+                  num2: this.state.verifNum2,
+                  num3: this.state.verifNum3,
+                  num4: this.state.verifNum4,
+                  credentials: this.state.credentials,
+                });
+              }, 2000);
+            }
           }
-        } else {
-          if (this.state.message !== 'Please fill all the fields') {
-            this.handlemsg(`Welcome To Our Family ✅`, "SUCCESS")
-            this.getVerificationNumber()
-            setTimeout(() => {
-              this.props.navigation.push("verification", { num1: this.state.verifNum1, num2: this.state.verifNum2, num3: this.state.verifNum3, num4: this.state.verifNum4 , credentials: this.state.credentials})
-            }, 2000);
+        })
+        .catch((err) => {
+          console.log(err);
+          if (this.state.message !== "Please fill all the fields") {
+            this.handlemsg(
+              "An error occured .Check your network and try again"
+            );
           }
-        }
-      }).catch(err => {
-        console.log(err);
-        if (this.state.message !== 'Please fill all the fields') {
-          this.handlemsg('An error occured .Check your network and try again')
-        }
-
-      })
-
+        });
     }
   }
 
@@ -274,15 +291,22 @@ class RegisterScreen extends Component {
       <View>
         <MsgBox type={this.state.typemsg}>{this.state.message}</MsgBox>
         <TouchableOpacity
-          onPress={() => (
-            this.register()
-          )}
+          onPress={() => this.register()}
           activeOpacity={0.9}
           style={styles.continueButtonStyle}
         >
           <Text style={{ ...Fonts.whiteColor19Medium }}>Sign Up</Text>
         </TouchableOpacity>
-        <Text style={{ marginLeft: 80, marginTop: 20, marginBottom: 40 }}> Already have an accout ?<Text style={{ color: 'blue', textDecorationLine: 'underline' }} onPress={() => this.props.navigation.push("login")} >Sign In</Text></Text>
+        <Text style={{ marginLeft: 80, marginTop: 20, marginBottom: 40 }}>
+          {" "}
+          Already have an accout ?
+          <Text
+            style={{ color: "blue", textDecorationLine: "underline" }}
+            onPress={() => this.props.navigation.push("login")}
+          >
+            Sign In
+          </Text>
+        </Text>
       </View>
     );
   }
@@ -301,10 +325,10 @@ class RegisterScreen extends Component {
 const MsgBox = styled.Text`
 text-align:center;
 font-size:13px;
-color:${(props) => (props.type == 'SUCCESS' ? 'green' : 'red')};
+color:${(props) => (props.type == "SUCCESS" ? "green" : "red")};
 margin-bottom:-15px
 margin-top:25px
-`
+`;
 const styles = StyleSheet.create({
   continueButtonStyle: {
     alignItems: "center",

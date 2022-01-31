@@ -86,25 +86,48 @@ class CameraScreen extends Component {
         )
     }
 
-  continueButton() {
-    return (
-      <View style={styles.continueButtonWrapStyle}>
-        <TouchableOpacity
-          activeOpacity={0.9}
-          onPress={() =>
-            this.state.prescriptionsList.length != 0
-              ?  this.props.navigation.push('Aploder')
-                // axios.post(url,esmelpersprectionfischema:this.state.prescriptionsList)
-                
-              : null
-          }
-          style={styles.continueButtonStyle}
-        >
-          <Text style={{ ...Fonts.whiteColor19Medium }}>Continue</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+    deletePrescriptionDialog() {
+        return (
+            <Dialog.Container
+                visible={this.state.deleteDialog}
+                contentStyle={styles.deleteDialogWrapStyle}
+                headerStyle={{ margin: 0.0 }}
+            >
+                <Text style={{
+                    ...Fonts.blackColor19Medium,
+                    paddingTop: Sizes.fixPadding - 5.0,
+                    paddingBottom: Sizes.fixPadding + 10.0
+                }}>
+                    Delete prescription image?
+                </Text>
+                <View style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginHorizontal: Sizes.fixPadding * 2.0,
+                }}>
+                    <TouchableOpacity
+                        activeOpacity={0.9}
+                        onPress={() => this.setState({ deleteDialog: false })}
+                        style={styles.noButtonStyle}>
+                        <Text style={{ ...Fonts.primaryColor18Medium }}>
+                            No
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        activeOpacity={0.9}
+                        onPress={() => {
+                            this.removePrescription()
+                            this.setState({ deleteDialog: false })
+                        }}
+                        style={styles.yesButtonStyle}>
+                        <Text style={{ ...Fonts.whiteColor18Medium }}>
+                            Yes
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </Dialog.Container>
+        )
+    }
 
     pescriptionsAttachedInfo() {
         return (
@@ -196,7 +219,21 @@ class CameraScreen extends Component {
             </Modal>
         )
     }
+    pickImageFromGallery = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      })
 
+      if (!result.cancelled) {
+          let newDataImg = this.state.prescriptionsList;
+          let item = {
+              id: Date.now(),
+              url: result.uri,
+          };
+          newDataImg.push(item);
+          this.setState({ prescriptionsList: newDataImg });
+      }
+  }
                                
 
     pickImageFromCamera = async () => {

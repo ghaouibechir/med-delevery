@@ -166,7 +166,7 @@ export default {
   },
   methods: {
     getpharmacyData: function () {
-      var id = localStorage.getItem("id");
+      var id = JSON.parse(sessionStorage.getItem("session")).id;
       axios
         .get(`http://localhost:5000/pharmacies/profile/${id}`)
         .then(({ data }) => {
@@ -188,7 +188,7 @@ export default {
         location: this.location,
         phoneNumber: this.phoneNumber,
       };
-      var _id = localStorage.getItem("id");
+      var _id = JSON.parse(sessionStorage.getItem("session")).id;
 
       axios
         .put(`http://localhost:5000/pharmacies/update/${_id}`, userdata)

@@ -2,6 +2,8 @@ import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, Button, Platform, StyleSheet, StatusBar } from 'react-native';
+import moment from 'moment';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -11,29 +13,113 @@ Notifications.setNotificationHandler({
   }),
 });
 
-
+// moment().format('LT');
 
 export default function ReminderScreen() {
 
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
-  const responseListener = useRef();
+  const responseListener = useRef();  
+
+  const [remaind , setRemaind] = useState([{userId : "61e80993a413acb2c920c8da" ,userMed : [{medname : "Panadol" , time : [1,0,1]},{medname : "Doliprane" , time : [1,1,0]}]}])
+  const [userRem , setUserRem] = useState({userId : "" ,userMed : [{medname : "" , time : [0,0,0]}]})
+  const [userId , setUserId] = useState({username:""})
+  const [medAt8AM , setMedAt8AM] = useState(null)
+  const [medAt12AM , setMedAt12AM] = useState(null)
+  const [medAt8PM , setMedAt8PM] = useState(null)
+  var count = 0
 
   useEffect(() => {
+
+    AsyncStorage.getItem('key').then((d)=>{setUserId(JSON.parse(d))})
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
       setNotification(notification);
     });
     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
       console.log(response);
-    });
-
+    })
     return () => {
       Notifications.removeNotificationSubscription(notificationListener.current);
       Notifications.removeNotificationSubscription(responseListener.current);
     };
-  }, []);
+  },[]);
+
+  useEffect(() => {
+    userMed()
+    setMedsTime()
+    remaindMe()
+  },[expoPushToken,userId])
+
+   
+  const userMed = () => {
+      for(var i = 0 ; i < remaind.length ; i++) {
+        if(remaind[i].userId === userId.id) {
+          setUserRem(remaind[i])
+        }
+      }
+      console.log(userRem);
+  }
+
+  const setMedsTime = () => {  
+    var med_At_8AM = ""
+    var med_At_12AM = ""
+    var med_At_8PM = ""
+    for(var i = 0 ; i < userRem.userMed.length ; i++) {
+      if(userRem.userMed[i].time[0] == 1) {
+          if( i === userRem.userMed.length-1) {
+            med_At_8AM+= userRem.userMed[i].medname
+          }
+          else {
+            med_At_8AM+= userRem.userMed[i].medname + " , "
+          }
+      }
+      if(userRem.userMed[i].time[1] == 1) {
+        if( i === userRem.userMed.length-1) {
+          med_At_12AM+= userRem.userMed[i].medname
+        }
+        else {
+          med_At_12AM+= userRem.userMed[i].medname + " , "
+        }
+      }
+      if(userRem.userMed[i].time[2] == 1) {
+        if( i === userRem.userMed.length-1) {
+          med_At_8APM+= userRem.userMed[i].medname
+        }
+        else {
+          med_At_8PM+= userRem.userMed[i].medname
+        }
+      }
+    }
+    setMedAt8AM(med_At_8AM)
+    setMedAt12AM(med_At_12AM)
+    setMedAt8PM(med_At_8PM)
+  }
+
+
+  const remaindMe = () => {
+    console.log("working")
+    console.log(medAt8AM)
+    console.log(medAt12AM)
+    console.log(medAt8PM)
+    if(moment().format('LT') === "8:00 AM") {
+      if(medAt8AM !== null && medAt8AM !== "") {
+        sendMesaage(expoPushToken , `take your med(s) of 8:00 AM ${medAt8AM} `)
+      }
+    }
+    if(moment().format('LT') === "12:00 PM") {
+      if(medAt12AM !== null && medAt12AM !== "") {
+        sendMesaage(expoPushToken , `take your med(s) of 12:00 AM ${medAt12AM} `)
+      }
+    }
+    if(moment().format('LT') === "8:00 PM") {
+      if(medAt8PM !== null && medAt8PM !== "") {
+        sendMesaage(expoPushToken , `take your med(s) of 8:00 PM ${medAt8PM} `)
+      }
+    }
+  }
+
 
 
   async function registerForPushNotificationsAsync() {
@@ -54,7 +140,7 @@ export default function ReminderScreen() {
     } else {
       alert('Must use physical device for Push Notifications');
     }
-
+  
     if (Platform.OS === 'android') {
       Notifications.setNotificationChannelAsync('default', {
         name: 'default',
@@ -63,11 +149,12 @@ export default function ReminderScreen() {
         lightColor: '#FF231F7C',
       });
     }
+  
     return token;
   }
 
-
-  const sendMesaage = (token) => {
+ 
+  const sendMesaage = (token , message) => {
     fetch('https://exp.host/--/api/v2/push/send', {
       method: 'POST',
       headers: {
@@ -78,18 +165,30 @@ export default function ReminderScreen() {
       body: JSON.stringify({
         to: token,
         title: 'Ho-Med',
-        body: 'The Best project in cohort 17 is Ho-Med',
+        body: message,
         data: { data: 'BK201' },
         _displayInForeground: true,
       }),
     });
   }
-
+  
 
   return (
-    <View style={styles.container}>
-      <Text style={{ fontSize: 25 }}>Remainder</Text>
-      <Button title="send message" onPress={() => sendMesaage(expoPushToken)} />
+    <View style={{alignItems: 'center',}}>
+      <Text style={{ fontSize: 25 }}>{userId.username} </Text>
+      
+      {medAt8AM !== '' && medAt8AM !== null? <View style={styles.buttonContainer}>
+      <Text>You have {medAt8AM.split(',')[0]} at 8:00 AM</Text>
+            </View>: null }
+            {medAt8AM !== '' && medAt8AM !== null? <View style={styles.buttonContainer}>
+      <Text>You have {medAt8AM.split(',')[1]} at 8:00 AM</Text>
+            </View>: null }
+      {medAt12AM !== ''? <View style={styles.buttonContainer}>
+      <Text>You have {medAt12AM} at 12:00 PM</Text>
+            </View>: null }
+      {medAt8PM !== ''? <View style={styles.buttonContainer}>
+      <Text>You have {medAt8PM} at 8:00 PM</Text>
+            </View>: null }
       <StatusBar style="auto" />
     </View>
   );
@@ -101,5 +200,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  buttonContainer: {
+    marginTop: 10,
+    height: 45,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    width: 250,
+    borderRadius: 30,
+    backgroundColor: "#10857F",
   },
 });
